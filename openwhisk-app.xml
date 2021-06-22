@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<deployment>
+    <language>web</language>
+    <type>node</type>
+    <actionName>website</actionName>
+</deployment>
