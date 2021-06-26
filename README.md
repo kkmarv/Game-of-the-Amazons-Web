@@ -1,7 +1,7 @@
 # Game of the Amazons
 
-The Game of the Amazons is played on a 10x10 chessboard.<br />
-It is a two-player strategy game and is played by moving pieces around the board in order to block the opponent from moving their pieces. The last player able to move is the winner.
+The Game of the Amazons is a two-player strategy game played on a 10x10 chessboard.<br />
+It's played by moving pieces around the board in order to block the opponent from moving their pieces. The last player able to move is the winner.
 
 Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of_the_Amazons)
 
@@ -21,11 +21,13 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 ### an die Struktur/Logik
 
 [ ] dass den offenen Spielen beigetreten werden kann `<API>`<br />
-[ ] dass beide Spieler eines Spiels abwechselnd ihre Figuren (regelkonform) ziehen können `<API>`<br />
-[ ] dass beide Spieler nach dem Zug einer Figur den Zielpunkt für den Pfeilwurf festlegen können<br />
 [ ] das Spiel endet, sobald ein Spieler nicht mehr ziehen kann `<API>`
 
-## Ideen
+[ ] dass beide Spieler eines Spiels abwechselnd ihre Figuren (regelkonform) ziehen können<br />
+[ ] dass beide Spieler nach dem Zug einer Figur den Zielpunkt für den Pfeilwurf festlegen können<br />
+
+
+## Fragen & Ideen
 
 ### zum GUI
 - eigene Lobby Startseite?
@@ -62,7 +64,7 @@ Uns wurde (hoffentlich) eine REST API zur Verfügung gestellt, mit derer Hilfe w
 
 ## Weiterführende Links
 
-- [This projects Public website](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
+- [This projects public website](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
 
-- [Initial project Wiki from the Paderborn Univesitiy this project is based on](https://github.com/dice-group/Amazons/wiki)
+- [Initial project Wiki from the Paderborn Univesitiy (on which this project is based on)](https://github.com/dice-group/Amazons/wiki)
 
