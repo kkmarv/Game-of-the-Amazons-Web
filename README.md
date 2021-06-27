@@ -78,27 +78,10 @@ _TODO_
     - Damage/Death upon click on invalid tile
     - Tutorial/Training mode where one is allowed to revert their last turn
 
-## Umsetzung
-
-### GUI
-
-1. Lobby
-
-2. Gameboard
-
-### Serverkommunikation
-
-Uns wurde (hoffentlich) eine REST API zur Verfügung gestellt, mit derer Hilfe wir dem Spielerserver sowie dem Spielserver Anfragen stellen können.
-
 ## Wiki
-
-<details>
-<summary><b>External Links</b></summary>
 
 - [Game of the Amazons API Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 - [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
-
-</details>
 
 Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de auf den Ports 40910 und 40911 zu finden. 
 
