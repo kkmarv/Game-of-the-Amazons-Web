@@ -1,7 +1,11 @@
 # Game of the Amazons
 
-The Game of the Amazons is a two-player strategy game played on a 10x10 chessboard.<br />
-It's played by moving pieces around the board in order to block the opponent from moving their pieces. The last player able to move is the winner.
+The Game of Amazons is an abstract strategic board game for two players.
+
+It is played on a 10×10 chessboard (or an international checkerboard).
+The two players play with white and black; each player has four Amazons, which are placed on the board at the beginning. After each turn the moved amazon shoots a "poisonous" arrow from the end point of its move to another square in order to block the opponent's move.
+
+The first player unable to move any of his Amazons looses.
 
 Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of_the_Amazons)
 
@@ -9,7 +13,7 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 ### an die Zwischenabgabe (21.06.21)
 
-<details>
+<details open>
 <summary><b>Funktionalitäten</b></summary>
 
 #### Der Nutzer möchte:
@@ -19,8 +23,8 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
     - [ ] Falls nein, soll automatisch ein neues Spiel erstellt werden
     - [ ] Falls ja, soll das Spiel angezeigt werden
 - [ ] dass geprüft wird, ob bereits Spieler existieren: 
-    - [ ] Falls nein, sollen neue Spieler angelegt werden
-    - [ ] Falls ja, ...
+    - [ ] Falls nein, sollen neue Spieler angelegt werden (einen mit controllable=true und einen mit controllable=false)
+    - [ ] Falls ja, soll der Spieler den kontrollierbaren Spieler überehmen und die KI den unkontrollierbaren
 - [ ] dass ein durchgeführter Zug nach Abschluss an den Server gesendet wird
 - [ ] dass ein Zug des gegnerischen Spielers vom Server abgefragt wird
 
@@ -35,7 +39,7 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 </details>
 
-<details>
+<details open>
 <summary><b>Tests</b></summary>
 
 #### Als Entwickler müssen wir für sinnvolle Tests:
@@ -344,7 +348,7 @@ Parameter:
 <details>
 <summary><b>einen Zug setzen</b></summary><br>
 
-POST: /move/:id
+`POST: /move/:id`
 
 Response: 200 OK
 
