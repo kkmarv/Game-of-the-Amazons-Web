@@ -106,7 +106,7 @@ Parameter:
 - `name` (string): Spielername
 - `controllable` (boolean): ist der Spieler spielbar oder nicht (computergesteuert)?
 
-```json
+```javascript
 {
     "name": "Spieler1",
     "controllable": true
@@ -114,7 +114,7 @@ Parameter:
 
 ```
 
-```json
+```javascript
 {
     "name": "Spieler1",
     "controllable": true,
@@ -131,7 +131,7 @@ Parameter:
 
 Response: 200 OK
 
-```json
+```javascript
 {
     "players": [
         {
@@ -178,7 +178,7 @@ Parameter:
 - `initialBoard` (Board): Das Spielbrett, auf welchem das Spiel stattfindet (siehe Body)
 - `players` (Array): Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig)
 
-```json
+```javascript
 {
     "maxTurnTime": 60000, // eine Minute
     "players": [
@@ -209,7 +209,7 @@ Parameter:
 }
 ```
 
-```json
+```javascript
 {
     "gameId": 0,
     "maxTurnTime": 60000,
@@ -254,7 +254,7 @@ Response: 200 OK
 Parameter:
 - `id` (int): ID des Spiels
 
-```json
+```javascript
 {
     "gameId": 0,
     "playerId": 0, // Spieler, der gerade am Zug ist
@@ -292,7 +292,7 @@ Parameter:
 
 Response: 200 OK
 
-```json
+```javascript
 {
     "games": [
         {
@@ -355,7 +355,7 @@ Response: 200 OK
 Parameter:
 - `id` (int): ID des Spiels
 
-```json
+```javascript
 {
     "move": {
         "start": {
