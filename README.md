@@ -2,8 +2,8 @@
 
 The Game of Amazons is an abstract strategic board game for two players.
 
-It is played on a 10×10 chessboard (or an international checkerboard).
-The two players play with white and black; each player has four Amazons, which are placed on the board at the beginning. After each turn the moved amazon shoots a "poisonous" arrow from the end point of its move to another square in order to block the opponent's move.
+It is played on a 10×10 chessboard (or an international checkerboard).<br>
+The two players play with white and black; each player has four Amazons, which are placed on the board at the beginning. After each turn the moved Amazon shoots a "poisonous" arrow from the end point of its move to another tile in order to block the opponent's move.
 
 The first player unable to move any of his Amazons looses.
 
