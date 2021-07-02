@@ -3,8 +3,8 @@
 The Game of Amazons is an abstract strategic board game for two players.
 
 It is played on a 10×10 chessboard (or an international checkerboard).<br>
-The two players play with white and black; each player has four Amazons, which are placed on the board at the beginning.
-After each turn the moved Amazon shoots a "poisonous" arrow from the end point of its move to another tile in order to
+The two players play with white and black. Each player has four Amazons, which are placed on the board at the beginning.
+After each turn, the moved Amazon shoots a "poisonous" arrow from the end point of its move to another tile in order to
 block the opponent's move.
 
 The first player unable to move any of his Amazons looses.
@@ -13,7 +13,7 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 ## Anforderungen
 
-### an die Zwischenabgabe (21.07.21)
+### an die Zwischenabgabe (12.07.21)
 
 <details open>
 <summary><b>Funktionalitäten</b></summary>
@@ -54,7 +54,7 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 - [ ] überprüfen, ob Züge durchgeführt werden können
     - [ ] indem ein Spiel gemockt wird
     - [ ] und via Events ein Zug nachgestellt wird
-    - [ ] das Ergebnis mittels eines Snapshottests abgeglichen wird
+    - [ ] das Ergebnis mittels eines Snapshot Tests abgeglichen wird
 - [ ] überprüfen, ob inkorrekte Züge verboten sind
     - [ ] indem ein gemocktes Spiel initialisiert wird
     - [ ] und ein ungültiger Zug durchgeführt wird
@@ -449,17 +449,12 @@ Parameter:
 
 ```javascript
 {
-    "move"
-:
+    "move":
     {
-        "start"
-    :
+        "start":
         {
-            "row"
-        :
-            3, // Startzeile der Bewegung
-                "column"
-        :
+            "row": 3, // Startzeile der Bewegung
+          // "column":
             2, // Startspalte der Bewegung
         }
     ,
@@ -504,5 +499,5 @@ Response: 200 OK
 ## Weiterführende Links
 
 - [This projects public website](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
-- [Initial project Wiki from the Paderborn Univesitiy (on which this project is based on)](https://github.com/dice-group/Amazons/wiki)
+- [Initial project Wiki from the Paderborn University (on which this project is based on)](https://github.com/dice-group/Amazons/wiki)
 
