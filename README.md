@@ -144,18 +144,16 @@ Response: 200 OK
 
 ```javascript
 {
-    "players"
-:
-    [
+    "players": [
         {
-            "playerId": 0,
-            "name": "Spieler 1",
-            "controllable": true
+            "playerId":0,
+            "name":"Spieler 1",
+            "controllable":true
         },
         {
-            "playerId": 1,
-            "name": "Spieler 2",
-            "controllable": false
+            "playerId":1,
+            "name":"Spieler 2",
+            "controllable":false
         }
         // ...
     ]
