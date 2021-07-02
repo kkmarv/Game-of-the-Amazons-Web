@@ -119,27 +119,17 @@ Parameter:
 
 ```javascript
 {
-    "name"
-:
-    "Spieler1",
-        "controllable"
-:
-    true
+    "name":"Spieler1",
+    "controllable":true
 }
 
 ```
 
 ```javascript
 {
-    "name"
-:
-    "Spieler1",
-        "controllable"
-:
-    true,
-        "playerId"
-:
-    0
+    "name":"Spieler1",
+    "controllable":true,
+    "playerId":0
 }
 ```
 
@@ -204,27 +194,15 @@ Parameter:
 
 ```javascript
 {
-    "maxTurnTime"
-:
-    60000, // eine Minute
-        "players"
-:
-    [
+    "maxTurnTime": 60000, // eine Minute
+    "players": [
         0,
         1
     ],
-        "initialBoard"
-:
-    {
-        "gameSizeRows"
-    :
-        10, // Zeilen des Spielbrettes
-            "gameSizeColumns"
-    :
-        10, // Spalten des Spielbrettes
-            "squares"
-    :
-        [ // Liste von Zeilen des Spielbrettes (von 0 bis gameSizeRows - 1)
+    "initialBoard": {
+        "gameSizeRows": 10, // Zeilen des Spielbrettes
+        "gameSizeColumns": 10, // Spalten des Spielbrettes
+        "squares": [ // Liste von Zeilen des Spielbrettes (von 0 bis gameSizeRows - 1)
             // folgende Integer-Werte sind in diesen Arrays erlaubt:
             // 0: Amazone des Spielers mit Index 0 in players
             // 1: Amazone des Spielers mit Index 1 in players
@@ -247,15 +225,9 @@ Parameter:
 
 ```javascript
 {
-    "gameId"
-:
-    0,
-        "maxTurnTime"
-:
-    60000,
-        "players"
-:
-    [
+    "gameId": 0,
+    "maxTurnTime": 60000,
+    "players": [
         {
             "name": "Spieler1",
             "controllable": true
@@ -265,18 +237,10 @@ Parameter:
             "controllable": false
         }
     ],
-        "initialBoard"
-:
-    {
-        "gameSizeRows"
-    :
-        10, // Zeilen des Spielbrettes
-            "gameSizeColumns"
-    :
-        10, // Spalten des Spielbrettes
-            "squares"
-    :
-        [
+    "initialBoard": {
+        "gameSizeRows": 10, // Zeilen des Spielbrettes
+        "gameSizeColumns": 10, // Spalten des Spielbrettes
+        "squares": [
             [0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
             [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -307,65 +271,28 @@ Parameter:
 
 ```javascript
 {
-    "gameId"
-:
-    0,
-        "playerId"
-:
-    0, // Spieler, der gerade am Zug ist
-        "turnId"
-:
-    0, // Index des aktuellen Zuges (zählt von 0)
-        "winningPlayer"
-:
-    0, // optional: gibt an, welcher Spieler gewonnen hat
-        "board"
-:
-    { // siehe oben
+    "gameId": 0,
+    "playerId": 0, // Spieler, der gerade am Zug ist
+    "turnId": 0, // Index des aktuellen Zuges (zählt von 0)
+    "winningPlayer": 0, // optional: gibt an, welcher Spieler gewonnen hat
+    "board": { // siehe oben
         // ...
-    }
-,
-    "maxTurnTime"
-:
-    60000, // verbleibende Zugzeit
-        "enemyTurn"
-:
-    { // der letzte Zug des Gegners
-        "move"
-    :
-        {
-            "start"
-        :
-            {
-                "row"
-            :
-                3, // Startzeile
-                    "column"
-            :
-                2, // Startspalte
+    },
+    "maxTurnTime": 60000, // verbleibende Zugzeit
+    "enemyTurn": { // der letzte Zug des Gegners
+        "move": {
+            "start": {
+                "row": 3, // Startzeile
+                "column": 2, // Startspalte
+            },
+            "end": {
+                "row": 5, // Zielzeile
+                "column": 2, // Zielspalte
             }
-        ,
-            "end"
-        :
-            {
-                "row"
-            :
-                5, // Zielzeile
-                    "column"
-            :
-                2, // Zielspalte
-            }
-        }
-    ,
-        "shot"
-    :
-        { // Pfeilschuss
-            "row"
-        :
-            5, // Zeile des Pfeiles
-                "column"
-        :
-            2, // Spalte des Pfeiles
+        },
+        "shot": { // Pfeilschuss
+            "row": 5, // Zeile des Pfeiles
+            "column": 2, // Spalte des Pfeiles
         }
     }
 }
@@ -382,9 +309,7 @@ Response: 200 OK
 
 ```javascript
 {
-    "games"
-:
-    [
+    "games": [
         {
             "gameId": 0,
             "initialBoard": { // siehe oben, das initiale Board (nicht der aktuelle Zustand)
@@ -449,36 +374,19 @@ Parameter:
 
 ```javascript
 {
-    "move":
-    {
-        "start":
-        {
+    "move": {
+        "start": {
             "row": 3, // Startzeile der Bewegung
-          // "column":
-            2, // Startspalte der Bewegung
+            "column": 2, // Startspalte der Bewegung
+        },
+        "end": {
+            "row": 6, // Zielzeile der Bewegung
+            "column": 2, // Zielspalte der Bewegung
         }
-    ,
-        "end"
-    :
-        {
-            "row"
-        :
-            6, // Zielzeile der Bewegung
-                "column"
-        :
-            2, // Zielspalte der Bewegung
-        }
-    }
-,
-    "shot"
-:
-    {
-        "row"
-    :
-        5, // Zeile des Pfeilschusses
-            "column"
-    :
-        2, // Spalte des Pfeilschusses
+    },
+    "shot": {
+        "row": 5, // Zeile des Pfeilschusses
+        "column": 2, // Spalte des Pfeilschusses
     }
 }
 ```
