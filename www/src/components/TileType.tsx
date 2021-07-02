@@ -1,6 +1,6 @@
 export enum TileType {
-    Player0 = 0,
-    Player1 = 1,
-    Empty = -1,
-    Arrow = -2
+    PLAYER = 0,
+    OPPONENT = 1,
+    EMPTY = -1,
+    ARROW = -2
 }
