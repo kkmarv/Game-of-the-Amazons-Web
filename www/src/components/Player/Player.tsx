@@ -1,13 +1,14 @@
 import {Component} from "react";
 
 type Props = {
-    id: number
+    name: string
     controllable: boolean
+    id?: number
 }
 
 type State = {
-    isOnTurn: boolean
     ableToMove: boolean
+    lastTurn: any // TODO
 }
 
 /**
@@ -17,12 +18,24 @@ export class Player extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            isOnTurn: false,
-            ableToMove: false
+            ableToMove: false,
+            lastTurn: []
         }
     }
 
     render() {
-        return undefined;
+        return (
+            <div className={"player-info"} id={"player" + this.props.id}>
+                <h1>{"PLAYER " + this.props.id}</h1>
+            </div>
+        )
+    }
+
+    login() {
+        // TODO
+    }
+
+    makeATurn() {
+        // TODO
     }
 }

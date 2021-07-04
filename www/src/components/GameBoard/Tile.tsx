@@ -15,11 +15,10 @@ type State = {
     highlighted: boolean
 }
 
-
 /**
  * Represents a single tile of a GameBoardRow
  */
-export class GameBoardTile extends Component<Props, State> {
+export class Tile extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
