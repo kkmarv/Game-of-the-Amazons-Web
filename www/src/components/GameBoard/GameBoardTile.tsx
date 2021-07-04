@@ -5,14 +5,14 @@ type Props = {
     id: number
     tileType: number
     onClick: any
-    columnName: string
 }
 
 type State = {
+    color: string
+    tileType: TileType
     disabled: boolean
     selected: boolean
-    possibleToMoveTo: boolean
-    tileType: TileType
+    highlighted: boolean
 }
 
 
@@ -20,33 +20,28 @@ type State = {
  * Represents a single tile of a GameBoardRow
  */
 export class GameBoardTile extends Component<Props, State> {
-    private readonly id: string;
-    private readonly color: string
-
     constructor(props: Props) {
         super(props);
-        this.id = "row" + this.props.id + "col" + this.props.columnName
-        this.color = props.id % 2 === 0 ? "white" : "black"
         this.state = {
+            color: props.id % 2 === 0 ? "white" : "black",
             tileType: props.tileType,
+            disabled: props.tileType !== TileType.PLAYER,
             selected: false,
-            possibleToMoveTo: false,
-            disabled: props.tileType !== TileType.PLAYER
+            highlighted: false,
         }
     }
 
     render() {
-        let className: string = "col-" + this.props.columnName
+        let className: string = "tile " + this.state.color
         if (this.state.selected) className += " selected"
-        if (this.state.possibleToMoveTo) className += " highlighted"
+        if (this.state.highlighted) className += " highlighted"
         return (
             <button
                 className={className}
                 disabled={this.state.disabled}
-                value={this.props.tileType}
-                color={this.color}
-                key={this.id}
-                id={this.id}
+                value={this.state.tileType}
+                id={"tile" + this.props.id}
+                key={"tile" + this.props.id}
                 onClick={() => {
                     this.props.onClick(this)
                 }}>

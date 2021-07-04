@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import {GameBoard} from "./components/GameBoard";
+import {GameBoard} from "./components/GameBoard/GameBoard";
 
 export default class App extends Component<any, any> {
     testBoard = {
@@ -22,7 +22,7 @@ export default class App extends Component<any, any> {
 
     render() {
         return (
-            <GameBoard board={this.testBoard}/>
+            <GameBoard initialBoard={this.testBoard}/>
         );
     }
 }

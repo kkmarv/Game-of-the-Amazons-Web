@@ -1,11 +1,10 @@
 import React, {Component} from "react";
-import {GameBoardRow} from "./GameBoardRow";
 import {GameBoardTile} from "./GameBoardTile";
 import {TileType} from "./TileType";
 
 
 type Props = {
-    board: {
+    initialBoard: {
         rows: number,
         columns: number,
         tiles: number[][]
@@ -14,17 +13,16 @@ type Props = {
 
 
 /**
- * Represents the board on which players are able to move their pieces on. Saves references to each row.
+ * Represents the board, players are able to move their pieces on. Saves references to each tile.
  */
 export class GameBoard extends Component<Props, any> {
-    private rows: GameBoardTile[][] = [];
+    private readonly tiles: GameBoardTile[][] = [];
     private lastClickedTile: GameBoardTile | null = null
 
     constructor(props: Props) {
         super(props);
         this.state = {}
     }
-
 
     render() {
         return (
@@ -35,24 +33,30 @@ export class GameBoard extends Component<Props, any> {
     }
 
     renderGameBoard() {
-        let rowId: number = this.props.board.rows;
-        return this.props.board.tiles.map((row) => {
-            const rowName: string = "row" + rowId
+        return this.props.initialBoard.tiles.map((row, rowIndex) => {
+            const tileRow: GameBoardTile[] = []
+            rowIndex = this.props.initialBoard.rows - rowIndex - 1
             return (
-                <div className={rowName} key={rowName}>
-                    <GameBoardRow
-                        id={rowId--}
-                        row={row}
-                        onClick={this.handleClick}
-                        ref={(gameBoardRow) => { // add references of created rows to this classes rows array
-                            if (gameBoardRow !== null) this.rows.push(gameBoardRow.tiles)
-                        }}
-                    /><br/>
+                <div className={"row"} id={"row" + rowIndex} key={"row" + rowIndex}
+                     ref={() => {
+                         this.tiles.push(tileRow)
+                     }}>
+                    {row.map((tileType, tileIndex) => {
+                        return (
+                            <GameBoardTile
+                                id={rowIndex * 10 + tileIndex} // calculate the correct id from row and tiles' position in row
+                                key={rowIndex * 10 + tileIndex}
+                                tileType={tileType}
+                                onClick={this.handleClick}
+                                ref={(gameBoardTile: GameBoardTile) => { // add references of created tiles to this classes' tiles array
+                                    tileRow.push(gameBoardTile) // (evtl nullcheck wieder adden)
+                                }}
+                            />)
+                    })}
                 </div>
             )
-        });
+        })
     }
-
 
     handleClick = (clickedTile: GameBoardTile) => {
         if (clickedTile.state.tileType === TileType.PLAYER) {
@@ -61,7 +65,7 @@ export class GameBoard extends Component<Props, any> {
             clickedTile.setState({selected: !clickedTile.state.selected})
 
         } else {
-            if (clickedTile.state.possibleToMoveTo) this.moveAmazonTo(clickedTile)
+            if (clickedTile.state.highlighted) this.moveAmazonTo(clickedTile)
             else this.hidePossibleMoves()
         }
         this.lastClickedTile = clickedTile
@@ -69,10 +73,10 @@ export class GameBoard extends Component<Props, any> {
 
 
     showPossibleMovesFor(clickedTile: GameBoardTile) {
-        this.rows.forEach((row) => {
+        this.tiles.forEach((row) => {
             row.forEach((tile) => {
                 tile.setState({
-                    possibleToMoveTo: false,
+                    highlighted: false,
                     disabled: true,
                     selected: false,
                 })
@@ -83,17 +87,17 @@ export class GameBoard extends Component<Props, any> {
     }
 
     hidePossibleMoves() {
-        this.rows.forEach((row) => {
+        this.tiles.forEach((row) => {
             row.forEach((tile) => {
                 if (tile.state.tileType === TileType.PLAYER) {
                     tile.setState({
-                        possibleToMoveTo: false,
+                        highlighted: false,
                         disabled: false,
                         selected: false,
                     })
                 } else {
                     tile.setState({
-                        possibleToMoveTo: false,
+                        highlighted: false,
                         disabled: true,
                         selected: false,
                     })
@@ -106,13 +110,13 @@ export class GameBoard extends Component<Props, any> {
         this.hidePossibleMoves()
         clickedTile.setState({
             tileType: TileType.PLAYER,
-            possibleToMoveTo: false,
+            highlighted: false,
             disabled: false,
             selected: false,
         })
         this.lastClickedTile!.setState({
             tileType: TileType.EMPTY,
-            possibleToMoveTo: false,
+            highlighted: false,
             disabled: true,
             selected: false,
         })
@@ -122,7 +126,7 @@ export class GameBoard extends Component<Props, any> {
     enableAllTheseTiles(selectedTiles: GameBoardTile[]) {
         selectedTiles.forEach((tile) => {
             tile.setState({
-                possibleToMoveTo: true,
+                highlighted: true,
                 disabled: false,
                 selected: false,
             })
@@ -132,7 +136,7 @@ export class GameBoard extends Component<Props, any> {
 
     getPossibleMovesFor(clickedTile: GameBoardTile): GameBoardTile[] {
         const tileIndex: number[] = this.getIndexOfTile(clickedTile)
-        const possibleMoves: GameBoardTile[] = [this.rows[tileIndex[0]][tileIndex[1]]] // start with clickedTile as a first possible mve
+        const possibleMoves: GameBoardTile[] = [this.tiles[tileIndex[0]][tileIndex[1]]] // start with clickedTile as a first possible mve
 
         this.getPossibleMovesToTop(tileIndex[0] - 1, tileIndex[1], possibleMoves)
         this.getPossibleMovesToBottom(tileIndex[0] + 1, tileIndex[1], possibleMoves)
@@ -148,8 +152,8 @@ export class GameBoard extends Component<Props, any> {
 
 
     getIndexOfTile(tile: GameBoardTile): number[] {
-        for (let rowIndex = 0; rowIndex < this.rows.length; rowIndex++) {
-            const colIndex = this.rows[rowIndex].indexOf(tile)
+        for (let rowIndex = 0; rowIndex < this.tiles.length; rowIndex++) {
+            const colIndex = this.tiles[rowIndex].indexOf(tile)
             if (colIndex > -1) return [rowIndex, colIndex]
         }
         return [-1, -1] // means that tile was not found
@@ -158,23 +162,23 @@ export class GameBoard extends Component<Props, any> {
 
     getPossibleMovesToTop(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
         for (let rowIndex = rowStart; rowIndex >= 0 && !moveBlocked; rowIndex--) {
-            const possibleTile: GameBoardTile = this.rows[rowIndex][colStart]
+            const possibleTile: GameBoardTile = this.tiles[rowIndex][colStart]
             if (possibleTile.state.tileType === TileType.EMPTY) moves.push(possibleTile)
             else moveBlocked = true
         }
     }
 
     getPossibleMovesToBottom(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
-        for (let rowIndex = rowStart; rowIndex < this.rows.length && !moveBlocked; rowIndex++) {
-            const possibleTile: GameBoardTile = this.rows[rowIndex][colStart]
+        for (let rowIndex = rowStart; rowIndex < this.tiles.length && !moveBlocked; rowIndex++) {
+            const possibleTile: GameBoardTile = this.tiles[rowIndex][colStart]
             if (possibleTile.state.tileType === TileType.EMPTY) moves.push(possibleTile)
             else moveBlocked = true
         }
     }
 
     getPossibleMovesToRight(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
-        for (let colIndex = colStart; colIndex < this.rows.length && !moveBlocked; colIndex++) {
-            const possibleTile: GameBoardTile = this.rows[rowStart][colIndex]
+        for (let colIndex = colStart; colIndex < this.tiles.length && !moveBlocked; colIndex++) {
+            const possibleTile: GameBoardTile = this.tiles[rowStart][colIndex]
             if (possibleTile.state.tileType === TileType.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
@@ -183,7 +187,7 @@ export class GameBoard extends Component<Props, any> {
 
     getPossibleMovesToLeft(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex >= 0 && !moveBlocked; colIndex--) {
-            const possibleTile: GameBoardTile = this.rows[rowStart][colIndex]
+            const possibleTile: GameBoardTile = this.tiles[rowStart][colIndex]
             if (possibleTile.state.tileType === TileType.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
@@ -193,7 +197,7 @@ export class GameBoard extends Component<Props, any> {
 
     getPossibleMovesToTopLeft(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex >= 0 && !moveBlocked && rowStart >= 0; colIndex--) {
-            const possibleTile: GameBoardTile = this.rows[rowStart--][colIndex]
+            const possibleTile: GameBoardTile = this.tiles[rowStart--][colIndex]
             if (possibleTile.state.tileType === TileType.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
@@ -201,8 +205,8 @@ export class GameBoard extends Component<Props, any> {
     }
 
     getPossibleMovesToTopRight(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
-        for (let colIndex = colStart; colIndex < this.rows[0].length && !moveBlocked && rowStart >= 0; colIndex++) {
-            const possibleTile: GameBoardTile = this.rows[rowStart--][colIndex]
+        for (let colIndex = colStart; colIndex < this.tiles[0].length && !moveBlocked && rowStart >= 0; colIndex++) {
+            const possibleTile: GameBoardTile = this.tiles[rowStart--][colIndex]
             if (possibleTile.state.tileType === TileType.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
@@ -210,8 +214,8 @@ export class GameBoard extends Component<Props, any> {
     }
 
     getPossibleMovesToBottomLeft(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
-        for (let colIndex = colStart; colIndex >= 0 && !moveBlocked && rowStart < this.rows.length; colIndex--) {
-            const possibleTile: GameBoardTile = this.rows[rowStart++][colIndex]
+        for (let colIndex = colStart; colIndex >= 0 && !moveBlocked && rowStart < this.tiles.length; colIndex--) {
+            const possibleTile: GameBoardTile = this.tiles[rowStart++][colIndex]
             if (possibleTile.state.tileType === TileType.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
@@ -219,8 +223,8 @@ export class GameBoard extends Component<Props, any> {
     }
 
     getPossibleMovesToBottomRight(rowStart: number, colStart: number, moves: GameBoardTile[], moveBlocked = false) {
-        for (let colIndex = colStart; colIndex < this.rows[0].length && !moveBlocked && rowStart < this.rows.length; colIndex++) {
-            const possibleTile: GameBoardTile = this.rows[rowStart++][colIndex]
+        for (let colIndex = colStart; colIndex < this.tiles[0].length && !moveBlocked && rowStart < this.tiles.length; colIndex++) {
+            const possibleTile: GameBoardTile = this.tiles[rowStart++][colIndex]
             if (possibleTile.state.tileType === TileType.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
