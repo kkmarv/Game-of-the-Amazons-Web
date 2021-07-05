@@ -1,9 +1,15 @@
 import {Component} from "react";
 
-type Props = PlayerType
+type Props = {
+    id: number
+    name: string
+    controllable: boolean
+    allowedToMove: boolean
+}
 
 type State = {
     ableToMove: boolean
+    allowedToMove: boolean
     turnHistory: TurnType[]
 }
 
@@ -15,6 +21,7 @@ export class Player extends Component<Props, State> {
         super(props);
         this.state = {
             ableToMove: false,
+            allowedToMove: props.allowedToMove,
             turnHistory: []
         }
     }
@@ -22,16 +29,12 @@ export class Player extends Component<Props, State> {
     render() {
         return (
             <div className={"player-info-" + this.props.id} id={"player" + this.props.id}>
-                <h1>{"PLAYER " + this.props.id}</h1>
+                <h2>{"PLAYER " + (this.props.id + 1) + ": " + this.props.name}</h2>
             </div>
         )
     }
 
-    login() {
-        // TODO
-    }
-
-    makeATurn() {
+    makeATurn(): void {
         // TODO
     }
 }

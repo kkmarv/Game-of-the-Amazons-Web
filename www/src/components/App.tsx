@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import './App.css';
-import {GameControl} from "./components/GameControl";
+import '../styles/App.css';
+import {GameControl} from "./GameControl";
 
 export default class App extends Component<any, any> {
     testPlayers = [
@@ -17,7 +17,7 @@ export default class App extends Component<any, any> {
     ]
     testGame: GameType = {
         gameId: 0,
-        maxTurnTime: 60000,
+        maxTurnTime: 10000,
         players: [0, 1],
         initialBoard: {
             gameSizeRows: 10,
