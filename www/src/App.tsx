@@ -15,7 +15,8 @@ export default class App extends Component<any, any> {
             id: 1
         }
     ]
-    testGame = {
+    testGame: GameType = {
+        gameId: 0,
         maxTurnTime: 60000,
         players: [0, 1],
         initialBoard: {

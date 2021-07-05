@@ -1,14 +1,10 @@
 import {Component} from "react";
 
-type Props = {
-    name: string
-    controllable: boolean
-    id?: number
-}
+type Props = PlayerType
 
 type State = {
     ableToMove: boolean
-    lastTurn: any // TODO
+    turnHistory: TurnType[]
 }
 
 /**
@@ -19,13 +15,13 @@ export class Player extends Component<Props, State> {
         super(props);
         this.state = {
             ableToMove: false,
-            lastTurn: []
+            turnHistory: []
         }
     }
 
     render() {
         return (
-            <div className={"player-info"} id={"player" + this.props.id}>
+            <div className={"player-info-" + this.props.id} id={"player" + this.props.id}>
                 <h1>{"PLAYER " + this.props.id}</h1>
             </div>
         )

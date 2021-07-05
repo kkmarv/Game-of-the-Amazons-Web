@@ -3,11 +3,7 @@ import {Tile} from "./Tile";
 import {TileType} from "./TileType";
 
 type Props = {
-    initialBoard: {
-        gameSizeRows: number,
-        gameSizeColumns: number,
-        tiles: number[][]
-    }
+    initialBoard: BoardType
 }
 
 /**
@@ -15,7 +11,7 @@ type Props = {
  */
 export class Board extends Component<Props, any> {
     private readonly tiles: Tile[][] = [];
-    private lastClickedTile: Tile | null = null
+    private lastClickedTile?: Tile;
 
     constructor(props: Props) {
         super(props);
