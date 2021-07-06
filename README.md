@@ -33,12 +33,12 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 <b>von der GUI:</b>
 
-- [ ] das gesamte Spielfeld einsehen können
+- [x] das gesamte Spielfeld einsehen können
 - [ ] dass die Figuren beider Spieler deutlich voneinander unterscheidbar sind
-- [ ] dass der Spieler angezeigt bekommt, wenn er (oder respektive der gegnerische Spieler) am Zug ist
+- [x] dass der Spieler angezeigt bekommt, wenn er (oder respektive der gegnerische Spieler) am Zug ist
     - [ ] dass der Zug des gegnerischen Spielers dem Spieler entsprechend angezeigt wird
 - [ ] dass der Spieler nach dem Zug einer Figur den Zielpunkt für den Pfeilwurf festlegen kann
-- [ ] dass der Spieler nur legale Züge durchführen kann
+- [x] dass der Spieler nur legale Züge durchführen kann
 - [ ] dass das Spiel endet, sobald ein Spieler nicht mehr ziehen kann
 
 </details>
@@ -117,7 +117,7 @@ Parameter:
 - `name` (string): Spielername
 - `controllable` (boolean): ist der Spieler spielbar oder nicht (computergesteuert)?
 
-```javascript
+```json5
 {
     "name":"Spieler1",
     "controllable":true
@@ -125,7 +125,7 @@ Parameter:
 
 ```
 
-```javascript
+```json5
 {
     "name":"Spieler1",
     "controllable":true,
@@ -142,7 +142,7 @@ Parameter:
 
 Response: 200 OK
 
-```javascript
+```json5
 {
     "players": [
         {
@@ -190,7 +190,7 @@ Parameter:
 - `initialBoard` (Board): Das Spielbrett, auf welchem das Spiel stattfindet (siehe Body)
 - `players` (Array): Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig)
 
-```javascript
+```json5
 {
     "maxTurnTime": 60000, // eine Minute
     "players": [
@@ -221,7 +221,7 @@ Parameter:
 }
 ```
 
-```javascript
+```json5
 {
     "gameId": 0,
     "maxTurnTime": 60000,
@@ -267,7 +267,7 @@ Parameter:
 
 - `id` (int): ID des Spiels
 
-```javascript
+```json5
 {
     "gameId": 0,
     "playerId": 0, // Spieler, der gerade am Zug ist
@@ -305,7 +305,7 @@ Parameter:
 
 Response: 200 OK
 
-```javascript
+```json5
 {
     "games": [
         {
@@ -370,7 +370,7 @@ Parameter:
 
 - `id` (int): ID des Spiels
 
-```javascript
+```json5
 {
     "move": {
         "start": {

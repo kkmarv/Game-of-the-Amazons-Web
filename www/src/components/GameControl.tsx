@@ -2,6 +2,7 @@ import {Component} from "react";
 import {Board} from "./GameBoard/Board";
 import {Timer} from "./Timer";
 import {Player} from "./Player";
+import {createTurn} from "../requests";
 
 type Props = {
     players: PlayerType[]
@@ -15,13 +16,11 @@ type State = {
 }
 
 export class GameControl extends Component<Props, State> {
-
-
     constructor(props: Props) {
         super(props);
         if (props.players.length < 2) throw new RangeError("The prop 'players' of GameControl has to have at least 2 Players!")
         this.state = {
-            paused: false,
+            paused: true,
             currentPlayer: props.players[0]
         }
     }
@@ -46,7 +45,7 @@ export class GameControl extends Component<Props, State> {
                         maxTurnTime={this.props.game.maxTurnTime}
                     />
                 </div>
-                <Board initialBoard={this.props.game.initialBoard}/>
+                <Board onTurn={this.handleTurn} initialBoard={this.props.game.initialBoard}/>
                 <button className={"test!"} onClick={() => {
                     this.setState({paused: !this.state.paused})
                     console.log("click")
@@ -57,7 +56,16 @@ export class GameControl extends Component<Props, State> {
         )
     }
 
+    handleTurn = (turn: TurnType) => {
+        // TODO createTurn(this.props.game.gameId, turn)
+        this.endTurn()
+    }
+
     handleTimeIsUp = () => {
+        this.endTurn()
+    }
+
+    endTurn() {
         this.setState({currentPlayer: this.getNextPlayer()})
     }
 
@@ -68,8 +76,5 @@ export class GameControl extends Component<Props, State> {
 
     getNextPlayer(): PlayerType {
         return this.props.players[(this.props.players.indexOf(this.state.currentPlayer) + 1) % this.props.players.length]
-        // const players = this.props.players
-        // const currentPlayerIndex: number = players.indexOf(this.state.currentPlayer)
-        // return currentPlayerIndex === players.length - 1 ? players
     }
 }

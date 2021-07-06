@@ -3,48 +3,46 @@ import {TileType} from "./TileType";
 
 type Props = {
     id: number
-    tileType: number
     onClick: any
-}
-
-type State = {
-    color: string
     tileType: TileType
     disabled: boolean
     selected: boolean
-    highlighted: boolean
+    possibleMove: boolean
+}
+
+type State = {
+    tileType: TileType
+    disabled: boolean
+    selected: boolean
+    possibleMove: boolean
 }
 
 /**
- * Represents a single tile of a GameBoardRow
+ * Represents a single tile
  */
 export class Tile extends Component<Props, State> {
+    private readonly className: string // TODO FRAGE ob klassenvar sonnvoll
+
     constructor(props: Props) {
         super(props);
-        this.state = {
-            color: props.id % 2 === 0 ? "white" : "black",
-            tileType: props.tileType,
-            disabled: props.tileType !== TileType.PLAYER,
-            selected: false,
-            highlighted: false,
-        }
+        const color: string = this.props.id % 2 === 0 ? "white" : "black"
+        this.className = "tile " + color
+        if (this.props.selected) this.className += " selected"
+        if (this.props.possibleMove) this.className += " possibleMove"
     }
 
     render() {
-        let className: string = "tile " + this.state.color
-        if (this.state.selected) className += " selected"
-        if (this.state.highlighted) className += " highlighted"
         return (
             <button
-                className={className}
-                disabled={this.state.disabled}
-                value={this.state.tileType}
                 id={"tile" + this.props.id}
                 key={"tile" + this.props.id}
+                className={this.className}
+                value={this.props.tileType}
+                disabled={this.props.disabled}
                 onClick={() => {
-                    this.props.onClick(this)
+                    this.props.onClick()
                 }}>
-                {TileType[this.state.tileType]}
+                {TileType[this.props.tileType]}
             </button>
         );
     }

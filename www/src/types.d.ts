@@ -27,9 +27,9 @@ declare global {
     }
 
     type BoardType = {
-        gameSizeRows: num // Boards' rows
-        gameSizeColumns: num // Boards' columns
-        tiles: num[][]
+        gameSizeRows: number // Boards' rows
+        gameSizeColumns: number // Boards' columns
+        tiles: number[][]
     }
 
     type GameType = {
@@ -41,4 +41,3 @@ declare global {
 }
 
 export {}
-

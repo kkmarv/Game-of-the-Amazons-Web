@@ -7,7 +7,7 @@ export function createPlayer(name: string, controllable: boolean, id?: number): 
     const req = new XMLHttpRequest();
     req.open("POST", apiUrl + "/players/", false);
     console.log(`{ "name": "${name}", "controllable": ${controllable} }`)
-    req.send(`{ "name": "${name}", "controllable": ${controllable} ` + id ? `id: ${id} }` : "}");
+    req.send(`{ "name": "${name}", "controllable": ${controllable} ` + (id ? `id: ${id} }` : "}"));
     return req.responseText;
 }
 
@@ -31,8 +31,8 @@ export function deletePlayer(id: number): string {
 export function createGame(game: GameType): string {
     const req = new XMLHttpRequest();
     req.open("POST", apiUrl + "/games/", false);
-    console.log(`{ "maxTurnTime": "${game.maxTurnTime}", "players": ${game.players}, "squares": ${game.initialBoard} }`)
-    req.send(`{ "maxTurnTime": "${game.maxTurnTime}", "players": ${game.players}, "squares": ${game.initialBoard} }`);
+    console.log(`{ "maxTurnTime": "${game.maxTurnTime}", "players": ${game.players}, "initialBoard": ${game.initialBoard} }`)
+    req.send(`{ "maxTurnTime": "${game.maxTurnTime}", "players": ${game.players}, "initialBoard": ${game.initialBoard} }`);
     return req.responseText;
 }
 
@@ -70,9 +70,11 @@ export function createTurn(id: number, turn: TurnType): string {
 
 // reset request
 
-export function reset(): string {
-    const req = new XMLHttpRequest();
-    req.open("DELETE", apiUrl + "/reset/", false);
-    req.send(null);
-    return req.responseText;
+export function reset(confirmed: boolean): string | void {
+    if (confirmed) {
+        const req = new XMLHttpRequest();
+        req.open("DELETE", apiUrl + "/reset/", false);
+        req.send(null);
+        return req.responseText;
+    }
 }
