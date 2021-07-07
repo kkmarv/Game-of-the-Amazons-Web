@@ -4,10 +4,7 @@ import {TileType} from "./TileType";
 type Props = {
     id: number
     onClick: any
-    tileType: TileType
-    disabled: boolean
-    selected: boolean
-    possibleMove: boolean
+    tileProps: TileProps
 }
 
 type State = {
@@ -27,8 +24,8 @@ export class Tile extends Component<Props, State> {
         super(props);
         const color: string = this.props.id % 2 === 0 ? "white" : "black"
         this.className = "tile " + color
-        if (this.props.selected) this.className += " selected"
-        if (this.props.possibleMove) this.className += " possibleMove"
+        if (this.props.tileProps.selected) this.className += " selected"
+        if (this.props.tileProps.possibleMove) this.className += " possibleMove"
     }
 
     render() {
@@ -37,12 +34,12 @@ export class Tile extends Component<Props, State> {
                 id={"tile" + this.props.id}
                 key={"tile" + this.props.id}
                 className={this.className}
-                value={this.props.tileType}
-                disabled={this.props.disabled}
+                value={this.props.tileProps.tileType}
+                disabled={this.props.tileProps.disabled}
                 onClick={() => {
                     this.props.onClick()
                 }}>
-                {TileType[this.props.tileType]}
+                {TileType[this.props.tileProps.tileType]}
             </button>
         );
     }

@@ -18,7 +18,7 @@ export class Timer extends Component<Props, State> {
         if (props.maxTurnTime <= 1000) throw new RangeError("Turn time must be more than 1 second!")
         if (props.maxTurnTime > 120000) throw new RangeError("Turn time cannot be more than 2 minutes!")
 
-        if (Timer.timer != undefined) clearInterval(Timer.timer)
+        if (Timer.timer !== undefined) clearInterval(Timer.timer)
 
         Timer.timer = setInterval(() => {
             if (this.state.timeLeft <= 1000) {

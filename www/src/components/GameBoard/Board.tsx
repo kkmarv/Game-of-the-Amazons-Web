@@ -3,26 +3,14 @@ import {Tile} from "./Tile";
 import {TileType} from "./TileType";
 
 type Props = {
-    initialBoard: BoardType
     onTurn: any
+    initialBoard: BoardType
 }
 
-type TileProps = {
-    tileType: TileType
-    disabled: boolean
-    selected: boolean
-    possibleMove: boolean
-}
 type State = {
     phase: string
-    lastClick?: {
-        rowIndex: number
-        colIndex: number
-    }
-    clickBeforeLastClick?: {
-        rowIndex: number
-        colIndex: number
-    }
+    lastClick?: Coordinates
+    clickBeforeLastClick?: Coordinates
     tiles: TileProps[][]
 }
 
@@ -60,11 +48,8 @@ export class Board extends Component<Props, State> {
                                     <Tile
                                         id={inverseRowIndex * 10 + colIndex} // calculate the correct id from row and tiles' position in row
                                         key={inverseRowIndex * 10 + colIndex}
-                                        tileType={tileProps.tileType}
-                                        disabled={tileProps.disabled}
-                                        selected={tileProps.selected}
-                                        possibleMove={tileProps.possibleMove}
-                                        onClick={() => this.handleClick(rowIndex, colIndex)}
+                                        onClick={() => this.handleClick({rowIndex: rowIndex, colIndex: colIndex})}
+                                        tileProps={tileProps}
                                     />)
                             })}
                         </div>
@@ -74,51 +59,53 @@ export class Board extends Component<Props, State> {
         );
     }
 
-    handleClick = async (currentRowIndex: number, currentColIndex: number) => {
-        const clickedTileProps: TileProps = this.state.tiles[currentRowIndex][currentColIndex]
+    handleClick = async (currentCoords: Coordinates) => { // TODO parameter zum koordinaten typ machen
+        const clickedTileProps: TileProps = this.state.tiles[currentCoords.rowIndex][currentCoords.colIndex]
         const clickBeforeLastClick = this.state.clickBeforeLastClick
         const lastClick = this.state.lastClick
 
         if (clickedTileProps.tileType === TileType.PLAYER) { // TODO auslagern
-            if (this.state.phase == "select") {
+            if (this.state.phase === "select") {
                 if (!clickedTileProps.possibleMove) {
-                    this.showPossibleMovesForTileAt(currentRowIndex, currentColIndex)
+                    this.showPossibleMovesForTileAt(currentCoords)
                     this.setState({phase: "move"})
                 } else this.hidePossibleMoves()
 
-            } else if (this.state.phase == "move") {
+            } else if (this.state.phase === "move") {
                 this.hidePossibleMoves()
                 this.setState({phase: "select"})
 
-            } else if (this.state.phase == "shoot") {
+            } else if (this.state.phase === "shoot") {
                 this.hidePossibleMoves()
-                await this.moveAmazonFromTo(currentRowIndex, currentColIndex, clickBeforeLastClick!.rowIndex, clickBeforeLastClick!.colIndex)
-                this.showPossibleMovesForTileAt(clickBeforeLastClick!.rowIndex, clickBeforeLastClick!.colIndex)
+                await this.moveAmazonFromTo(currentCoords, clickBeforeLastClick!)
+                this.showPossibleMovesForTileAt(clickBeforeLastClick!)
                 this.setState({phase: "move"})
             }
 
         } else if (clickedTileProps.tileType === TileType.EMPTY) {
             if (clickedTileProps.possibleMove) {
-                if (this.state.phase == "move") {
-                    await this.moveAmazonFromTo(lastClick!.rowIndex, lastClick!.colIndex, currentRowIndex, currentColIndex)
-                    this.showPossibleMovesForTileAt(currentRowIndex, currentColIndex)
+                if (this.state.phase === "move") {
+                    await this.moveAmazonFromTo(lastClick!, currentCoords)
+                    this.showPossibleMovesForTileAt(currentCoords)
                     this.setState({phase: "shoot"})
 
-                } else if (this.state.phase == "shoot") {
-                    await this.shootArrow(currentRowIndex, currentColIndex)
+                } else if (this.state.phase === "shoot") {
+                    await this.shootArrowAt(currentCoords)
                     this.hidePossibleMoves()
                     this.setState({phase: "select"})
+                    this.endTurnWith(clickBeforeLastClick!, lastClick!, currentCoords)
                 }
             }
         } else this.hidePossibleMoves()
 
-        this.updateLastClickWith(currentRowIndex, currentColIndex)
+        this.updateLastClickWith(currentCoords)
     }
 
+
     /* Enable alle von den gegebenen Koordinaten erreichbaren Buttons */
-    showPossibleMovesForTileAt(rowIndex: number, colIndex: number): void {
-        console.log(`showing moves for ${rowIndex} and ${colIndex}`)
-        const possibleMoves: TileProps[] = this.getPossibleMovesForTileAt(rowIndex, colIndex)
+    showPossibleMovesForTileAt(currentCoords: Coordinates): void {
+        console.log(`showing moves for ${currentCoords.rowIndex} and ${currentCoords.colIndex}`)
+        const possibleMoves: TileProps[] = this.getPossibleMovesForTileAt(currentCoords)
         this.setState({
             tiles: this.state.tiles.map((row) => {
                 return row.map((tileProps) => {
@@ -154,16 +141,16 @@ export class Board extends Component<Props, State> {
 
     /* Setzt Zielkoordinaten auf Player und Startkoordinaten auf Empty.
        Ist Async damit es nicht mit den anderen setStates kollidiert. */
-    async moveAmazonFromTo(fromRowIndex: number, fromColIndex: number, toRowIndex: number, toColIndex: number): Promise<void> {
+    async moveAmazonFromTo(lastCoords: Coordinates, currentCoords: Coordinates): Promise<void> {
         this.setState({
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
-                    if (rowIndex == fromRowIndex && colIndex == fromColIndex) return {
+                    if (rowIndex === lastCoords.rowIndex && colIndex === lastCoords.colIndex) return {
                         tileType: TileType.EMPTY,
                         disabled: true,
                         selected: false,
                         possibleMove: false
-                    }; else if (rowIndex == toRowIndex && colIndex == toColIndex) return {
+                    }; else if (rowIndex === currentCoords.rowIndex && colIndex === currentCoords.colIndex) return {
                         tileType: TileType.PLAYER,
                         disabled: false,
                         selected: false,
@@ -176,11 +163,11 @@ export class Board extends Component<Props, State> {
 
     /* Setzt Zielkoordinaten auf Arrow.
        Ist Async damit es nicht mit den anderen setStates kollidiert. */
-    async shootArrow(toRowIndex: number, toColIndex: number): Promise<void> {
+    async shootArrowAt(coordinates: Coordinates): Promise<void> {
         this.setState({
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
-                    const isArrowTile: boolean = rowIndex == toRowIndex && colIndex == toColIndex
+                    const isArrowTile: boolean = rowIndex === coordinates.rowIndex && colIndex === coordinates.colIndex
                     return {
                         tileType: isArrowTile ? TileType.ARROW : tileProps.tileType,
                         disabled: isArrowTile ? true : tileProps.disabled,
@@ -192,14 +179,13 @@ export class Board extends Component<Props, State> {
         })
     }
 
+
     /* Updated den letzten Click mit neuen Koordinaten */
-    updateLastClickWith(rowIndex: number, colIndex: number): void {
-        if (!this.state.lastClick || (!(rowIndex == this.state.lastClick.rowIndex && colIndex == this.state.lastClick.colIndex))) {
+    updateLastClickWith(coordinates: Coordinates): void {
+        if (!this.state.lastClick || (!(coordinates.rowIndex === this.state.lastClick.rowIndex && coordinates.colIndex === this.state.lastClick.colIndex))) {
             // wenn der letzte Zug undefined ist oder der letzte Zug nicht dem jetzigen Zug entspricht
             this.setState({
-                lastClick: {
-                    rowIndex: rowIndex, colIndex: colIndex
-                },
+                lastClick: coordinates,
                 clickBeforeLastClick: this.state.lastClick
             })
         } else if (this.state.clickBeforeLastClick) {
@@ -211,33 +197,23 @@ export class Board extends Component<Props, State> {
         }
     }
 
-
-    endTurn(startRowIndex: number, startColIndex: number,
-            endRowIndex: number, endColIndex: number,
-            arrowRowIndex: number, arrowColIndex: number): void {
+    endTurnWith(moveStartCoords: Coordinates, moveEndCoords: Coordinates, shotCoords: Coordinates): void {
         // TODO
         this.props.onTurn({
             move: {
-                start: {
-                    row: startRowIndex,
-                    column: startColIndex
-                },
-                end: {
-                    row: endRowIndex,
-                    column: endColIndex
-                }
+                start: moveStartCoords,
+                end: moveEndCoords
             },
-            shot: {
-                row: arrowRowIndex,
-                column: arrowColIndex
-            }
+            shot: shotCoords
         })
     }
 
 
     // TODO FRAGE ob besser geht als 8 for loops
     /* Finde alle möglichen Koordinaten, zu denen man von der gegebenen Koordinate ziehen kann */
-    getPossibleMovesForTileAt(rowIndex: number, colIndex: number): TileProps[] {
+    getPossibleMovesForTileAt(coordinates: Coordinates): TileProps[] {
+        const rowIndex: number = coordinates.rowIndex
+        const colIndex: number = coordinates.colIndex
         const possibleMoves: TileProps[] = [this.state.tiles[rowIndex][colIndex]] // start with clickedTile as a first possible mve
 
         this.getPossibleMovesToTop(rowIndex - 1, colIndex, possibleMoves)

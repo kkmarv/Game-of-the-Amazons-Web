@@ -32,6 +32,7 @@ export class GameControl extends Component<Props, State> {
                     {this.props.players.map((player) => {
                         return <Player
                             id={player.id}
+                            key={"player" + player.id}
                             name={player.name}
                             controllable={player.controllable}
                             allowedToMove={player.id === this.state.currentPlayer.id}/>
