@@ -10,7 +10,7 @@ type Props = {
 type State = {
     ableToMove: boolean
     allowedToMove: boolean
-    turnHistory: TurnType[]
+    turnHistory: TurnProps[]
 }
 
 /**

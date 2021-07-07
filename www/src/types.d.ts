@@ -1,15 +1,15 @@
-// Type definitions for components
-// Project: The Game of the Amazons
-// Definitions by: Marvin Kästing
+// Type definitions for all components
 
 declare global {
-    type PlayerType = {
+    /*  */
+    type PlayerProps = {
         id: number
         name: string
         controllable: boolean
     }
 
-    type TurnType = {
+    /* Ein Turn Objekt, wie es die API erwartet */
+    type TurnProps = {
         move: {
             start: {
                 row: number
@@ -26,17 +26,19 @@ declare global {
         }
     }
 
-    type BoardType = {
+    /* Ein Board Objekt, wie es die API erwartet */
+    type BoardProps = {
         gameSizeRows: number // Boards' rows
         gameSizeColumns: number // Boards' columns
         tiles: number[][]
     }
 
-    type GameType = {
+    /* Ein Spiel Objekt, wie es die API erwartet */
+    type GameProps = {
         gameId: number
         maxTurnTime: number // in milliseconds
         players: number[] // IDs only
-        initialBoard: BoardType
+        initialBoard: BoardProps
     }
 }
 

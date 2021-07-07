@@ -28,7 +28,7 @@ export function deletePlayer(id: number): string {
 
 // game requests
 
-export function createGame(game: GameType): string {
+export function createGame(game: GameProps): string {
     const req = new XMLHttpRequest();
     req.open("POST", apiUrl + "/games/", false);
     console.log(`{ "maxTurnTime": "${game.maxTurnTime}", "players": ${game.players}, "initialBoard": ${game.initialBoard} }`)
@@ -60,7 +60,7 @@ export function deleteGame(id: number): string {
 
 // turn request
 
-export function createTurn(id: number, turn: TurnType): string {
+export function createTurn(id: number, turn: TurnProps): string {
     const req = new XMLHttpRequest();
     req.open("POST", apiUrl + "/move/:" + id, false);
     req.send(`{ turn }`);

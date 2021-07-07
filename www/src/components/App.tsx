@@ -3,7 +3,7 @@ import '../styles/App.css';
 import {GameControl} from "./GameControl";
 
 export default class App extends Component<any, any> {
-    testPlayers = [
+    testPlayers: PlayerProps[] = [
         {
             name: "pepegoTest",
             controllable: true,
@@ -15,10 +15,12 @@ export default class App extends Component<any, any> {
             id: 1
         }
     ]
-    testGame: GameType = {
+    testGame: GameProps = {
         gameId: 0,
         maxTurnTime: 10000,
-        players: [0, 1],
+        players: this.testPlayers.map((testPlayer) => {
+            return testPlayer.id
+        }),
         initialBoard: {
             gameSizeRows: 10,
             gameSizeColumns: 10,
@@ -39,7 +41,7 @@ export default class App extends Component<any, any> {
 
     render() {
         return (
-            <GameControl players={this.testPlayers} game={this.testGame}/>
+            <GameControl players={this.testPlayers} localPlayers={[this.testPlayers[0]]} game={this.testGame}/>
         );
     }
 }

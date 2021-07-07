@@ -87,6 +87,7 @@ _TODO_
 - Alternative Spielmodi:
     - Damage/Death upon click on invalid tile
     - Tutorial/Training mode where one is allowed to revert their last turn
+ - mehr als 2 Spieler
 
 ## Wiki
 

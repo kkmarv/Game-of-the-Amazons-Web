@@ -2,8 +2,7 @@ import {Component} from "react";
 
 type Props = {
     paused: boolean
-    maxTurnTime: number // in ms
-    onTimeIsUp: any
+    timeLeft: number // in ms
 }
 
 type State = {
@@ -11,37 +10,22 @@ type State = {
 }
 
 export class Timer extends Component<Props, State> {
-    private static timer: NodeJS.Timeout
-
     constructor(props: Props) {
         super(props);
-        if (props.maxTurnTime <= 1000) throw new RangeError("Turn time must be more than 1 second!")
-        if (props.maxTurnTime > 120000) throw new RangeError("Turn time cannot be more than 2 minutes!")
-
-        if (Timer.timer !== undefined) clearInterval(Timer.timer)
-
-        Timer.timer = setInterval(() => {
-            if (this.state.timeLeft <= 1000) {
-                this.props.onTimeIsUp()
-                this.setState({timeLeft: this.props.maxTurnTime})
-            } else if (!this.props.paused) this.setState({timeLeft: this.state.timeLeft - 1000})
-        }, 1000)
-
-        this.state = {
-            timeLeft: props.maxTurnTime
-        }
+        if (props.timeLeft <= 1000) throw new RangeError("Turn time must be more than 1 second!")
+        if (props.timeLeft > 120000) throw new RangeError("Turn time cannot be more than 2 minutes!")
     }
 
     render() {
         return (
             <div className={"timer"}>
-                <h1>{this.formatAsReadableTime(this.state.timeLeft)}</h1>
+                <h1>{this.formatAsReadableTime(this.props.timeLeft)}</h1>
             </div>
         )
     }
 
     formatAsReadableTime(milliSeconds: number): string {
-        if (this.props.maxTurnTime <= 60000) return (milliSeconds / 1000).toString()
+        if (this.props.timeLeft <= 60000) return (milliSeconds / 1000).toString()
         else return new Date(milliSeconds).toISOString().substr(14, 5)
     }
 }
