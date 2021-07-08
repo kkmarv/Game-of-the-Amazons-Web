@@ -27,7 +27,7 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
     - [ ] Falls ja, soll das Spiel angezeigt werden
 - [ ] dass geprüft wird, ob bereits Spieler existieren:
     - [ ] Falls nein, sollen neue Spieler angelegt werden (einen mit controllable=true und einen mit controllable=false)
-    - [ ] Falls ja, soll der Spieler den kontrollierbaren Spieler überehmen und die KI den unkontrollierbaren
+    - [ ] Falls ja, soll der Spieler den kontrollierbaren Spieler übernehmen und die KI den unkontrollierbaren
 - [ ] dass ein durchgeführter Zug nach Abschluss an den Server gesendet wird
 - [ ] dass ein Zug des gegnerischen Spielers vom Server abgefragt wird
 
@@ -37,7 +37,7 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 - [ ] dass die Figuren beider Spieler deutlich voneinander unterscheidbar sind
 - [x] dass der Spieler angezeigt bekommt, wenn er (oder respektive der gegnerische Spieler) am Zug ist
     - [ ] dass der Zug des gegnerischen Spielers dem Spieler entsprechend angezeigt wird
-- [ ] dass der Spieler nach dem Zug einer Figur den Zielpunkt für den Pfeilwurf festlegen kann
+- [x] dass der Spieler nach dem Zug einer Figur den Zielpunkt für den Pfeilwurf festlegen kann
 - [x] dass der Spieler nur legale Züge durchführen kann
 - [ ] dass das Spiel endet, sobald ein Spieler nicht mehr ziehen kann
 

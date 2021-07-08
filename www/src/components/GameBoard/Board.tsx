@@ -42,11 +42,14 @@ export class Board extends Component<Props, State> {
     /* Wenn das Spielbrett aktualisiert werden soll: */
     async componentWillReceiveProps(props: Readonly<Props>) {
         console.log("new phase: " + this.state.phase)
-        if (!props.isLocalPlayer && this.state.phase !== "select") { // Und der nächste Spieler nicht lokal ist,
-            if (this.state.phase === "shoot") { // dann brich seinen Schuss und Amazonen-Zug ab
-                await this.cancelShot(this.state.lastClickCoords!)
-                await this.cancelMove()
-            } else if (this.state.phase === "move") await this.cancelMove()  // dann brich seinen Amazonen-Zug ab
+        if (!props.isLocalPlayer) {
+            this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined})
+            if (this.state.phase !== "select") { // Und der nächste Spieler nicht lokal ist,
+                if (this.state.phase === "shoot") { // dann brich seinen Schuss und Amazonen-Zug ab
+                    await this.cancelShot(this.state.lastClickCoords!)
+                    await this.cancelMove()
+                } else if (this.state.phase === "move") await this.cancelMove()  // dann brich seinen Amazonen-Zug ab
+            }
         }
     }
 
@@ -87,7 +90,7 @@ export class Board extends Component<Props, State> {
                 this.setState({phase: "move"})
 
             } else if (this.state.phase === "move") await this.cancelMove()
-            else if (this.state.phase === "shoot") await this.cancelShot(lastClickCoords)
+            else if (this.state.phase === "shoot") await this.cancelShot(currentCoords)
 
         } else if (clickedTileProps.tileType === TileType.EMPTY) {
             if (this.state.phase === "move") {
