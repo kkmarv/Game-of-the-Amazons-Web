@@ -17,7 +17,7 @@ export default class App extends Component<any, any> {
     ]
     testGame: GameProps = {
         gameId: 0,
-        maxTurnTime: 10000,
+        maxTurnTime: 3000,
         players: this.testPlayers.map((testPlayer) => {
             return testPlayer.id
         }),

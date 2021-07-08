@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Tile} from "./Tile";
 import {TileType} from "./TileType";
-import {createDeflateRaw} from "zlib";
 
 // TODO FRAGE wie deklariert man ein globales enum?
 
@@ -42,12 +41,12 @@ export class Board extends Component<Props, State> {
 
     /* Wenn das Spielbrett aktualisiert werden soll: */
     async componentWillReceiveProps(props: Readonly<Props>) {
+        console.log("new phase: " + this.state.phase)
         if (!props.isLocalPlayer && this.state.phase !== "select") { // Und der nächste Spieler nicht lokal ist,
             if (this.state.phase === "shoot") { // dann brich seinen Schuss und Amazonen-Zug ab
                 await this.cancelShot(this.state.lastClickCoords!)
                 await this.cancelMove()
-            }
-            if (this.state.phase === "move") await this.cancelMove()  // dann brich seinen Amazonen-Zug ab
+            } else if (this.state.phase === "move") await this.cancelMove()  // dann brich seinen Amazonen-Zug ab
         }
     }
 
@@ -78,53 +77,47 @@ export class Board extends Component<Props, State> {
     }
 
     handleClick = async (currentCoords: Coordinates) => {
+        const lastClickCoords: Coordinates = this.state.lastClickCoords!
+        const clickBeforeLastClickCoords: Coordinates = this.state.clickBeforeLastClickCoords!
         const clickedTileProps: TileProps = this.state.tiles[currentCoords.rowIndex][currentCoords.colIndex]
-        const clickBeforeLastClickCoords = this.state.clickBeforeLastClickCoords
-        const lastClickCoords = this.state.lastClickCoords
 
-        if (clickedTileProps.tileType === TileType.PLAYER) { // TODO in funktionen auslagern
+        if (clickedTileProps.tileType === TileType.PLAYER) {
             if (this.state.phase === "select") {
-                if (!clickedTileProps.possibleMove) {
-                    await this.showPossibleMovesForTileAt(currentCoords)
-                    this.setState({phase: "move"})
-                } else await this.hidePossibleMoves()
+                await this.showPossibleMovesForTileAt(currentCoords)
+                this.setState({phase: "move"})
 
-            } else if (this.state.phase === "move") {
-                await this.cancelMove()
-
-            } else if (this.state.phase === "shoot") {
-                await this.cancelShot(lastClickCoords!)
-            }
+            } else if (this.state.phase === "move") await this.cancelMove()
+            else if (this.state.phase === "shoot") await this.cancelShot(lastClickCoords)
 
         } else if (clickedTileProps.tileType === TileType.EMPTY) {
-            if (clickedTileProps.possibleMove) {
-                if (this.state.phase === "move") {
-                    await this.moveAmazonFromTo(lastClickCoords!, currentCoords)
-                    await this.showPossibleMovesForTileAt(currentCoords)
-                    this.setState({phase: "shoot"})
+            if (this.state.phase === "move") {
+                await this.moveAmazonFromTo(lastClickCoords, currentCoords)
+                await this.showPossibleMovesForTileAt(currentCoords)
+                this.setState({phase: "shoot"})
 
-                } else if (this.state.phase === "shoot") {
-                    await this.shootArrowAt(currentCoords)
-                    await this.hidePossibleMoves()
-                    this.endTurnWith(clickBeforeLastClickCoords!, lastClickCoords!, currentCoords)
-                    this.setState({phase: "select"})
-                }
+            } else if (this.state.phase === "shoot") {
+                await this.shootArrowAt(currentCoords)
+                await this.hidePossibleMoves()
+                this.setState({phase: "select"})
+                this.endTurnWith(clickBeforeLastClickCoords, lastClickCoords, currentCoords)
             }
-        } else await this.hidePossibleMoves()
-
-        this.updateLastClickWith(currentCoords)
+        }
+        await this.updateLastClickWith(currentCoords)
     }
 
+
+    /* Bricht die Bewegen-Phase ab. */
+    async cancelMove() {
+        await this.hidePossibleMoves()
+        this.setState({phase: "select"})
+    }
+
+    /* Bricht die Schuss-Phase ab. */
     async cancelShot(currentCoords: Coordinates) {
         await this.hidePossibleMoves()
         await this.moveAmazonFromTo(currentCoords, this.state.clickBeforeLastClickCoords!)
         await this.showPossibleMovesForTileAt(this.state.clickBeforeLastClickCoords!)
         this.setState({phase: "move"})
-    }
-
-    async cancelMove() {
-        await this.hidePossibleMoves()
-        this.setState({phase: "select"})
     }
 
 
@@ -167,16 +160,16 @@ export class Board extends Component<Props, State> {
 
     /* Setzt Zielkoordinaten auf Player und Startkoordinaten auf Empty.
        Ist Async damit es nicht mit den anderen setStates kollidiert. */
-    async moveAmazonFromTo(lastCoords: Coordinates, currentCoords: Coordinates): Promise<void> {
+    async moveAmazonFromTo(fromCoords: Coordinates, toCoords: Coordinates): Promise<void> {
         this.setState({
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
-                    if (rowIndex === lastCoords.rowIndex && colIndex === lastCoords.colIndex) return {
+                    if (rowIndex === fromCoords.rowIndex && colIndex === fromCoords.colIndex) return {
                         tileType: TileType.EMPTY,
                         disabled: true,
                         selected: false,
                         possibleMove: false
-                    }; else if (rowIndex === currentCoords.rowIndex && colIndex === currentCoords.colIndex) return {
+                    }; else if (rowIndex === toCoords.rowIndex && colIndex === toCoords.colIndex) return {
                         tileType: TileType.PLAYER,
                         disabled: false,
                         selected: false,
@@ -187,13 +180,13 @@ export class Board extends Component<Props, State> {
         })
     }
 
-    /* Setzt Arrow auf Zielkoordinaten.
+    /* Setzt Zielkoordinaten auf Arrow.
        Ist Async damit es nicht mit den anderen setStates kollidiert. */
     async shootArrowAt(coordinates: Coordinates): Promise<void> {
         this.setState({
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
-                    const isArrowTile: boolean = rowIndex === coordinates.rowIndex && colIndex === coordinates.colIndex
+                    const isArrowTile: boolean = (rowIndex === coordinates.rowIndex && colIndex === coordinates.colIndex)
                     return {
                         tileType: isArrowTile ? TileType.ARROW : tileProps.tileType,
                         disabled: isArrowTile ? true : tileProps.disabled,
@@ -206,8 +199,20 @@ export class Board extends Component<Props, State> {
     }
 
 
+    /* Reicht den getätigten Zug an die GameControl weiter. */
+    endTurnWith(moveStartCoords: Coordinates, moveEndCoords: Coordinates, shotCoords: Coordinates): void {
+        this.props.onTurnEnd({
+            move: {
+                start: moveStartCoords,
+                end: moveEndCoords
+            },
+            shot: shotCoords
+        })
+    }
+
+
     /* Updated den letzten Click mit neuen Koordinaten */
-    updateLastClickWith(coordinates: Coordinates): void {
+    async updateLastClickWith(coordinates: Coordinates): Promise<void> {
         if (!this.state.lastClickCoords || (!(coordinates.rowIndex === this.state.lastClickCoords.rowIndex && coordinates.colIndex === this.state.lastClickCoords.colIndex))) {
             // wenn der letzte Zug undefined ist oder der letzte Zug nicht dem jetzigen Zug entspricht
             this.setState({
@@ -221,21 +226,6 @@ export class Board extends Component<Props, State> {
                 clickBeforeLastClickCoords: this.state.lastClickCoords
             })
         }
-    }
-
-    endTurn(): void {
-        // TODO call this when player changes through game control
-        this.props.onTurnEnd()
-    }
-
-    endTurnWith(moveStartCoords: Coordinates, moveEndCoords: Coordinates, shotCoords: Coordinates): void {
-        this.props.onTurnEnd({
-            move: {
-                start: moveStartCoords,
-                end: moveEndCoords
-            },
-            shot: shotCoords
-        })
     }
 
 

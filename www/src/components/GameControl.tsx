@@ -65,7 +65,6 @@ export class GameControl extends Component<Props, State> {
                 />
                 <button className={"test!"} onClick={() => {
                     this.setState({paused: !this.state.paused})
-                    console.log("click")
                 }}>
                     RAWR
                 </button>
@@ -82,7 +81,6 @@ export class GameControl extends Component<Props, State> {
 
     endTurn(): void {
         // TODO check if any players that can move are left (win condition)
-        console.log(this.props.localPlayers.includes(this.getNextPlayer()))
         this.setState({currentPlayer: this.getNextPlayer()})
     }
 
@@ -90,7 +88,7 @@ export class GameControl extends Component<Props, State> {
         this.setState({paused: !this.state.paused})
     }
 
-   resetTime(): void {
+    resetTime(): void {
         this.setState({timeLeft: this.props.game.maxTurnTime})
     }
 
