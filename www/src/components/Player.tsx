@@ -19,6 +19,7 @@ type State = {
 export class Player extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
+
         this.state = {
             ableToMove: false,
             allowedToMove: props.allowedToMove,

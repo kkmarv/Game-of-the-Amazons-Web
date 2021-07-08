@@ -2,6 +2,7 @@ import {Component} from "react";
 import {Board} from "./GameBoard/Board";
 import {Timer} from "./Timer";
 import {Player} from "./Player";
+import {createTurn, getAllGames} from "../requests";
 
 type Props = {
     game: GameProps
@@ -16,13 +17,27 @@ type State = {
     winner?: number
 }
 
+// TODO FRAGE: OpenWhisk geht net
+
 export class GameControl extends Component<Props, State> {
     private static timer: NodeJS.Timeout
 
     constructor(props: Props) {
         super(props);
+
         if (props.players.length < 2) throw new RangeError("The prop 'players' of GameControl has to have at least 2 Players!")
 
+        this.setTimer()
+        this.state = {
+            paused: true,
+            timeLeft: props.game.maxTurnTime,
+            currentPlayer: props.players[0]
+        }
+    }
+
+    /* Setzt den GameControl.timer auf einen 1-Sekunden-Timer, der von
+       props.game.maxTurnTime runterzählt und bei 0 den aktuellen Zug beendet. */
+    setTimer() {
         if (GameControl.timer !== undefined) clearInterval(GameControl.timer)
 
         GameControl.timer = setInterval(() => {
@@ -31,12 +46,6 @@ export class GameControl extends Component<Props, State> {
                 this.setState({timeLeft: this.props.game.maxTurnTime})
             } else if (!this.state.paused) this.setState({timeLeft: this.state.timeLeft - 1000})
         }, 1000)
-
-        this.state = {
-            paused: false,
-            timeLeft: props.game.maxTurnTime,
-            currentPlayer: props.players[0]
-        }
     }
 
     render() {
@@ -63,8 +72,8 @@ export class GameControl extends Component<Props, State> {
                        isLocalPlayer={this.props.localPlayers.includes(this.state.currentPlayer)}
                        initialBoard={this.props.game.initialBoard}
                 />
-                <button className={"test!"} onClick={() => {
-                    this.setState({paused: !this.state.paused})
+                <button className={"test!"} onClick={async () => {
+                    console.log(await getAllGames())
                 }}>
                     RAWR
                 </button>
@@ -74,13 +83,15 @@ export class GameControl extends Component<Props, State> {
 
 
     handleTurnEnd = (turn?: TurnProps) => {
-        // TODO send turn to server via api call
+        if (turn) createTurn(this.props.game.gameId, turn)  // TODO send turn to server via api call
         this.resetTime()
         this.endTurn()
     }
 
+
+    /* Beendet den Zug, indem der nächste Spieler dran genommen wird. */
     endTurn(): void {
-        // TODO check if any players that can move are left (win condition)
+        // TODO check if any players that can move are left (win condition) | wird sehr wahrscheinlich durch Backend geregelt
         this.setState({currentPlayer: this.getNextPlayer()})
     }
 

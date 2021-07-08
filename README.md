@@ -87,7 +87,8 @@ _TODO_
 - Alternative Spielmodi:
     - Damage/Death upon click on invalid tile
     - Tutorial/Training mode where one is allowed to revert their last turn
- - mehr als 2 Spieler
+- mehr als 2 Spieler
+- Tutorial mit gifs
 
 ## Wiki
 
@@ -111,8 +112,6 @@ einer Webseite im HTML-Format geantwortet wird, welche den Stacktrace des Fehler
 
 `POST: /players/`
 
-Response: 200 OK
-
 Parameter:
 
 - `name` (string): Spielername
@@ -125,7 +124,8 @@ Parameter:
 }
 
 ```
-
+Response: 200 OK
+Body:
 ```json5
 {
     "name":"Spieler1",
@@ -142,7 +142,7 @@ Parameter:
 `GET: /players/`
 
 Response: 200 OK
-
+Body:
 ```json5
 {
     "players": [
@@ -168,11 +168,11 @@ Response: 200 OK
 
 `DELETE: /players/:id`
 
-Response: 200 OK
-
 Parameter:
 
 - `id` (int): Spieler ID
+
+Response: 200 OK
 
 </details>
 
@@ -182,8 +182,6 @@ Parameter:
 <summary><b>ein neues Spiel starten</b></summary><br>
 
 `POST: /games/`
-
-Response: 200 OK
 
 Parameter:
 
@@ -221,7 +219,8 @@ Parameter:
     }
 }
 ```
-
+Response: 200 OK
+Body:
 ```json5
 {
     "gameId": 0,
@@ -262,12 +261,12 @@ Parameter:
 
 `GET: /games/:id`
 
-Response: 200 OK
-
 Parameter:
 
 - `id` (int): ID des Spiels
 
+Response: 200 OK
+Body:
 ```json5
 {
     "gameId": 0,
@@ -305,7 +304,7 @@ Parameter:
 `GET: /games/`
 
 Response: 200 OK
-
+Body:
 ```json5
 {
     "games": [
@@ -350,11 +349,11 @@ Response: 200 OK
 
 `DELETE: /games/:id`
 
-Response: 200 OK
-
 Parameter:
 
 - `id` (int): ID des Spiels
+
+Response: 200 OK
 
 </details>
 
@@ -365,12 +364,12 @@ Parameter:
 
 `POST: /move/:id`
 
-Response: 200 OK
-
 Parameter:
 
 - `id` (int): ID des Spiels
-
+  
+Response: 200 OK
+Body:
 ```json5
 {
     "move": {

@@ -12,6 +12,7 @@ type State = {
 export class Timer extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
+
         if (props.timeLeft <= 1000) throw new RangeError("Turn time must be more than 1 second!")
         if (props.timeLeft > 120000) throw new RangeError("Turn time cannot be more than 2 minutes!")
     }

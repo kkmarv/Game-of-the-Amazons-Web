@@ -22,7 +22,7 @@ type State = {
  * Represents a single tile
  */
 export class Tile extends Component<Props, State> {
-    private readonly className: string // TODO FRAGE ob klassenvar sonnvoll
+    private readonly className: string // TODO weg damit
 
     constructor(props: Props) {
         super(props);

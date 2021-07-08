@@ -47,7 +47,6 @@ export class Board extends Component<Props, State> {
                 await this.cancelShot(this.state.lastClickCoords!)
                 await this.cancelMove()
             } else if (this.state.phase === "move") await this.cancelMove()  // oder sich in der Bewegen-Phase befindet
-
             this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined}) // dann setze seine letzten Klicks zurück
         }
     }
@@ -56,7 +55,7 @@ export class Board extends Component<Props, State> {
         return (
             <div className={"board"}>
                 {this.state.tiles.map((row, rowIndex) => {
-                    const inverseRowIndex = this.props.initialBoard.gameSizeRows - rowIndex - 1
+                    const inverseRowIndex = this.props.initialBoard.gameSizeRows - rowIndex - 1 // Spielbretter fangen mit (0,0) unten links an
                     return (
                         <div className={"row"} id={"row" + inverseRowIndex} key={"row" + inverseRowIndex}>
                             {row.map((tileProps, colIndex) => {
@@ -231,7 +230,7 @@ export class Board extends Component<Props, State> {
     }
 
 
-    // TODO FRAGE ob besser geht als 8 for loops
+    // TODO FRAGE ob besser geht als 8 for loops | evtl eine Methode, die eine Richtung annimmt zB [-1,-1] und dann immer in diese weiter geht
     /* Finde alle möglichen Koordinaten, zu denen man von der gegebenen Koordinate ziehen kann */
     getPossibleMovesForTileAt(coordinates: Coordinates): TileProps[] {
         const rowIndex: number = coordinates.rowIndex
