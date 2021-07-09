@@ -1,15 +1,30 @@
 // Type definitions for all components
 
 declare global {
+    /* Ein Spiel Objekt, wie es die API erwartet */
+    type game = {
+        gameId: number
+        maxTurnTime: number // in milliseconds
+        players: number[] // IDs only
+        initialBoard: board
+    }
+
+    /* Ein Board Objekt, wie es die API erwartet */
+    type board = {
+        gameSizeRows: number // Boards' rows
+        gameSizeColumns: number // Boards' columns
+        squares: number[][]
+    }
+
     /*  */
-    type PlayerProps = {
+    type player = {
         id: number
         name: string
         controllable: boolean
     }
 
     /* Ein Turn Objekt, wie es die API erwartet */
-    type TurnProps = {
+    type turn = {
         move: {
             start: {
                 row: number
@@ -26,20 +41,16 @@ declare global {
         }
     }
 
-    /* Ein Board Objekt, wie es die API erwartet */
-    type BoardProps = {
-        gameSizeRows: number // Boards' rows
-        gameSizeColumns: number // Boards' columns
-        tiles: number[][]
-    }
 
-    /* Ein Spiel Objekt, wie es die API erwartet */
-    type GameProps = {
-        gameId: number
-        maxTurnTime: number // in milliseconds
-        players: number[] // IDs only
-        initialBoard: BoardProps
-    }
+    /* Response types */
+
+    type multiPlayerResponse = { players: player[] }
+
+    type singlePlayerResponse = {}
+
+    type multiGameResponse = { games: game[] }
+
+    type singleGameResponse = {}
 }
 
 export {}

@@ -2,12 +2,10 @@ import React, {Component} from "react";
 import {Tile} from "./Tile";
 import {TileType} from "./TileType";
 
-// TODO FRAGE wie deklariert man ein globales enum?
-
 type Props = {
     onTurnEnd: any
     isLocalPlayer: boolean
-    initialBoard: BoardProps
+    initialBoard: board
 }
 
 type State = {
@@ -26,7 +24,7 @@ export class Board extends Component<Props, State> {
 
         this.state = {
             phase: "select",
-            tiles: props.initialBoard.tiles.map((row) => {
+            tiles: props.initialBoard.squares.map((row) => {
                 return row.map((value) => {
                     return {
                         tileType: value,
@@ -141,7 +139,7 @@ export class Board extends Component<Props, State> {
         })
     }
 
-    /* Disable alle angezeigten Buttons außer die der Player */
+    /* Disable alle angezeigten Buttons außer die der PlayerStats */
     async hidePossibleMoves(): Promise<void> {
         console.log("hiding moves!")
         this.setState({
@@ -159,7 +157,7 @@ export class Board extends Component<Props, State> {
     }
 
 
-    /* Setzt Zielkoordinaten auf Player und Startkoordinaten auf Empty.
+    /* Setzt Zielkoordinaten auf PlayerStats und Startkoordinaten auf Empty.
        Ist Async damit es nicht mit den anderen setStates kollidiert. */
     async moveAmazonFromTo(fromCoords: Coordinates, toCoords: Coordinates): Promise<void> {
         this.setState({

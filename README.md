@@ -76,8 +76,8 @@ _TODO_
     - Liste mit allen Spielen, denen man beitreten/zuschauen kann _-> Abschlussprojekt_
     - Fragen:
         - KI vs KI? _-> Abschlussprojekt_
-        - KI vs Player? _-> Zwischenprojekt_
-        - Player vs Player? _-> Abschlussprojekt_
+        - KI vs PlayerStats? _-> Zwischenprojekt_
+        - PlayerStats vs PlayerStats? _-> Abschlussprojekt_
 - kann man laufenden Spielen als Beobachter beitreten? _-> Abschlussprojekt_
 
 ### zum Abschlussprojekt
@@ -90,7 +90,7 @@ _TODO_
 - mehr als 2 Spieler
 - Tutorial mit gifs
 
-## Wiki
+# Wiki
 
 - [Game of the Amazons API Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 - [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
@@ -98,24 +98,26 @@ _TODO_
 Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de auf den Ports
 40910 und 40911 zu finden.
 
-### API-Specification
+## API-Specification
 
 Sämtliche erfolgreichen Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war.
 Fehlerhafte Aufrufe sollten mit dem Status-Code 400 und einem hilfreichen Fehlertext beantwortet werden. Ausnahmen
 können hierbei Fehler in der Programmierung des Backends darstellen, bei welchen üblicherweise mit Status-Code 500 und
 einer Webseite im HTML-Format geantwortet wird, welche den Stacktrace des Fehlers beinhaltet.
 
-#### Spieler
+### Spieler
 
 <details>
 <summary><b>Spieler anlegen</b></summary><br>
 
 `POST: /players/`
 
-Parameter:
+#### Parameter:
 
 - `name` (string): Spielername
 - `controllable` (boolean): ist der Spieler spielbar oder nicht (computergesteuert)?
+
+Example for requests' body:
 
 ```json5
 {
@@ -124,8 +126,9 @@ Parameter:
 }
 
 ```
-Response: 200 OK
-Body:
+#### Response: 200 OK
+
+Response body:
 ```json5
 {
     "name":"Spieler1",
@@ -141,8 +144,9 @@ Body:
 
 `GET: /players/`
 
-Response: 200 OK
-Body:
+#### Response: 200 OK
+
+Response body:
 ```json5
 {
     "players": [
@@ -168,26 +172,28 @@ Body:
 
 `DELETE: /players/:id`
 
-Parameter:
+#### Parameter:
 
 - `id` (int): Spieler ID
 
-Response: 200 OK
+#### Response: 200 OK
 
 </details>
 
-#### Spiel
+### Spiel
 
 <details>
 <summary><b>ein neues Spiel starten</b></summary><br>
 
 `POST: /games/`
 
-Parameter:
+#### Parameter:
 
 - `maxTurnTime` (int): Millisekunden, welche jeder Spieler Zeit hat, um seinen Zug auszuführen
 - `initialBoard` (Board): Das Spielbrett, auf welchem das Spiel stattfindet (siehe Body)
 - `players` (Array): Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig)
+
+Example for requests' body:
 
 ```json5
 {
@@ -219,8 +225,9 @@ Parameter:
     }
 }
 ```
-Response: 200 OK
-Body:
+#### Response: 200 OK
+
+Response body:
 ```json5
 {
     "gameId": 0,
@@ -261,12 +268,13 @@ Body:
 
 `GET: /games/:id`
 
-Parameter:
+#### Parameter:
 
 - `id` (int): ID des Spiels
 
-Response: 200 OK
-Body:
+#### Response: 200 OK
+
+Response body:
 ```json5
 {
     "gameId": 0,
@@ -303,8 +311,9 @@ Body:
 
 `GET: /games/`
 
-Response: 200 OK
-Body:
+#### Response: 200 OK
+
+Response body:
 ```json5
 {
     "games": [
@@ -349,27 +358,26 @@ Body:
 
 `DELETE: /games/:id`
 
-Parameter:
+#### Parameter:
 
 - `id` (int): ID des Spiels
 
-Response: 200 OK
+#### Response: 200 OK
 
 </details>
 
-#### Zug
+### Zug
 
 <details>
 <summary><b>einen Zug setzen</b></summary><br>
 
 `POST: /move/:id`
 
-Parameter:
+#### Parameter:
 
 - `id` (int): ID des Spiels
-  
-Response: 200 OK
-Body:
+
+Example for requests' body:
 ```json5
 {
     "move": {
@@ -389,16 +397,18 @@ Body:
 }
 ```
 
+#### Response: 200 OK
+
 </details>
 
-#### Resetting
+### Resetting
 
 <details>
 <summary><b>alles auf Standardwerte zurücksetzen</b></summary><br>
 
 `DELETE: /reset/`
 
-Response: 200 OK
+#### Response: 200 OK
 
 </details>
 

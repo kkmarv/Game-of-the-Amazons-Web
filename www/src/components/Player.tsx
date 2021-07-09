@@ -10,11 +10,11 @@ type Props = {
 type State = {
     ableToMove: boolean
     allowedToMove: boolean
-    turnHistory: TurnProps[]
+    turnHistory: turn[]
 }
 
 /**
- * Represents a Player. Allows to be AI controlled.
+ * Represents a PlayerStats. Allows to be AI controlled.
  */
 export class Player extends Component<Props, State> {
     constructor(props: Props) {

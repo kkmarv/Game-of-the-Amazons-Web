@@ -3,9 +3,9 @@ import '../styles/App.css';
 import {GameControl} from "./GameControl";
 
 export default class App extends Component<any, any> {
-    testPlayers: PlayerProps[] = [
+    testPlayers: player[] = [
         {
-            name: "pepegoTest",
+            name: "pepego",
             controllable: true,
             id: 0
         },
@@ -15,7 +15,7 @@ export default class App extends Component<any, any> {
             id: 1
         }
     ]
-    testGame: GameProps = {
+    testGame: game = {
         gameId: 0,
         maxTurnTime: 3000,
         players: this.testPlayers.map((testPlayer) => {
@@ -24,7 +24,7 @@ export default class App extends Component<any, any> {
         initialBoard: {
             gameSizeRows: 10,
             gameSizeColumns: 10,
-            tiles: [
+            squares: [
                 [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
                 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
                 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],

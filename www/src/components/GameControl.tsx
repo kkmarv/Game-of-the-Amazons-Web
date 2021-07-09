@@ -2,18 +2,18 @@ import {Component} from "react";
 import {Board} from "./GameBoard/Board";
 import {Timer} from "./Timer";
 import {Player} from "./Player";
-import {createTurn, getAllGames} from "../requests";
+import {createPlayer, createTurn, deletePlayer, getAllGames, getAllPlayers, getGame, reset} from "../requests";
 
 type Props = {
-    game: GameProps
-    players: PlayerProps[]
-    localPlayers: PlayerProps[]
+    game: game
+    players: player[]
+    localPlayers: player[]
 }
 
 type State = {
     paused: boolean
     timeLeft: number // in ms
-    currentPlayer: PlayerProps
+    currentPlayer: player
     winner?: number
 }
 
@@ -73,7 +73,10 @@ export class GameControl extends Component<Props, State> {
                        initialBoard={this.props.game.initialBoard}
                 />
                 <button className={"test!"} onClick={async () => {
-                    console.log(await getAllGames())
+                    console.log(await createPlayer({name: "pepego", controllable: true}))
+                    // console.log(await deletePlayer(2))
+                    // await reset(true)
+                    console.log(await getAllPlayers())
                 }}>
                     RAWR
                 </button>
@@ -82,8 +85,8 @@ export class GameControl extends Component<Props, State> {
     }
 
 
-    handleTurnEnd = (turn?: TurnProps) => {
-        if (turn) createTurn(this.props.game.gameId, turn)  // TODO send turn to server via api call
+    handleTurnEnd = (turn?: turn) => {
+        // if (turn) createTurn(this.props.game.gameId, turn)  // TODO send turn to server via api call
         this.resetTime()
         this.endTurn()
     }
@@ -104,7 +107,7 @@ export class GameControl extends Component<Props, State> {
     }
 
 
-    getNextPlayer(): PlayerProps {
+    getNextPlayer(): player {
         return this.props.players[(this.props.players.indexOf(this.state.currentPlayer) + 1) % this.props.players.length]
     }
 }
