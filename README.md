@@ -170,7 +170,7 @@ Response body:
 <details>
 <summary><b>einen Spieler löschen</b></summary><br>
 
-`DELETE: /players/:id`
+`DELETE: /players/<id>`
 
 #### Parameter:
 
@@ -266,7 +266,7 @@ Response body:
 <details>
 <summary><b>ein bestimmtes Spiel und dessen aktuellen Zustand abfragen</b></summary><br>
 
-`GET: /games/:id`
+`GET: /games/<id>`
 
 #### Parameter:
 
@@ -356,7 +356,7 @@ Response body:
 <details>
 <summary><b>ein Spiel löschen</b></summary><br>
 
-`DELETE: /games/:id`
+`DELETE: /games/<id>`
 
 #### Parameter:
 
@@ -371,7 +371,7 @@ Response body:
 <details>
 <summary><b>einen Zug setzen</b></summary><br>
 
-`POST: /move/:id`
+`POST: /move/<id>`
 
 #### Parameter:
 
