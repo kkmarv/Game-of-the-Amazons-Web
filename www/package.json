@@ -2,7 +2,7 @@
   "name": "www",
   "version": "0.1.0",
   "private": true,
-  "website": "https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/",
+  "homepage": "https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
