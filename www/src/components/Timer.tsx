@@ -19,7 +19,7 @@ export class Timer extends Component<Props, State> {
 
     render() {
         return (
-            <div className={"timer"}>
+            <div className={"timer " + this.props.timeLeft}>
                 <h1>{this.formatAsReadableTime(this.props.timeLeft)}</h1>
             </div>
         )

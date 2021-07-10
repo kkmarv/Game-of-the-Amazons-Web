@@ -30,7 +30,9 @@ export class Player extends Component<Props, State> {
     render() {
         return (
             <div className={"player-info-" + this.props.id} id={"player" + this.props.id}>
-                <h2>{"PLAYER " + (this.props.id + 1) + ": " + this.props.name}</h2>
+                <div className={"player-label-" + this.props.id}>
+                    <h2>{"PLAYER " + (this.props.id + 1) + ": " + this.props.name}</h2>
+                </div>
             </div>
         )
     }
