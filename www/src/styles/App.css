@@ -70,8 +70,8 @@ button[class="test!"] {
     padding: 20px 0px 0px 0px;
     text-align: center;
 }
-
-[class*="1000"], [class*="2000"], [class*="3000"], [class*="4000"], [class*="5000"] {
+/*TODO  move to timer*/
+[class|="timer 1000"], [class|="timer 2000"], [class|="timer 3000"], [class|="timer 4000"], [class|="timer 5000"] {
     color: #ed4337;
 }
 
