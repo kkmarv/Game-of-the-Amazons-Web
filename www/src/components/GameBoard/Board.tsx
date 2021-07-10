@@ -15,31 +15,29 @@ type State = {
     tiles: TileProps[][]
 }
 
-/**
- * Represents the board, players are able to move their pieces on. Saves references to each tile.
- */
+/* Represents the local board, controllable players are able to move their pieces on.
+   Ensures that a controllable player can only do legal moves. */
 export class Board extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        console.log("board arriving in board component:")
+        console.log(this.props.initialBoard)
+
         this.state = {
             phase: "select",
-            tiles: props.initialBoard.squares.map((row) => {
-                return row.map((value) => {
-                    return {
-                        tileType: value,
-                        disabled: !props.isLocalPlayer || (props.isLocalPlayer && value !== TileType.PLAYER),
-                        selected: false,
-                        possibleMove: false
-                    }
-                })
-            })
+            tiles: this.getTilesFromProps()
         }
+    }
+
+    /* Wenn neue Props übergeben wurden. */
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+        // Aktualisiere die state-Tiles, falls ein neues Board rein kommt.
+        if (prevProps.initialBoard !== this.props.initialBoard) this.setState({tiles: this.getTilesFromProps()})
     }
 
     /* Wenn das Spielbrett aktualisiert werden soll: */
     async componentWillReceiveProps(props: Readonly<Props>) {
-        console.log("new phase: " + this.state.phase)
         if (!props.isLocalPlayer) { // Wenn der nächste Spieler nicht lokal ist,
             if (this.state.phase === "shoot") { // und sich der jetzige Spieler in der Schuss-Phase befindet
                 await this.cancelShot(this.state.lastClickCoords!)
@@ -48,6 +46,21 @@ export class Board extends Component<Props, State> {
             this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined}) // dann setze seine letzten Klicks zurück
         }
     }
+
+
+    getTilesFromProps() {
+        return this.props.initialBoard.squares.map((row) => {
+            return row.map((value) => {
+                return {
+                    tileType: value,
+                    disabled: !this.props.isLocalPlayer || (this.props.isLocalPlayer && value !== TileType.PLAYER),
+                    selected: false,
+                    possibleMove: false
+                }
+            })
+        })
+    }
+
 
     render() {
         return (
@@ -61,6 +74,7 @@ export class Board extends Component<Props, State> {
                                     <Tile
                                         id={inverseRowIndex * 10 + colIndex} // calculate the correct id from row and tiles' position in row
                                         key={inverseRowIndex * 10 + colIndex}
+                                        color={rowIndex % 2 === colIndex % 2 ? "white" : "black"}
                                         onClick={() => this.handleClick({rowIndex: rowIndex, colIndex: colIndex})}
                                         tileType={tileProps.tileType}
                                         disabled={this.props.isLocalPlayer ? tileProps.disabled : true}
@@ -74,6 +88,7 @@ export class Board extends Component<Props, State> {
             </div>
         );
     }
+
 
     handleClick = async (currentCoords: Coordinates) => {
         const lastClickCoords: Coordinates = this.state.lastClickCoords!
@@ -317,4 +332,5 @@ export class Board extends Component<Props, State> {
             } else moveBlocked = true
         }
     }
+
 }

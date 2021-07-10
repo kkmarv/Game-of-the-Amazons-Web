@@ -1,23 +1,11 @@
 import {Component} from "react";
 
 type Props = {
-    paused: boolean
     timeLeft: number // in ms
 }
 
-type State = {
-    timeLeft: number // in ms
-}
-
-export class Timer extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        if (props.timeLeft <= 1000) throw new RangeError("Turn time must be more than 1 second!")
-        if (props.timeLeft > 120000) throw new RangeError("Turn time cannot be more than 2 minutes!")
-    }
-
-    render() {
+export class Timer extends Component<Props, any> {
+    render() { // TODO move red coloring logic from css here (@Both)
         return (
             <div className={"timer " + this.props.timeLeft}>
                 <h1>{this.formatAsReadableTime(this.props.timeLeft)}</h1>

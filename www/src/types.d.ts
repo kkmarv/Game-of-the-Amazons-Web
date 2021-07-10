@@ -5,8 +5,9 @@ declare global {
     type game = {
         gameId: number
         maxTurnTime: number // in milliseconds
-        players: number[] // IDs only
-        initialBoard: board
+        players: player[] // IDs only
+        winningPlayer?: number // only when game is over
+        initialBoard: board // only when game is running?
     }
 
     /* Ein Board Objekt, wie es die API erwartet */
@@ -18,7 +19,7 @@ declare global {
 
     /*  */
     type player = {
-        id: number
+        playerId: number
         name: string
         controllable: boolean
     }
@@ -40,17 +41,6 @@ declare global {
             column: number
         }
     }
-
-
-    /* Response types */
-
-    type multiPlayerResponse = { players: player[] }
-
-    type singlePlayerResponse = {}
-
-    type multiGameResponse = { games: game[] }
-
-    type singleGameResponse = {}
 }
 
 export {}

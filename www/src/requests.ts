@@ -1,5 +1,5 @@
-// Port range: 40910-40920
-const webserviceUrl: string = "https://webengineering.ins.hs-anhalt.de:40918/"
+// Port range: 40910-40919
+const webserviceUrl: string = "https://webengineering.ins.hs-anhalt.de:40919/"
 
 // player requests
 
@@ -43,7 +43,7 @@ export async function deletePlayer(id: number): Promise<void> {
 
 // game requests
 
-export async function createGame(game: { maxTurnTime: number, players: number[], initialBoard: board },): Promise<game | undefined> {
+export async function createGame(game: any): Promise<any> {
     try {
         let response: Response = await fetch(webserviceUrl + `games/`, {
             method: "POST",
@@ -57,18 +57,21 @@ export async function createGame(game: { maxTurnTime: number, players: number[],
     }
 }
 
-export async function getGame(id: number): Promise<game | undefined> {
+export async function getGame(id: number): Promise<any> {
     try {
-        let response: Response = await fetch(webserviceUrl + `games/:${id}`)
-        console.log(response)
-        if (response?.ok) return await response.json()
+        let response: Response = await fetch(webserviceUrl + `games/${id}`)
+        const data: { gameId: number, playerId: number, messageType: string, maxTurnTime: number, board: board } = await response.json()
+        if (response?.ok) return data
         else console.log(`Request failed: ${response.status} ${response.statusText}`)
     } catch (error) {
         console.log(error)
     }
 }
 
-export async function getAllGames(): Promise<game[] | undefined> {
+// TODO alle requests einen eindeutigen Promise returnen lassen
+// TODO requests type-safe machen  https://benjaminjohnson.me/blog/typesafe-errors-in-typescript
+
+export async function getAllGames(): Promise<any> {
     try {
         let response: Response = await fetch(webserviceUrl + "games/")
         if (response?.ok) {

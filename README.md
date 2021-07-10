@@ -11,6 +11,8 @@ The first player unable to move any of his Amazons looses.
 
 Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of_the_Amazons)
 
+###[To the game](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
+
 ## Anforderungen
 
 ### an die Zwischenabgabe (12.07.21)
@@ -22,24 +24,24 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 <b>von der Logik:</b>
 
-- [ ] dass geprüft wird, ob bereits ein Spiel eröffnet ist:
-    - [ ] Falls nein, soll automatisch ein neues Spiel erstellt werden
+- [x] dass geprüft wird, ob bereits ein Spiel eröffnet ist:
+    - [x] Falls nein, soll automatisch ein neues Spiel erstellt werden
     - [ ] Falls ja, soll das Spiel angezeigt werden
-- [ ] dass geprüft wird, ob bereits Spieler existieren:
-    - [ ] Falls nein, sollen neue Spieler angelegt werden (einen mit controllable=true und einen mit controllable=false)
+- [x] dass geprüft wird, ob bereits Spieler existieren:
+    - [x] Falls nein, sollen neue Spieler angelegt werden (einen mit controllable=true und einen mit controllable=false)
     - [ ] Falls ja, soll der Spieler den kontrollierbaren Spieler übernehmen und die KI den unkontrollierbaren
 - [ ] dass ein durchgeführter Zug nach Abschluss an den Server gesendet wird
-- [ ] dass ein Zug des gegnerischen Spielers vom Server abgefragt wird
+- [x] dass ein Zug des gegnerischen Spielers vom Server abgefragt wird
 
 <b>von der GUI:</b>
 
 - [x] das gesamte Spielfeld einsehen können
-- [ ] dass die Figuren beider Spieler deutlich voneinander unterscheidbar sind
+- [x] dass die Figuren beider Spieler deutlich voneinander unterscheidbar sind
 - [x] dass der Spieler angezeigt bekommt, wenn er (oder respektive der gegnerische Spieler) am Zug ist
-    - [ ] dass der Zug des gegnerischen Spielers dem Spieler entsprechend angezeigt wird
+    - [x] dass der Zug des gegnerischen Spielers dem Spieler entsprechend angezeigt wird
 - [x] dass der Spieler nach dem Zug einer Figur den Zielpunkt für den Pfeilwurf festlegen kann
 - [x] dass der Spieler nur legale Züge durchführen kann
-- [ ] dass das Spiel endet, sobald ein Spieler nicht mehr ziehen kann
+- [x] dass das Spiel endet, sobald ein Spieler nicht mehr ziehen kann
 
 </details>
 
@@ -89,13 +91,15 @@ _TODO_
     - Tutorial/Training mode where one is allowed to revert their last turn
 - mehr als 2 Spieler
 - Tutorial mit gifs
+- Pfeile vom Gegner spiegeln
 
 # Wiki
 
 - [Game of the Amazons API Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 - [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
 
-Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de auf ein bis zwei der Ports von 40910 bis 40920 zu finden.
+Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de erreichbar.
+Dafür steht – aus technischen Gründen – ein Port zwischen 40910 bis 40919 zur Verfügung.
 
 ## API-Specification
 
@@ -210,16 +214,16 @@ Example for requests' body:
             // 1: Amazone des Spielers mit Index 1 in players
             // -1: leeres Feld
             // -2: Giftpfeil
-            [0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
-            [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-            [1, -1, 1, -1, 1, -1, 1, -1, 1, -1]
+            [ -1, -1, -1,  1, -1, -1,  1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [  1, -1, -1, -1, -1, -1, -1, -1, -1,  1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [  0, -1, -1, -1, -1, -1, -1, -1, -1,  0],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1,  0, -1, -1,  0, -1, -1, -1]
         ]
     }
 }
@@ -245,16 +249,16 @@ Response body:
         "gameSizeRows": 10, // Zeilen des Spielbrettes
         "gameSizeColumns": 10, // Spalten des Spielbrettes
         "squares": [
-            [0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
-            [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-            [1, -1, 1, -1, 1, -1, 1, -1, 1, -1]
+            [ -1, -1, -1,  1, -1, -1,  1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [  1, -1, -1, -1, -1, -1, -1, -1, -1,  1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [  0, -1, -1, -1, -1, -1, -1, -1, -1,  0],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [ -1, -1, -1,  0, -1, -1,  0, -1, -1, -1]
         ]
     }
 }
@@ -413,6 +417,5 @@ Example for requests' body:
 
 ## Weiterführende Links
 
-- [This projects public website](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
 - [Initial project Wiki from the Paderborn University (on which this project is based on)](https://github.com/dice-group/Amazons/wiki)
 

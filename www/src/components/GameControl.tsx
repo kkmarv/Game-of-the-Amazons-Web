@@ -1,86 +1,113 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {Board} from "./GameBoard/Board";
 import {Timer} from "./Timer";
 import {Player} from "./Player";
-import {createPlayer, createTurn, deletePlayer, getAllGames, getAllPlayers, getGame, reset} from "../requests";
+
+import * as requests from "../requests"
 
 type Props = {
-    game: game
     players: player[]
     localPlayers: player[]
+    initialGameInfo: {
+        gameId: number,
+        maxTurnTime: number, // time left
+        playerId: number, // current player
+        turnId: number,
+        messageType: string,
+        winningPlayer?: number,
+        board: board,
+        enemyTurn: turn
+    }
 }
 
 type State = {
     paused: boolean
-    timeLeft: number // in ms
-    currentPlayer: player
-    winner?: number
+    timeLeft: number
+    gameInfo: {
+        gameId: number,
+        maxTurnTime: number, // time left
+        playerId: number, // current player
+        turnId: number,
+        messageType: string,
+        winningPlayer?: number,
+        board: board,
+        enemyTurn: turn
+    }
 }
 
-// TODO FRAGE: OpenWhisk geht net
-
 export class GameControl extends Component<Props, State> {
-    private static timer: NodeJS.Timeout
+    private timer!: NodeJS.Timeout;
+
 
     constructor(props: Props) {
         super(props);
 
-        if (props.players.length < 2) throw new RangeError("The prop 'players' of GameControl has to have at least 2 Players!")
+        console.log("what gets send to control:")
+        console.log(props)
 
-        this.setTimer()
         this.state = {
-            paused: true,
-            timeLeft: props.game.maxTurnTime,
-            currentPlayer: props.players[0]
+            paused: false,
+            timeLeft: props.initialGameInfo.maxTurnTime,
+            gameInfo: this.props.initialGameInfo
         }
     }
 
     /* Setzt den GameControl.timer auf einen 1-Sekunden-Timer, der von
        props.game.maxTurnTime runterzählt und bei 0 den aktuellen Zug beendet. */
-    setTimer() {
-        if (GameControl.timer !== undefined) clearInterval(GameControl.timer)
-
-        GameControl.timer = setInterval(() => {
+    async componentDidMount() {
+        this.timer = setInterval(async () => {
             if (this.state.timeLeft <= 1000) {
                 this.endTurn()
-                this.setState({timeLeft: this.props.game.maxTurnTime})
-            } else if (!this.state.paused) this.setState({timeLeft: this.state.timeLeft - 1000})
+                this.setState({timeLeft: this.props.initialGameInfo.maxTurnTime})
+            } else if (!this.state.paused) {
+                this.setState({
+                    timeLeft: this.state.timeLeft - 1000,
+                    gameInfo: await requests.getGame(this.state.gameInfo.gameId)
+                })
+            }
         }, 1000)
+    }
+
+    async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+        if (prevState.gameInfo.turnId !== this.state.gameInfo.turnId) {
+            this.setState({timeLeft: this.state.gameInfo.maxTurnTime})
+        }
+        if (this.state.gameInfo.winningPlayer) {
+            alert("Player " + (this.state.gameInfo.winningPlayer + 1) + " won!")
+            clearInterval(this.timer)
+            await requests.reset(true)
+        }
     }
 
     render() {
         return (
-            <div>
+            <>
                 <div className={"player-info"}>
                     {this.props.players.map((player) => {
                         return <Player
-                            id={player.id}
-                            key={"player" + player.id}
+                            id={player.playerId}
+                            key={"player" + player.playerId}
                             name={player.name}
                             controllable={player.controllable}
-                            allowedToMove={player.id === this.state.currentPlayer.id}/>
+                            allowedToMove={player.playerId === this.state.gameInfo.playerId}/>
                     })}
                 </div>
                 <div className={"turn-info"}>
-                    <h2>{"It's " + this.state.currentPlayer.name + "'s turn!"}</h2>
-                    <Timer
-                        paused={this.state.paused}
-                        timeLeft={this.state.timeLeft}
-                    />
+                    <h2>{"It's " + this.props.players[this.state.gameInfo.playerId].name + "'s turn!"}</h2>
+                    <Timer timeLeft={this.state.timeLeft}/>
                 </div>
                 <Board onTurnEnd={this.handleTurnEnd}
-                       isLocalPlayer={this.props.localPlayers.includes(this.state.currentPlayer)}
-                       initialBoard={this.props.game.initialBoard}
+                       isLocalPlayer={this.props.players[this.state.gameInfo.playerId].controllable}
+                       initialBoard={this.state.gameInfo.board}
                 />
-                <button className={"test!"} onClick={async () => {
-                    console.log(await createPlayer({name: "pepego", controllable: true}))
-                    // console.log(await deletePlayer(2))
-                    // await reset(true)
-                    console.log(await getAllPlayers())
-                }}>
-                    RAWR
-                </button>
-            </div>
+
+                <div className={"debug info: remove later"}>
+                    <p style={{textAlign: "center"}}> gameID: {this.props.initialGameInfo.gameId} |
+                        turnTime: {this.state.gameInfo.maxTurnTime / 1000}s</p>
+                    <p style={{textAlign: "center"}}> turnID: {this.state.gameInfo.turnId} |
+                        currentPlayer: {this.props.players[this.state.gameInfo.playerId].name}</p>
+                </div>
+            </>
         )
     }
 
@@ -95,7 +122,6 @@ export class GameControl extends Component<Props, State> {
     /* Beendet den Zug, indem der nächste Spieler dran genommen wird. */
     endTurn(): void {
         // TODO check if any players that can move are left (win condition) | wird sehr wahrscheinlich durch Backend geregelt
-        this.setState({currentPlayer: this.getNextPlayer()})
     }
 
     togglePause(): void {
@@ -103,11 +129,95 @@ export class GameControl extends Component<Props, State> {
     }
 
     resetTime(): void {
-        this.setState({timeLeft: this.props.game.maxTurnTime})
+        this.setState({timeLeft: this.props.initialGameInfo.maxTurnTime})
     }
 
+    getNextPlayer() {
+        // TODO
+    }
 
-    getNextPlayer(): player {
-        return this.props.players[(this.props.players.indexOf(this.state.currentPlayer) + 1) % this.props.players.length]
+    testButtons() {
+        return (
+            <>
+                <button className={"test!"} onClick={async () => {
+                    const players = await requests.getAllPlayers()
+                    let playersTakePart: number[] = []
+                    if (players) {
+                        playersTakePart = [players[players?.length - 1].playerId, players[players?.length - 2].playerId]
+                        console.log(playersTakePart)
+                    }
+                    console.log(await requests.createGame({
+                        maxTurnTime: 30000, players: playersTakePart, initialBoard: {
+                            gameSizeRows: 10,
+                            gameSizeColumns: 10,
+                            squares: [
+                                [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
+                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                                [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
+                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                                [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
+                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                                [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
+                            ]
+                        }
+                    }))
+                }}>
+                    Make Game
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    console.log(await requests.createPlayer({name: "pepego", controllable: true}))
+                    console.log(await requests.createPlayer({name: "pepego", controllable: false}))
+                }}>
+                    Make Players
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    console.log(await requests.createTurn(0, {
+                        move: {
+                            start: {row: 6, column: 0},
+                            end: {row: 6, column: 8},
+                        },
+                        shot: {row: 5, column: 8}
+                    }))
+                }}>
+                    Shoot
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    console.log(await requests.getGame(0))
+                }}>
+                    Get Game 0
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    console.log(await requests.getAllPlayers())
+                    console.log(await requests.getAllGames())
+                }}>
+                    Get Data
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    const a: player[] | undefined = await requests.getAllPlayers()
+                    await a?.forEach(async (player) => {
+                        await requests.deletePlayer(player.playerId)
+                    })
+                }}>
+                    Delete all Players
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    const a: game[] | undefined = await requests.getAllGames()
+                    console.log(a)
+                    await a?.forEach(async (game) => {
+                        await requests.deleteGame(game.gameId)
+                    })
+                }}>
+                    Delete all Games
+                </button>
+                <button className={"test!"} onClick={async () => {
+                    await requests.reset(true)
+                }}>
+                    Reset
+                </button>
+            </>
+        )
     }
 }
