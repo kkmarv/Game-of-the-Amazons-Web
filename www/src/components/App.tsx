@@ -11,14 +11,21 @@ type State = {
 export default class App extends Component<any, State> {
     private readonly loadingScreen = <div><h1>Loading...</h1></div>
 
+    // Both get send to GameControl after initial requests.
+    game: any = {}
     players: any = []
-    game = undefined
 
     constructor(props: any) {
         super(props);
         this.state = {
             isLoaded: false
         }
+    }
+
+    async componentDidMount() {
+        await this.readyUpPlayers()
+        await this.readyUpGame()
+        this.setState({isLoaded: true})
     }
 
     render() {
@@ -31,41 +38,44 @@ export default class App extends Component<any, State> {
         }
     }
 
-    async componentDidMount() {
-        await this.readyUpPlayers()
-        await this.readyUpGame()
-        this.setState({isLoaded: true})
-    }
-
 
     async readyUpPlayers(): Promise<void> {
-        this.players = await requests.getAllPlayers()
+        let allPlayers = await requests.getAllPlayers() as player[]
 
         console.log("response all players:")
-        console.log(this.players)
+        console.log(allPlayers)
 
-        if (this.players?.length !== 2) {
-            this.players = []
-            await requests.reset(true)
-            this.players.push(await requests.createPlayer({name: "player1", controllable: false}) as player) // possible error : players!
-            this.players.push(await requests.createPlayer({name: "player2", controllable: false}) as player)
+        if (allPlayers.length !== 2) {
+            allPlayers = []
+            await requests.reset()
+            allPlayers.push(await requests.createPlayer({name: "player1", controllable: true}) as player) // possible error : players!
+            allPlayers.push(await requests.createPlayer({name: "player2", controllable: false}) as player)
         }
+        this.players = allPlayers
     }
 
     async readyUpGame(): Promise<void> {
-        const games = await requests.getAllGames()
+        const allGames = await requests.getAllGames() as game[]
 
         console.log("response all games:")
-        console.log(games)
+        console.log(allGames)
 
-        if (games?.length > 0) { // wenn es bereits ein Spiel gibt
-            if (games[0].winningPlayer) await requests.deleteGame(games[0].gameId)
-            else this.game = games[0]
+        if (allGames.length === 0) this.game = await requests.getGame((await this.createTestGame()).gameId)
+
+        else if (allGames.length === 1) { // Wenn es bereits ein Spiel gibt,
+            if (allGames[0].winningPlayer) { // und es bereits fertig ist
+                await requests.deleteGame(allGames[0].gameId)
+                this.game = await requests.getGame((await this.createTestGame()).gameId)
+            } else this.game = await requests.getGame(allGames[0].gameId) // und es noch läuft
+
+        } else { // Fehlerzustand => reset und alles neu
+            await requests.reset()
+            await this.readyUpPlayers()
+            await this.readyUpGame()
         }
-        this.game = await requests.getGame((await this.createTestGame()).gameId)
     }
 
-    async createTestGame() {
+    createTestGame() {
         return requests.createGame({
             maxTurnTime: 60000,
             players: this.players.map((player: player) => {
@@ -91,10 +101,7 @@ export default class App extends Component<any, State> {
     }
 
 
-    //
-
-
-    debugButtons() {
+    debugButtons() { // temporary
         return (
             <div>
                 <button className={"test!"} onClick={async () => {
@@ -104,24 +111,7 @@ export default class App extends Component<any, State> {
                         playersTakePart = [players[players?.length - 1].playerId, players[players?.length - 2].playerId]
                         console.log(playersTakePart)
                     }
-                    console.log(await requests.createGame({
-                        maxTurnTime: 30000, players: playersTakePart, initialBoard: {
-                            gameSizeRows: 10,
-                            gameSizeColumns: 10,
-                            squares: [
-                                [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
-                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                                [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                                [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                                [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
-                            ]
-                        }
-                    }))
+                    console.log(await requests.createGame(this.createTestGame()))
                 }}>
                     Make Game
                 </button>
@@ -171,7 +161,7 @@ export default class App extends Component<any, State> {
                     Delete all Games
                 </button>
                 <button className={"test!"} onClick={async () => {
-                    await requests.reset(true)
+                    await requests.reset()
                 }}>
                     Reset
                 </button>

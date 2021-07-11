@@ -2,8 +2,8 @@ import {TileType} from "./TileType";
 
 declare global {
     type Coordinates = {
-        rowIndex: number
-        colIndex: number
+        row: number
+        column: number
     }
 
     type TileProps = {

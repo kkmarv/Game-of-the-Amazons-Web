@@ -25,42 +25,49 @@ export class Board extends Component<Props, State> {
         console.log(this.props.initialBoard)
 
         this.state = {
-            phase: "select",
-            tiles: this.getTilesFromProps()
+            phase: props.isLocalPlayer ? "select" : "wait",
+            tiles: this.props.initialBoard.squares.map((row) => {
+                return row.map((value) => {
+                    return {
+                        tileType: value,
+                        disabled: !this.props.isLocalPlayer || (this.props.isLocalPlayer && value !== TileType.PLAYER),
+                        selected: false, // TODO remove because obsolete
+                        possibleMove: false // TODO remove because obsolete
+                    }
+                })
+            })
         }
     }
 
-    /* Wenn neue Props übergeben wurden. */
-    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
-        // Aktualisiere die state-Tiles, falls ein neues Board rein kommt.
-        if (prevProps.initialBoard !== this.props.initialBoard) this.setState({tiles: this.getTilesFromProps()})
-    }
-
-    /* Wenn das Spielbrett aktualisiert werden soll: */
-    async componentWillReceiveProps(props: Readonly<Props>) {
-        if (!props.isLocalPlayer) { // Wenn der nächste Spieler nicht lokal ist,
-            if (this.state.phase === "shoot") { // und sich der jetzige Spieler in der Schuss-Phase befindet
+    /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat
+    async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
+        // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
+        if (prevProps.isLocalPlayer && (prevProps.isLocalPlayer !== this.props.isLocalPlayer)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
+            if (this.state.phase === "shoot") { // und sich der alte Spieler in der Schuss-Phase befand
                 await this.cancelShot(this.state.lastClickCoords!)
                 await this.cancelMove()
-            } else if (this.state.phase === "move") await this.cancelMove()  // oder sich in der Bewegen-Phase befindet
-            this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined}) // dann setze seine letzten Klicks zurück
+            } else if (this.state.phase === "move") await this.cancelMove()  // oder sich in der Bewegen-Phase befand
+            this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined})
+        }
+
+        if (this.state.phase === "wait") { // Aktualisiere die state-Tiles nur falls jemand anderes dran ist.
+            if (prevProps.initialBoard !== this.props.initialBoard) {
+                this.setState({
+                    phase: this.props.isLocalPlayer ? "select" : "wait",
+                    tiles: this.props.initialBoard.squares.map((row) => {
+                        return row.map((value) => {
+                            return {
+                                tileType: value,
+                                disabled: !this.props.isLocalPlayer || (this.props.isLocalPlayer && value !== TileType.PLAYER),
+                                selected: false,
+                                possibleMove: false
+                            }
+                        })
+                    })
+                })
+            }
         }
     }
-
-
-    getTilesFromProps() {
-        return this.props.initialBoard.squares.map((row) => {
-            return row.map((value) => {
-                return {
-                    tileType: value,
-                    disabled: !this.props.isLocalPlayer || (this.props.isLocalPlayer && value !== TileType.PLAYER),
-                    selected: false,
-                    possibleMove: false
-                }
-            })
-        })
-    }
-
 
     render() {
         return (
@@ -70,12 +77,13 @@ export class Board extends Component<Props, State> {
                     return (
                         <div className={"row"} id={"row" + inverseRowIndex} key={"row" + inverseRowIndex}>
                             {row.map((tileProps, colIndex) => {
+                                const tileId: number = inverseRowIndex * 10 + colIndex
                                 return (
                                     <Tile
-                                        id={inverseRowIndex * 10 + colIndex} // calculate the correct id from row and tiles' position in row
-                                        key={inverseRowIndex * 10 + colIndex}
+                                        id={"tile" + tileId} // calculate the correct id from row and tiles' position in row
+                                        key={"tile" + tileId}
                                         color={rowIndex % 2 === colIndex % 2 ? "white" : "black"}
-                                        onClick={() => this.handleClick({rowIndex: rowIndex, colIndex: colIndex})}
+                                        onClick={() => this.handleClick({row: rowIndex, column: colIndex})}
                                         tileType={tileProps.tileType}
                                         disabled={this.props.isLocalPlayer ? tileProps.disabled : true}
                                         selected={tileProps.selected}
@@ -93,7 +101,7 @@ export class Board extends Component<Props, State> {
     handleClick = async (currentCoords: Coordinates) => {
         const lastClickCoords: Coordinates = this.state.lastClickCoords!
         const clickBeforeLastClickCoords: Coordinates = this.state.clickBeforeLastClickCoords!
-        const clickedTileProps: TileProps = this.state.tiles[currentCoords.rowIndex][currentCoords.colIndex]
+        const clickedTileProps: TileProps = this.state.tiles[currentCoords.row][currentCoords.column]
 
         if (clickedTileProps.tileType === TileType.PLAYER) {
             if (this.state.phase === "select") {
@@ -112,7 +120,7 @@ export class Board extends Component<Props, State> {
             } else if (this.state.phase === "shoot") {
                 await this.shootArrowAt(currentCoords)
                 await this.hidePossibleMoves()
-                this.setState({phase: "select"})
+                this.setState({phase: "wait"})
                 this.endTurnWith(clickBeforeLastClickCoords, lastClickCoords, currentCoords)
             }
         }
@@ -137,7 +145,7 @@ export class Board extends Component<Props, State> {
 
     /* Enable alle von den gegebenen Koordinaten erreichbaren Buttons */
     async showPossibleMovesForTileAt(currentCoords: Coordinates): Promise<void> {
-        console.log(`showing moves for ${currentCoords.rowIndex} and ${currentCoords.colIndex}`)
+        console.log(`showing moves for ${currentCoords.row} and ${currentCoords.column}`)
         const possibleMoves: TileProps[] = this.getPossibleMovesForTileAt(currentCoords)
         this.setState({
             tiles: this.state.tiles.map((row) => {
@@ -178,12 +186,12 @@ export class Board extends Component<Props, State> {
         this.setState({
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
-                    if (rowIndex === fromCoords.rowIndex && colIndex === fromCoords.colIndex) return {
+                    if (rowIndex === fromCoords.row && colIndex === fromCoords.column) return {
                         tileType: TileType.EMPTY,
                         disabled: true,
                         selected: false,
                         possibleMove: false
-                    }; else if (rowIndex === toCoords.rowIndex && colIndex === toCoords.colIndex) return {
+                    }; else if (rowIndex === toCoords.row && colIndex === toCoords.column) return {
                         tileType: TileType.PLAYER,
                         disabled: false,
                         selected: false,
@@ -200,7 +208,7 @@ export class Board extends Component<Props, State> {
         this.setState({
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
-                    const isArrowTile: boolean = (rowIndex === coordinates.rowIndex && colIndex === coordinates.colIndex)
+                    const isArrowTile: boolean = (rowIndex === coordinates.row && colIndex === coordinates.column)
                     return {
                         tileType: isArrowTile ? TileType.ARROW : tileProps.tileType,
                         disabled: isArrowTile ? true : tileProps.disabled,
@@ -214,12 +222,9 @@ export class Board extends Component<Props, State> {
 
 
     /* Reicht den getätigten Zug an die GameControl weiter. */
-    endTurnWith(moveStartCoords: Coordinates, moveEndCoords: Coordinates, shotCoords: Coordinates): void {
-        this.props.onTurnEnd({
-            move: {
-                start: moveStartCoords,
-                end: moveEndCoords
-            },
+    async endTurnWith(moveStartCoords: Coordinates, moveEndCoords: Coordinates, shotCoords: Coordinates): Promise<void> {
+        await this.props.onTurnEnd({
+            move: {start: moveStartCoords, end: moveEndCoords},
             shot: shotCoords
         })
     }
@@ -227,7 +232,7 @@ export class Board extends Component<Props, State> {
 
     /* Updated den letzten Click mit neuen Koordinaten */
     async updateLastClickWith(coordinates: Coordinates): Promise<void> {
-        if (!this.state.lastClickCoords || (!(coordinates.rowIndex === this.state.lastClickCoords.rowIndex && coordinates.colIndex === this.state.lastClickCoords.colIndex))) {
+        if (!this.state.lastClickCoords || (!(coordinates.row === this.state.lastClickCoords.row && coordinates.column === this.state.lastClickCoords.column))) {
             // wenn der letzte Zug undefined ist oder der letzte Zug nicht dem jetzigen Zug entspricht
             this.setState({
                 lastClickCoords: coordinates,
@@ -242,12 +247,12 @@ export class Board extends Component<Props, State> {
         }
     }
 
-
+    // TODO evtl ein enum für alle 8 richtungen verwenden
     // TODO FRAGE ob besser geht als 8 for loops | evtl eine Methode, die eine Richtung annimmt zB [-1,-1] und dann immer in diese weiter geht
     /* Finde alle möglichen Koordinaten, zu denen man von der gegebenen Koordinate ziehen kann */
     getPossibleMovesForTileAt(coordinates: Coordinates): TileProps[] {
-        const rowIndex: number = coordinates.rowIndex
-        const colIndex: number = coordinates.colIndex
+        const rowIndex: number = coordinates.row
+        const colIndex: number = coordinates.column
         const possibleMoves: TileProps[] = [this.state.tiles[rowIndex][colIndex]] // start with clickedTile as a first possible mve
 
         this.getPossibleMovesToTop(rowIndex - 1, colIndex, possibleMoves)

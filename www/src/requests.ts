@@ -113,8 +113,7 @@ export async function createTurn(gameId: number, turn: turn): Promise<void> {
 
 // reset request
 
-export async function reset(confirmed: boolean): Promise<void> {
-    if (!confirmed) return
+export async function reset(): Promise<void> {
     try {
         let response: Response = await fetch(webserviceUrl + `reset/`, {
             method: "DELETE",

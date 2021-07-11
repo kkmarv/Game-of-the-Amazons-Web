@@ -26,11 +26,11 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 - [x] dass geprüft wird, ob bereits ein Spiel eröffnet ist:
     - [x] Falls nein, soll automatisch ein neues Spiel erstellt werden
-    - [ ] Falls ja, soll das Spiel angezeigt werden
+    - [x] Falls ja, soll das Spiel angezeigt werden
 - [x] dass geprüft wird, ob bereits Spieler existieren:
     - [x] Falls nein, sollen neue Spieler angelegt werden (einen mit controllable=true und einen mit controllable=false)
-    - [ ] Falls ja, soll der Spieler den kontrollierbaren Spieler übernehmen und die KI den unkontrollierbaren
-- [ ] dass ein durchgeführter Zug nach Abschluss an den Server gesendet wird
+    - [x] Falls ja, soll der Spieler den kontrollierbaren Spieler übernehmen und die KI den unkontrollierbaren
+- [x] dass ein durchgeführter Zug nach Abschluss an den Server gesendet wird
 - [x] dass ein Zug des gegnerischen Spielers vom Server abgefragt wird
 
 <b>von der GUI:</b>
@@ -91,7 +91,10 @@ _TODO_
     - Tutorial/Training mode where one is allowed to revert their last turn
 - mehr als 2 Spieler
 - Tutorial mit gifs
-- Pfeile vom Gegner spiegeln
+- add Pick and Put Sounds
+- Pfeile vom Gegner besser darstellen
+  - spiegeln
+  - andere Farbe
 
 # Wiki
 

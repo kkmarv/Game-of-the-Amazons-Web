@@ -3,7 +3,7 @@ import {TileType} from "./TileType";
 
 
 type Props = {
-    id: number
+    id: string
     onClick: any
     color: string
     tileType: TileType
@@ -27,7 +27,6 @@ export class Tile extends Component<Props, State> {
         return (
             <button
                 id={"tile" + this.props.id}
-                key={"tile" + this.props.id}
                 className={"tile " + this.props.color}
                 value={this.props.tileType}
                 disabled={this.props.disabled}

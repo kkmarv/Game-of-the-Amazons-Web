@@ -38,7 +38,6 @@ type State = {
 export class GameControl extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
 
-
     constructor(props: Props) {
         super(props);
 
@@ -54,10 +53,9 @@ export class GameControl extends Component<Props, State> {
 
     /* Setzt den GameControl.timer auf einen 1-Sekunden-Timer, der von
        props.game.maxTurnTime runterzählt und bei 0 den aktuellen Zug beendet. */
-    async componentDidMount() {
+    componentDidMount() {
         this.timer = setInterval(async () => {
             if (this.state.timeLeft <= 1000) {
-                this.endTurn()
                 this.setState({timeLeft: this.props.initialGameInfo.maxTurnTime})
             } else if (!this.state.paused) {
                 this.setState({
@@ -69,13 +67,18 @@ export class GameControl extends Component<Props, State> {
     }
 
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
-        if (prevState.gameInfo.turnId !== this.state.gameInfo.turnId) {
+        if (this.state.gameInfo.messageType !== "end" && (prevState.gameInfo.turnId !== this.state.gameInfo.turnId)) {
             this.setState({timeLeft: this.state.gameInfo.maxTurnTime})
         }
-        if (this.state.gameInfo.winningPlayer) {
-            alert("Player " + (this.state.gameInfo.winningPlayer + 1) + " won!")
+
+        if (this.state.gameInfo.messageType === "end" && prevState.gameInfo.messageType !== "end") {
+            if (this.state.gameInfo.winningPlayer) {
+                alert("Player " + (this.state.gameInfo.winningPlayer + 1) + " has won!")
+            } else {  // TODO manchmal wird das Spiel nicht beendet
+                console.log(await requests.getGame(this.state.gameInfo.gameId))
+                alert("The match was aborted.")
+            }
             clearInterval(this.timer)
-            await requests.reset(true)
         }
     }
 
@@ -103,7 +106,7 @@ export class GameControl extends Component<Props, State> {
 
                 <div className={"debug info: remove later"}>
                     <p style={{textAlign: "center"}}> gameID: {this.props.initialGameInfo.gameId} |
-                        turnTime: {this.state.gameInfo.maxTurnTime / 1000}s</p>
+                        maxTurnTime: {this.state.gameInfo.maxTurnTime / 1000}s</p>
                     <p style={{textAlign: "center"}}> turnID: {this.state.gameInfo.turnId} |
                         currentPlayer: {this.props.players[this.state.gameInfo.playerId].name}</p>
                 </div>
@@ -112,16 +115,9 @@ export class GameControl extends Component<Props, State> {
     }
 
 
-    handleTurnEnd = (turn?: turn) => {
-        // if (turn) createTurn(this.props.game.gameId, turn)  // TODO send turn to server via api call
-        this.resetTime()
-        this.endTurn()
-    }
-
-
-    /* Beendet den Zug, indem der nächste Spieler dran genommen wird. */
-    endTurn(): void {
-        // TODO check if any players that can move are left (win condition) | wird sehr wahrscheinlich durch Backend geregelt
+    handleTurnEnd = async (turn?: turn) => {
+        if (turn) await requests.createTurn(this.props.initialGameInfo.gameId, turn)
+        this.resetTime() // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
     }
 
     togglePause(): void {
@@ -132,11 +128,8 @@ export class GameControl extends Component<Props, State> {
         this.setState({timeLeft: this.props.initialGameInfo.maxTurnTime})
     }
 
-    getNextPlayer() {
-        // TODO
-    }
 
-    testButtons() {
+    debugButtons() {
         return (
             <>
                 <button className={"test!"} onClick={async () => {
@@ -213,7 +206,7 @@ export class GameControl extends Component<Props, State> {
                     Delete all Games
                 </button>
                 <button className={"test!"} onClick={async () => {
-                    await requests.reset(true)
+                    await requests.reset()
                 }}>
                     Reset
                 </button>
