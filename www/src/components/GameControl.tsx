@@ -47,7 +47,7 @@ export class GameControl extends Component<Props, State> {
         this.state = {
             paused: false,
             timeLeft: props.initialGameInfo.maxTurnTime,
-            gameInfo: this.props.initialGameInfo
+            gameInfo: this.props.initialGameInfo // TODO Toni darauf hinweisen, dass maxTurnTime die verbleibende Zeit des Zuges zurückgeben muss, wenn das Spiel bereits läuft
         }
     }
 
