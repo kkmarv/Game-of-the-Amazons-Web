@@ -1,6 +1,6 @@
 // Type definitions for all components
 
-declare global {
+declare global { // TODO neue Namenskonvention überlegen oder nachschlagen
     /* Ein Spiel Objekt, wie es die API erwartet */
     type game = {
         gameId: number

@@ -3,30 +3,16 @@ import {Component} from "react";
 type Props = {
     id: number
     name: string
-    controllable: boolean
-    allowedToMove: boolean
+    controllable: boolean // TODO check if obsolete
+    allowedToMove: boolean // TODO check if obsolete
 }
 
-type State = {
-    ableToMove: boolean
-    allowedToMove: boolean
-    turnHistory: turn[]
-}
+// TODO turn history
 
 /**
- * Represents a PlayerStats. Allows to be AI controlled.
+ * Represents players' stats and turn history.
  */
-export class Player extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            ableToMove: false,
-            allowedToMove: props.allowedToMove,
-            turnHistory: []
-        }
-    }
-
+export class Player extends Component<Props, any> {
     render() {
         return (
             <div className={"player-info-" + this.props.id} id={"player" + this.props.id}>
@@ -35,9 +21,5 @@ export class Player extends Component<Props, State> {
                 </div>
             </div>
         )
-    }
-
-    makeATurn(): void {
-        // TODO
     }
 }

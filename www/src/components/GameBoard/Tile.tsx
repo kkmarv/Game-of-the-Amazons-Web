@@ -4,15 +4,8 @@ import {TileType} from "./TileType";
 
 type Props = {
     id: string
-    onClick: any
     color: string
-    tileType: TileType
-    disabled: boolean
-    selected: boolean
-    possibleMove: boolean
-}
-
-type State = {
+    onClick: () => void
     tileType: TileType
     disabled: boolean
     selected: boolean
@@ -22,11 +15,11 @@ type State = {
 /**
  * Represents a single tile
  */
-export class Tile extends Component<Props, State> {
+export class Tile extends Component<Props, any> {
     render() {
         return (
             <button
-                id={"tile" + this.props.id}
+                id={this.props.id}
                 className={"tile " + this.props.color}
                 value={this.props.tileType}
                 disabled={this.props.disabled}

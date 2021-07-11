@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import {Component} from "react";
 import {Board} from "./GameBoard/Board";
 import {Timer} from "./Timer";
 import {Player} from "./Player";
@@ -8,7 +8,7 @@ import * as requests from "../requests"
 type Props = {
     players: player[]
     localPlayers: player[]
-    initialGameInfo: {
+    initialGameInfo: { // TODO create own type for game info
         gameId: number,
         maxTurnTime: number, // time left
         playerId: number, // current player
@@ -16,7 +16,7 @@ type Props = {
         messageType: string,
         winningPlayer?: number,
         board: board,
-        enemyTurn: turn
+        enemyTurn?: turn
     }
 }
 
@@ -31,7 +31,7 @@ type State = {
         messageType: string,
         winningPlayer?: number,
         board: board,
-        enemyTurn: turn
+        enemyTurn?: turn
     }
 }
 
@@ -115,7 +115,7 @@ export class GameControl extends Component<Props, State> {
     }
 
 
-    handleTurnEnd = async (turn?: turn) => {
+    handleTurnEnd = async (turn?: turn): Promise<void> => { // TODO check if turn should always be demanded
         if (turn) await requests.createTurn(this.props.initialGameInfo.gameId, turn)
         this.resetTime() // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
     }

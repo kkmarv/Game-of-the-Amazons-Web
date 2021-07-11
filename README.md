@@ -50,9 +50,9 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 #### Als Entwickler müssen wir für sinnvolle Tests:
 
-- [ ] überprüfen, ob ein Spielfeld richtig dargestellt wird
-    - [ ] indem das Backend gemockt wird und Beispielwerte geladen werden,
-    - [ ] und das Gerenderte mit einem Snapshot verglichen wird.<br>
+- [x] überprüfen, ob ein Spielfeld richtig dargestellt wird
+    - [x] indem das Backend gemockt wird und Beispielwerte geladen werden,
+    - [x] und das Gerenderte mit einem Snapshot verglichen wird.<br>
 - [ ] überprüfen, ob Züge durchgeführt werden können
     - [ ] indem ein Spiel gemockt wird
     - [ ] und via Events ein Zug nachgestellt wird
@@ -62,13 +62,13 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
     - [ ] und ein ungültiger Zug durchgeführt wird
     - [ ] entweder eine ungültige Eingabe simulieren, oder die dafür zuständige Funktion direkt aufrufen
 - [ ] überprüfen, ob der Pfeilwurf korrekt gesetzt wird
-    - [ ] entweder Snapshot- oder Funktionstests möglich
+    - [ ] entweder Snapshot- oder ->Funktionstests<- möglich
 
 </details>
 
 ### an die Abschlussabgabe (24.09.21)
 
-_TODO_
+_Soon_
 
 ## Fragen & Ideen
 

@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import {Component} from "react";
 import {Tile} from "./Tile";
 import {TileType} from "./TileType";
 
 type Props = {
-    onTurnEnd: any
+    onTurnEnd: (turn?: turn) => Promise<void>
     isLocalPlayer: boolean
     initialBoard: board
 }
@@ -98,7 +98,7 @@ export class Board extends Component<Props, State> {
     }
 
 
-    handleClick = async (currentCoords: Coordinates) => {
+    handleClick = async (currentCoords: Coordinates) => { // TODO manchmal wird eine Amazone verdoppelt
         const lastClickCoords: Coordinates = this.state.lastClickCoords!
         const clickBeforeLastClickCoords: Coordinates = this.state.clickBeforeLastClickCoords!
         const clickedTileProps: TileProps = this.state.tiles[currentCoords.row][currentCoords.column]
