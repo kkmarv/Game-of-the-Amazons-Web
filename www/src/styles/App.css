@@ -1,3 +1,13 @@
+/** {
+    overflow: hidden;
+}*/
+
+button {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
 h1 {
     margin: 1rem 0;
 }
@@ -12,24 +22,14 @@ h2 {
     font-size: calc(5px + 1.5vmin);
 }
 
-button {
-    border: none;
-}
-
-button[class="test!"] {
-    position: fixed;
-}
-
 .player-info-0 {
     background-color: #e3e1f4;
     width: 15%;
-    height: 100%;
     text-align: center;
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     bottom: 0;
-    height: 100%;
 }
 
 .player-info-1 {
@@ -37,8 +37,8 @@ button[class="test!"] {
     width: 15%;
     text-align: center;
     position: absolute;
-    top: 0;
     right: 0;
+    top: 0;
     bottom: 0;
 }
 
@@ -80,17 +80,22 @@ button[class="test!"] {
     margin: 0 auto 0 auto;
     text-align: center;
     border: 2px black solid;
-    /*width: 54rem;
-    height: 54rem;*/
-    width: 43vw;
-    height: 43vw;
+    width: 40vw;
+    height: 40vw;
 }
 
 .tile {
-    /*    width: 5.4rem;
-        height: 5.4rem;*/
-    width: 4.3vw;
-    height: 4.3vw;
+    width: 4vw;
+    height: 4vw;
+}
+
+.tile:enabled {
+    cursor: pointer;
+}
+
+.tile:disabled {
+    filter: contrast(90%);
+    color: #69696d;
 }
 
 .tile[value="0"] {
@@ -103,22 +108,22 @@ button[class="test!"] {
     background-size: 3vw 3vw;
 }
 
-.tile:enabled {
-    filter: contrast(110%);
-    border: 5px #3c4f76 groove;
-}
-
-.tile:disabled {
-    filter: contrast(90%);
-    color: #69696d;
+.black[value="-1"] {
+    background-color: #383f51;
 }
 
 .white[value="-1"] {
     background-color: #e3e1f4;
 }
 
-.black[value="-1"] {
-    background-color: #383f51;
+.black[value="-1"]:enabled {
+    filter: contrast(110%);
+    background-color: rgb(132, 151, 253);
+}
+
+.white[value="-1"]:enabled {
+    filter: contrast(110%);
+    background-color: rgb(161, 182, 244);
 }
 
 .black[value="-2"] {
@@ -129,9 +134,4 @@ button[class="test!"] {
 .white[value="-2"] {
     background: #e3e1f4 url("../../src/images/arrow.png") no-repeat center;
     background-size: 3vw 3vw;
-}
-
-.tile img {
-    height: 2.5vw;
-    width: 2.5vw;
 }
