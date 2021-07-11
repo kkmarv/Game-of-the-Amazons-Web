@@ -11,7 +11,7 @@ The first player unable to move any of his Amazons looses.
 
 Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of_the_Amazons)
 
-###[To the game](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
+### [To the game](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
 
 ## Anforderungen
 
