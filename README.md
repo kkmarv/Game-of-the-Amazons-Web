@@ -3,7 +3,7 @@
 The Game of Amazons ist ein abstraktes Strategie-Brettspiel für 2 Spieler, welches auf auf einem 10x10 Schachbrett gespielt wird.
 
 Es spielt Schwarz gegen Weiß. Weiß beginnt.<br>
-Jeder Spieler hat 4 Amazonen, die zu Beginn des Spiels auf dem Brett platziert werden.<br>
+Jeder Spieler hat 4 Amazonen, die bereits zu Beginn des Spiels auf dem Brett platziert sind.<br>
 Amazonen können sich wie die Dame im Schach auf der Horizontalen, Vertikalen und den beiden Diagonalen bewegen, bis sie auf ein Hindernis treffen. Die Besonderheit des Amazonenspiels ist jedoch, dass Amazonen nach jedem Zug einen "giftigen" Pfeil verschießen müssen, mit dem Ziel, gegnerische Züge zu blockieren.
 
 Der Spieler, der zuerst keine seiner Amazonen mehr bewegen kann, verliert.
@@ -67,26 +67,47 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 ### an die Abschlussabgabe (24.09.21)
 
-<details open>
-<summary>Funktionalitäten</summary>
+<details>
+<summary><b>Funktionalitäten</b></summary>
+
+#### Auf der Spiel-Seite möchte der Nutzer:
+
+- [ ] die Zug-Historie einsehen, unzwar
+    - [ ] von sich selbst
+    - [ ] von seinen Gegnern
+- [ ] Pfeile besser unterscheiden können
+    - [ ] vom Hintergrund und
+    - [ ] seine eigenen von denen der Gegner
+- [ ] bei Sieg und Niederlage eine gesonderte Animation gezeigt bekommen
 
 #### Auf der Lobby-Seite möchte der Nutzer:
     
-- [ ] ein Tutorial sehen, welches kurz das Spielprinzip erklärt
+- [ ] seinen eigenen Namen frei wählen können
+- [ ] ein Tutorial sehen können, welches kurz das Spielprinzip erklärt
     - [ ] in Form von GIFs
-- [ ] seinen Namen frei wählen
-- [ ] laufende Spiele, sowie Informationen zu diesen einsehen und
-    - [ ] diesen als Spieler beitreten, sofern noch Plätze frei sind
-    - [ ] diesen als Zuschauer beitreten
-- [ ] ein eigenes Spiel erstellen und
-    - [ ] dem Spiel einen Namen geben
-    - [ ] die Spielerzahl festlegen (Menschen)
-    - [ ] die KI-Spieleranzahl festlegen
+- [ ] Mulitplayer-Spiele gegen andere Menschen spielen, indem er
+    - [ ] laufende Spiele, sowie Informationen zu diesen einsehen kann und
+        - [ ] diesen als Spieler beitreten kann, sofern noch Plätze frei sind oder
+        - [ ] diesen als Zuschauer beitreten kann
+    - [ ] eigene Spiele erstellen kann und
+        - [ ] ihnen einen Namen geben kann, sowie
+        - [ ] Spieler 1 oder 2 oder beide kontrollierbar machen 
+
+#### Weiterhin möchte der Nutzer:
+
+- [ ] zwischen Dark- und Light-Mode wechseln können
+- [ ] wenn gewünscht, Audio-Feedback für seine Aktionen erhalten, unzwar bei(m)
+    - [ ] Timer-Tick
+    - [ ] Button-Klick
+    - [ ] Amazonen picken
+    - [ ] Amazonen setzen
+    - [ ] Pfeilschüssen
+    - [ ] Sieg & Niederlage
 
 </details>
 
-<details open>
-<summary>Tests</summary>
+<details>
+<summary><b>Tests</b></summary>
 
 #### Als Entwickler müssen wir für sinnvolle Tests:
 
@@ -103,31 +124,10 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 </details>
 
-## Fragen & Ideen
+## Fragen & Ideen zum Abschlussprojekt
 
-### zum GUI
-
-- eigene Lobby Startseite? _-> Abschlussprojekt_
-    - Liste mit allen Spielen, denen man beitreten/zuschauen kann _-> Abschlussprojekt_
-    - Fragen:
-        - KI vs KI? _-> Abschlussprojekt_
-        - KI vs PlayerStats? _-> Zwischenprojekt_
-        - PlayerStats vs PlayerStats? _-> Abschlussprojekt_
-- kann man laufenden Spielen als Beobachter beitreten? _-> Abschlussprojekt_
-
-### zum Abschlussprojekt
-
-- Optionsmenü zur Auswahl des Spielbrett-/Seiten-Themes
-- display the turn history on sidebar
 - Alternative Spielmodi:
     - Damage/Death upon click on invalid tile
-    - Tutorial/Training mode where one is allowed to revert their last turn
-- mehr als 2 Spieler
-- Tutorial mit gifs
-- add Pick and Put Sounds
-- Pfeile vom Gegner besser darstellen
-  - spiegeln
-  - andere Farbe
 
 # Wiki
 
@@ -135,7 +135,7 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 - [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
 
 Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de erreichbar.
-Dafür steht – aus technischen Gründen – ein Port zwischen 40910 bis 40919 zur Verfügung.
+Dafür steht ein Port – aus technischen Gründen – zwischen 40910 und 40919 zur Verfügung.
 
 ## API-Specification
 
@@ -453,5 +453,5 @@ Example for requests' body:
 
 ## Weiterführende Links
 
-- [Repository der Universität Paderborn, auf dem dieses Projekt basiert.](https://github.com/dice-group/Amazons/wiki)
+- [Repository der Universität Paderborn, auf dem dieses Projekt basiert](https://github.com/dice-group/Amazons/wiki)
 
