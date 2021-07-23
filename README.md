@@ -1,23 +1,22 @@
 # Game of the Amazons
 
-The Game of Amazons is an abstract strategic board game for two players.
+The Game of Amazons ist ein abstraktes Strategie-Brettspiel für 2 Spieler, welches auf auf einem 10x10 Schachbrett gespielt wird.
 
-It is played on a 10×10 chessboard (or an international checkerboard).<br>
-The two players play with white and black. Each player has four Amazons, which are placed on the board at the beginning.
-After each turn, the moved Amazon shoots a "poisonous" arrow from the end point of its move to another tile in order to
-block the opponent's move.
+Es spielt Schwarz gegen Weiß. Weiß beginnt.<br>
+Jeder Spieler hat 4 Amazonen, die zu Beginn des Spiels auf dem Brett platziert werden.<br>
+Amazonen können sich wie die Dame im Schach auf der Horizontalen, Vertikalen und den beiden Diagonalen bewegen, bis sie auf ein Hindernis treffen. Die Besonderheit des Amazonenspiels ist jedoch, dass Amazonen nach jedem Zug einen "giftigen" Pfeil verschießen müssen, mit dem Ziel, gegnerische Züge zu blockieren.
 
-The first player unable to move any of his Amazons looses.
+Der Spieler, der zuerst keine seiner Amazonen mehr bewegen kann, verliert.
 
-Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of_the_Amazons)
+Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Amazonen_(Spiel))
 
-### [To the game](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
+### [Zum Spiel](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
 
 ## Anforderungen
 
 ### an die Zwischenabgabe (12.07.21)
 
-<details open>
+<details>
 <summary><b>Funktionalitäten</b></summary>
 
 #### Der Nutzer möchte:
@@ -45,14 +44,52 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
 
 </details>
 
-<details open>
+<details>
 <summary><b>Tests</b></summary>
 
 #### Als Entwickler müssen wir für sinnvolle Tests:
 
 - [x] überprüfen, ob ein Spielfeld richtig dargestellt wird
     - [x] indem das Backend gemockt wird und Beispielwerte geladen werden,
-    - [x] und das Gerenderte mit einem Snapshot verglichen wird.<br>
+    - [x] und das Gerenderte mit einem Snapshot verglichen wird.
+- [ ] <del>überprüfen, ob Züge durchgeführt werden können</del>
+    - [ ] <del>indem ein Spiel gemockt wird</del>
+    - [ ] <del>und via Events ein Zug nachgestellt wird</del>
+    - [ ] <del>das Ergebnis mittels eines Snapshot Tests abgeglichen wird</del>
+- [ ] <del>überprüfen, ob inkorrekte Züge verboten sind</del>
+    - [ ] <del>indem ein gemocktes Spiel initialisiert wird</del>
+    - [ ] <del>und ein ungültiger Zug durchgeführt wird</del>
+    - [ ] <del>entweder eine ungültige Eingabe simulieren, oder die dafür zuständige Funktion direkt aufrufen</del>
+- [ ] <del>überprüfen, ob der Pfeilwurf korrekt gesetzt wird</del>
+    - [ ] <del>entweder Snapshot- oder ->Funktionstests<- möglich</del>
+
+</details>
+
+### an die Abschlussabgabe (24.09.21)
+
+<details open>
+<summary>Funktionalitäten</summary>
+
+#### Auf der Lobby-Seite möchte der Nutzer:
+    
+- [ ] ein Tutorial sehen, welches kurz das Spielprinzip erklärt
+    - [ ] in Form von GIFs
+- [ ] seinen Namen frei wählen
+- [ ] laufende Spiele, sowie Informationen zu diesen einsehen und
+    - [ ] diesen als Spieler beitreten, sofern noch Plätze frei sind
+    - [ ] diesen als Zuschauer beitreten
+- [ ] ein eigenes Spiel erstellen und
+    - [ ] dem Spiel einen Namen geben
+    - [ ] die Spielerzahl festlegen (Menschen)
+    - [ ] die KI-Spieleranzahl festlegen
+
+</details>
+
+<details open>
+<summary>Tests</summary>
+
+#### Als Entwickler müssen wir für sinnvolle Tests:
+
 - [ ] überprüfen, ob Züge durchgeführt werden können
     - [ ] indem ein Spiel gemockt wird
     - [ ] und via Events ein Zug nachgestellt wird
@@ -65,10 +102,6 @@ Read more on the [English Wikipedia page.](https://en.wikipedia.org/wiki/Game_of
     - [ ] entweder Snapshot- oder ->Funktionstests<- möglich
 
 </details>
-
-### an die Abschlussabgabe (24.09.21)
-
-_Soon_
 
 ## Fragen & Ideen
 
@@ -420,5 +453,5 @@ Example for requests' body:
 
 ## Weiterführende Links
 
-- [Initial project Wiki from the Paderborn University (on which this project is based on)](https://github.com/dice-group/Amazons/wiki)
+- [Repository der Universität Paderborn, auf dem dieses Projekt basiert.](https://github.com/dice-group/Amazons/wiki)
 
