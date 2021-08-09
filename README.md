@@ -78,24 +78,32 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 - [ ] Pfeile besser unterscheiden können
     - [ ] vom Hintergrund und
     - [ ] seine eigenen von denen der Gegner
-- [ ] bei Sieg und Niederlage eine gesonderte Animation gezeigt bekommen
+- [ ] **bei Sieg und Niederlage eine gesonderte Animation gezeigt bekommen**
 
 #### Auf der Lobby-Seite möchte der Nutzer:
     
 - [ ] seinen eigenen Namen frei wählen können
-- [ ] ein Tutorial sehen können, welches kurz das Spielprinzip erklärt
+- [ ] **ein Tutorial sehen können, welches kurz das Spielprinzip erklärt**
     - [ ] in Form von GIFs
-- [ ] Mulitplayer-Spiele gegen andere Menschen spielen, indem er
-    - [ ] laufende Spiele, sowie Informationen zu diesen einsehen kann und
-        - [ ] diesen als Spieler beitreten kann, sofern noch Plätze frei sind oder
+- [ ] **Mulitplayer-Spiele gegen andere Menschen spielen, indem er**
+    - [ ] **laufende Spiele, sowie Informationen zu diesen einsehen kann und**
+        - [ ] **diesen als Spieler beitreten kann, sofern noch Plätze frei sind oder**
         - [ ] diesen als Zuschauer beitreten kann
-    - [ ] eigene Spiele erstellen kann und
+    - [ ] **eigene Spiele erstellen kann und**
         - [ ] ihnen einen Namen geben kann, sowie
         - [ ] Spieler 1 oder 2 oder beide kontrollierbar machen 
 
 #### Weiterhin möchte der Nutzer:
 
-- [ ] zwischen Dark- und Light-Mode wechseln können
+- [ ] **Credits einsehen können. Diese beinhalten:**
+    - [ ] Entwicklernamen
+    - [ ] Lehrveranstaltung
+    - [ ] Semester
+    - [ ] Dozenten
+    - [ ] das Logo der Hochschule Anhalt
+- [ ] **zwischen Dark- und Light-Mode wechseln können**
+- [ ] **zwischen deutscher und englischer Sprache wechseln können**
+    - [ ] mithilfe von Lokalisierungsdateien
 - [ ] wenn gewünscht, Audio-Feedback für seine Aktionen erhalten, unzwar bei(m)
     - [ ] Timer-Tick
     - [ ] Button-Klick
@@ -131,18 +139,29 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 # Wiki
 
-- [Game of the Amazons API Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
-- [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
+1. [Dokumentation](##Dokumentation)
+2. [API-Spezifikation](##API-Spezifikation)
+    1. [Spieler](###Spieler)
+    2. [Spiel](###Spiel)
+    3. [Zug](###Zug)
+    4. [Resetting](###Resetting)
+3. [Weiterführende Links](##Weiterführende-Links)
+
+## Dokumentation
+
+### Todo
+
+## API-Spezifikation
 
 Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de erreichbar.
-Dafür steht ein Port – aus technischen Gründen – zwischen 40910 und 40919 zur Verfügung.
+Dafür steht – aus technischen Gründen – ein variabler Port zwischen 40910 und 40919 zur Verfügung.
 
-## API-Specification
-
-Sämtliche erfolgreichen Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war.
+Alle erfolgreichen Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war.
 Fehlerhafte Aufrufe sollten mit dem Status-Code 400 und einem hilfreichen Fehlertext beantwortet werden. Ausnahmen
 können hierbei Fehler in der Programmierung des Backends darstellen, bei welchen üblicherweise mit Status-Code 500 und
 einer Webseite im HTML-Format geantwortet wird, welche den Stacktrace des Fehlers beinhaltet.
+
+[Game of the Amazons API Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 
 ### Spieler
 
@@ -453,5 +472,6 @@ Example for requests' body:
 
 ## Weiterführende Links
 
+- [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
 - [Repository der Universität Paderborn, auf dem dieses Projekt basiert](https://github.com/dice-group/Amazons/wiki)
 
