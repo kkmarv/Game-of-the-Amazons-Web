@@ -1,6 +1,6 @@
 # Game of the Amazons
 
-The Game of Amazons ist ein abstraktes Strategie-Brettspiel für 2 Spieler, welches auf auf einem 10x10 Schachbrett gespielt wird.
+Das Amazonenspiel ist ein abstraktes Strategie-Brettspiel für 2 Spieler, welches auf auf einem 10x10 Schachbrett gespielt wird.
 
 Es spielt Schwarz gegen Weiß. Weiß beginnt.<br>
 Jeder Spieler hat 4 Amazonen, die bereits zu Beginn des Spiels auf dem Brett platziert sind.<br>
@@ -153,7 +153,7 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 ## API-Spezifikation
 
-Die API dieses Spieles ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de erreichbar.
+Die API dieses Spiels ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de erreichbar.
 Dafür steht – aus technischen Gründen – ein variabler Port zwischen 40910 und 40919 zur Verfügung.
 
 Alle erfolgreichen Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war.
