@@ -14,7 +14,7 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 ## Anforderungen
 
-### an die Zwischenabgabe (12.07.21)
+### an die Zwischenabgabe (12.07.21) 
 
 <details>
 <summary><b>Funktionalitäten</b></summary>
@@ -139,13 +139,13 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 # Wiki
 
-1. [Dokumentation](##Dokumentation)
-2. [API-Spezifikation](##API-Spezifikation)
-    1. [Spieler](###Spieler)
-    2. [Spiel](###Spiel)
-    3. [Zug](###Zug)
-    4. [Resetting](###Resetting)
-3. [Weiterführende Links](##Weiterführende-Links)
+1. [Dokumentation](#dokumentation)
+2. [API-Spezifikation](#api-spezifikation)
+    1. [Spieler](#spieler)
+    2. [Spiel](#spiel)
+    3. [Zug](#zug)
+    4. [Resetting](#resetting)
+3. [Weiterführende Links](#weiterführende-links)
 
 ## Dokumentation
 
