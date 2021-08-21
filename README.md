@@ -65,7 +65,7 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 </details>
 
-### an die Abschlussabgabe (24.09.21)
+### an die Abschlussabgabe (20.09.21)
 
 <details>
 <summary><b>Funktionalitäten</b></summary>
