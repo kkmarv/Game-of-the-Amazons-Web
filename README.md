@@ -67,7 +67,9 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 ### an die Abschlussabgabe (20.09.21)
 
-<details>
+Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Abschlussabgabe erforderlich.
+
+<details open>
 <summary><b>Funktionalitäten</b></summary>
 
 #### Auf der Spiel-Seite möchte der Nutzer:
@@ -84,26 +86,28 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
     
 - [ ] seinen eigenen Namen frei wählen können
 - [ ] **ein Tutorial sehen können, welches kurz das Spielprinzip erklärt**
-    - [ ] in Form von GIFs
+    - [ ] in Form von GIFs und kurzen Texten
 - [ ] **Mulitplayer-Spiele gegen andere Menschen spielen, indem er**
     - [ ] **laufende Spiele, sowie Informationen zu diesen einsehen kann und**
         - [ ] **diesen als Spieler beitreten kann, sofern noch Plätze frei sind oder**
         - [ ] diesen als Zuschauer beitreten kann
     - [ ] **eigene Spiele erstellen kann und**
         - [ ] ihnen einen Namen geben kann, sowie
-        - [ ] Spieler 1 oder 2 oder beide kontrollierbar machen 
+        - [ ] **die Anzahl der Amazonen festlegen und**
+        - [ ] **Spieler 1 oder 2 oder beide kontrollierbar machen** 
 
 #### Weiterhin möchte der Nutzer:
 
 - [ ] **Credits einsehen können. Diese beinhalten:**
-    - [ ] Entwicklernamen
-    - [ ] Lehrveranstaltung
-    - [ ] Semester
-    - [ ] Dozenten
-    - [ ] das Logo der Hochschule Anhalt
-- [ ] **zwischen Dark- und Light-Mode wechseln können**
+    - [ ] **Entwicklernamen**
+    - [ ] **Lehrveranstaltung**
+    - [ ] **Semester**
+    - [ ] **Dozenten**
+    - [ ] [**das Logo der Hochschule Anhalt**](https://gitlab.hs-anhalt.de/both_a/webprog-services/-/blob/master/hsa-logos/Logo_HSA_a_o_Standorte_oneliner-400px.png)
+- [ ] **zwischen Dark- und Light-Mode sowie einem dritten Design wechseln können**
 - [ ] **zwischen deutscher und englischer Sprache wechseln können**
     - [ ] mithilfe von Lokalisierungsdateien
+- [ ] **eine Optimierung für Mobilgeräte**
 - [ ] wenn gewünscht, Audio-Feedback für seine Aktionen erhalten, unzwar bei(m)
     - [ ] Timer-Tick
     - [ ] Button-Klick
@@ -114,7 +118,7 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 
 </details>
 
-<details>
+<details open>
 <summary><b>Tests</b></summary>
 
 #### Als Entwickler müssen wir für sinnvolle Tests:
@@ -220,8 +224,12 @@ Custom Typ Definitionen für TypeScript.
 | `id` | `number` | Spiel-ID |
 | `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
 | `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von `GET: /games/<id>` erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
-| `initialBoard` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
-| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> Nur bei bereits beendeten Spielen vorhanden |
+| `board` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
+| `turnId?` | `number` | Index des aktuellen Zuges, zählt von 0 <br> _Wird erst nach der Spielerstellung benutzt_ |
+| `playerId?` | `number` | Spieler-ID, dessen, der gerade am Zug ist <br> _Wird erst nach der Spielerstellung benutzt_ |
+| `lastTurn?` | `Turn` | Zuletzt getätigter Zug <br> _Wird erst nach der Spielerstellung benutzt_ |
+| `messageType?` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet <br> _Wird erst nach der Spielerstellung benutzt_ |
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _Wird erst nach der Spielerstellung benutzt und ist nur bei bereits beendeten Spielen vorhanden_ <br> |
 
 ## Komponenten
 
@@ -282,7 +290,7 @@ Sämtliche Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf 
 
 **Authentifizierung**
 
-Alle API-Aufrufe außer dem Reset bedürfen einer JSON Web Token (JWT) Authentifizierung.
+Alle API-Aufrufe außer dem Reset (Zurücksetzen) bedürfen einer JSON Web Token (JWT) Authentifizierung.
 Dazu wird die React Komponente [Auth-Button](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button) der Hochschule Anhalt verwendet.
 Mit ihr wird erreicht, dass immer nur der Spieler kontrolliert werden kann, als der man gerade angemeldet ist.
 
@@ -291,7 +299,7 @@ _Für den Auth Button werden folgende Properties benötigt:_
 | Prop | Typ | Werte |
 | ------ | ------ | ------ |
 | `authServiceURL` | `string` | ??? |
-| `serviceBaseURLs` | `array` | [ https://webengineering.ins.hs-anhalt.de ] |
+| `serviceBaseURLs` | `string[]` | [ "https://webengineering.ins.hs-anhalt.de" ] |
 
 ## Spieler
 
