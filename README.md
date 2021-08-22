@@ -148,10 +148,10 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 
 1. [Dokumentation](#dokumentation)
     1. [Typ Definitionen](#typ-definitionen)
-        1. Spiel-spezifisch
+        1. [Für das Spielbrett](#spielbrett-typen)
             1. [Coordinates](#coordinates)
             2. [TileEnum](#tileenum)
-        2. API-spezifisch
+        2. [Für die API](#api-typen)
             1. [Player](#player)
             2. [Board](#board)
             3. [Turn](#turn)
@@ -169,14 +169,16 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 
 Custom Typ Definitionen für TypeScript.
 
-### Coordinates
+### Spielbrett Typen
+
+#### Coordinates
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `row` | `number` | y-Koordinate eines 2D Arrays |
 | `column` | `number` | x-Koordinate eines 2D Arrays |
 
-### TileEnum
+#### TileEnum
 
 | Konstante | Wert | Beschreibung |
 | ------ | ------ | ------ |
@@ -185,7 +187,7 @@ Custom Typ Definitionen für TypeScript.
 | `EMPTY` | `-1` | Leeres Feld |
 | `ARROW` | `-2` | Durch Pfeil blockiertes Feld |
 
-### TileProps
+#### TileProps
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -194,7 +196,9 @@ Custom Typ Definitionen für TypeScript.
 | `selected` | `boolean` | ??? |
 | `possibleMove` | `boolean` | ??? |
 
-### Player
+### API Typen
+
+#### Player
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -202,7 +206,7 @@ Custom Typ Definitionen für TypeScript.
 | `name` | `string` | Spielername |
 | `controllable` | `boolean` | `true` für menschliche und `false` für KI-Spieler |
 
-### Board
+#### Board
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -210,14 +214,14 @@ Custom Typ Definitionen für TypeScript.
 | `columnCount` | `number` |Spaltenanzahl des Spielbrettes |
 | `tiles` | `number[][]` | Repräsentation des Spielbrettes mit den zugehörigen Werten des `TileEnum` |
 
-### Turn
+#### Turn
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
 | `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
 
-### Game
+#### Game
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -225,11 +229,11 @@ Custom Typ Definitionen für TypeScript.
 | `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
 | `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von `GET: /games/<id>` erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
 | `board` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
-| `turnId?` | `number` | Index des aktuellen Zuges, zählt von 0 <br> _Wird erst nach der Spielerstellung benutzt_ |
-| `playerId?` | `number` | Spieler-ID, dessen, der gerade am Zug ist <br> _Wird erst nach der Spielerstellung benutzt_ |
-| `lastTurn?` | `Turn` | Zuletzt getätigter Zug <br> _Wird erst nach der Spielerstellung benutzt_ |
-| `messageType?` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet <br> _Wird erst nach der Spielerstellung benutzt_ |
-| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _Wird erst nach der Spielerstellung benutzt und ist nur bei bereits beendeten Spielen vorhanden_ <br> |
+| `turnId?` | `number` | Index des aktuellen Zuges, zählt von 0 <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
+| `playerId?` | `number` | Spieler-ID, dessen, der gerade am Zug ist <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
+| `lastTurn?` | `Turn` | Zuletzt getätigter Zug <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
+| `messageType?` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt und ist nur bei bereits beendeten Spielen vorhanden_ <br> |
 
 ## Komponenten
 
@@ -296,10 +300,10 @@ Mit ihr wird erreicht, dass immer nur der Spieler kontrolliert werden kann, als 
 
 _Für den Auth Button werden folgende Properties benötigt:_
 
-| Prop | Typ | Werte |
+| Prop | Typ | Wert |
 | ------ | ------ | ------ |
-| `authServiceURL` | `string` | https://webengineering.ins.hs-anhalt.de:40989 |
-| `serviceBaseURLs` | `string[]` | [ "https://webengineering.ins.hs-anhalt.de" ] |
+| `authServiceURL` | `string` | `"https://webengineering.ins.hs-anhalt.de:40989"` |
+| `serviceBaseURLs` | `string[]` | `["https://webengineering.ins.hs-anhalt.de"]` |
 
 ## Spieler
 
