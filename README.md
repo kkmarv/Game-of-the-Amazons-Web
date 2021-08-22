@@ -298,7 +298,7 @@ _Für den Auth Button werden folgende Properties benötigt:_
 
 | Prop | Typ | Werte |
 | ------ | ------ | ------ |
-| `authServiceURL` | `string` | ??? |
+| `authServiceURL` | `string` | https://webengineering.ins.hs-anhalt.de:40989 |
 | `serviceBaseURLs` | `string[]` | [ "https://webengineering.ins.hs-anhalt.de" ] |
 
 ## Spieler
