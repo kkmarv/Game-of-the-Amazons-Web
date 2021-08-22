@@ -137,121 +137,241 @@ Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Ama
 - Alternative Spielmodi:
     - Damage/Death upon click on invalid tile
 
+
 # Wiki
 
+## Inhalt
+
 1. [Dokumentation](#dokumentation)
-2. [API-Spezifikation](#api-spezifikation)
-    1. [Spieler](#spieler)
-    2. [Spiel](#spiel)
-    3. [Zug](#zug)
-    4. [Resetting](#resetting)
-3. [Weiterführende Links](#weiterführende-links)
+    1. [Typ Definitionen](#typ-definitionen)
+        1. Spiel-spezifisch
+            1. [Coordinates](#coordinates)
+            2. [TileEnum](#tileenum)
+        2. API-spezifisch
+            1. [Player](#player)
+            2. [Board](#board)
+            3. [Turn](#turn)
+            2. [Game](#game)
+    2. [Komponenten](#komponenten)
+2. [Weiterführende Links](#weiterführende-links)
 
 ## Dokumentation
 
-### Todo
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `` | `` | ??? |
 
-## API-Spezifikation
+## Typ Definitionen
+
+Custom Typ Definitionen für TypeScript.
+
+### Coordinates
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `row` | `number` | y-Koordinate eines 2D Arrays |
+| `column` | `number` | x-Koordinate eines 2D Arrays |
+
+### TileEnum
+
+| Konstante | Wert | Beschreibung |
+| ------ | ------ | ------ |
+| `PLAYER` | `0` | Feld mit eigener Amazone besetzt |
+| `OPPONENT` | `1` | Feld mit gegnerischer Amazone besetzt |
+| `EMPTY` | `-1` | Leeres Feld |
+| `ARROW` | `-2` | Durch Pfeil blockiertes Feld |
+
+### TileProps
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `tileType` | `TileEnum` | ??? |
+| `disabled` | `boolean` | ??? |
+| `selected` | `boolean` | ??? |
+| `possibleMove` | `boolean` | ??? |
+
+### Player
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | Spieler-ID |
+| `name` | `string` | Spielername |
+| `controllable` | `boolean` | `true` für menschliche und `false` für KI-Spieler |
+
+### Board
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `rowCount` | `number` | Reihenanzahl des Spielbrettes |
+| `columnCount` | `number` |Spaltenanzahl des Spielbrettes |
+| `tiles` | `number[][]` | Repräsentation des Spielbrettes mit den zugehörigen Werten des `TileEnum` |
+
+### Turn
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
+| `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
+
+### Game
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | Spiel-ID |
+| `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
+| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von `GET: /games/<id>` erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
+| `initialBoard` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> Nur bei bereits beendeten Spielen vorhanden |
+
+## Komponenten
+
+Die React Komponenten der Webseite.
+
+### Board
+
+| Prop | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `onTurnEnd` | `(turn): turn => Promise<void>` | ??? |
+| `isLocalPlayer` | `boolean` | ??? |
+| `initialBoard` | `board` | ??? |
+
+### Tile
+
+| Prop | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `string` | ??? |
+| `color` | `string` | ??? |
+| `onClick` | `() => void` | ??? |
+| `tileType` | `TileEnum` | ??? |
+| `disabled` | `boolean` | ??? |
+| `selected` | `boolean` | ??? |
+| `possibleMove` | `boolean` | ??? |
+
+## Weiterführende Links
+
+**Projekt-Abhängigkeiten**
+
+- [Auth-Button](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button)
+
+**Tutorials**
+
+- [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
+
+**Verweise**
+
+- [Amazonenspiel API GitLab Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
+- [Amazonenspiel Webseite während des Entwicklungszeitraums](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
+- [Repository der Universität Paderborn, auf dem dieses Projekt basiert](https://github.com/dice-group/Amazons/wiki)
+
+
+# API-Spezifikation
+
+## Inhalt
+
+1. [Anfragen zum Spieler](#spieler)
+2. [Anfragen zum Spiel](#spiel)
+3. [Anfragen zum Zug](#zug)
+4. [Anfragen zum Zurücksetzen](#zurücksetzen)
 
 Die API dieses Spiels ist während des Entwicklungszeitraums unter https://webengineering.ins.hs-anhalt.de erreichbar.
 Dafür steht – aus technischen Gründen – ein variabler Port zwischen 40910 und 40919 zur Verfügung.
 
-Alle erfolgreichen Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war.
-Fehlerhafte Aufrufe sollten mit dem Status-Code 400 und einem hilfreichen Fehlertext beantwortet werden. Ausnahmen
-können hierbei Fehler in der Programmierung des Backends darstellen, bei welchen üblicherweise mit Status-Code 500 und
-einer Webseite im HTML-Format geantwortet wird, welche den Stacktrace des Fehlers beinhaltet.
+Sämtliche Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war. Fehlerhafte Aufrufe sollten mit dem Status-Code 400 und einem hilfreichen Fehlertext beantwortet werden. Ausnahmen können hierbei Fehler in der Programmierung des Backends darstellen, bei welchen üblicherweise mit Status-Code 500 und einer Webseite im HTML-Format geantwortet wird, welche den Stacktrace des Fehlers beinhaltet.
 
-[Game of the Amazons API Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
+[API GitLab Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 
-### Spieler
+**Authentifizierung**
 
-<details>
-<summary><b>Spieler anlegen</b></summary><br>
+Alle API-Aufrufe außer dem Reset bedürfen einer JSON Web Token (JWT) Authentifizierung.
+Dazu wird die React Komponente [Auth-Button](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button) der Hochschule Anhalt verwendet.
+Mit ihr wird erreicht, dass immer nur der Spieler kontrolliert werden kann, als der man gerade angemeldet ist.
 
-`POST: /players/`
+_Für den Auth Button werden folgende Properties benötigt:_
 
-#### Parameter:
+| Prop | Typ | Werte |
+| ------ | ------ | ------ |
+| `authServiceURL` | `string` | ??? |
+| `serviceBaseURLs` | `array` | [ https://webengineering.ins.hs-anhalt.de ] |
 
-- `name` (string): Spielername
-- `controllable` (boolean): ist der Spieler spielbar oder nicht (computergesteuert)?
+## Spieler
 
-Example for requests' body:
+### POST: `/players/`
+
+Erstellt einen neuen KI-Spieler. _Erfordert Authentifizierung._
+
+**Request**
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `name` | `string` | Spielername |
+
+**Response**
+
+HTTP status code 200.
 
 ```json5
 {
-    "name":"Spieler1",
-    "controllable":true
-}
-
-```
-#### Response: 200 OK
-
-Response body:
-```json5
-{
-    "name":"Spieler1",
-    "controllable":true,
-    "playerId":0
+    "name": "Spieler1",
+    "controllable": true,
+    "playerId": 0
 }
 ```
 
 </details>
 
-<details>
-<summary><b>alle Spieler abfragen</b></summary><br>
+### DELETE: `/players/<id>`
 
-`GET: /players/`
+Löscht den Spieler mit der ID `id`.  _Erfordert Authentifizierung._
 
-#### Response: 200 OK
+**Request**
 
-Response body:
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `int` | Spieler-ID |
+
+**Response**
+
+HTTP status code 200.
+
+### GET: `/players/` 
+
+Fragt alle Spieler ab. _Erfordert Authentifizierung._
+
+**Response**
+
+HTTP status code 200.
+
 ```json5
 {
     "players": [
         {
-            "playerId":0,
-            "name":"Spieler 1",
-            "controllable":true
+            "playerId": 0,
+            "name": "Spieler 1",
+            "controllable": true
         },
         {
-            "playerId":1,
-            "name":"Spieler 2",
-            "controllable":false
+            "playerId": 1,
+            "name": "Spieler 2",
+            "controllable": false
         }
         // ...
     ]
 }
 ```
 
-</details>
+## Spiel
 
-<details>
-<summary><b>einen Spieler löschen</b></summary><br>
+### POST: `/games/` 
 
-`DELETE: /players/<id>`
+Startet ein neues Spiel. _Erfordert Authentifizierung._
 
-#### Parameter:
+**Request**
 
-- `id` (int): Spieler ID
-
-#### Response: 200 OK
-
-</details>
-
-### Spiel
-
-<details>
-<summary><b>ein neues Spiel starten</b></summary><br>
-
-`POST: /games/`
-
-#### Parameter:
-
-- `maxTurnTime` (int): Millisekunden, welche jeder Spieler Zeit hat, um seinen Zug auszuführen
-- `initialBoard` (Board): Das Spielbrett, auf welchem das Spiel stattfindet (siehe Body)
-- `players` (Array): Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig)
-
-Example for requests' body:
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `maxTurnTime` | `int` | Millisekunden, welche jeder Spieler Zeit hat, um seinen Zug auszuführen |
+| `initialBoard` | `array` | Das Spielbrett, auf welchem das Spiel stattfindet (siehe unten) |
+| `players` | `array` | Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig) |
 
 ```json5
 {
@@ -283,9 +403,11 @@ Example for requests' body:
     }
 }
 ```
-#### Response: 200 OK
 
-Response body:
+**Response**
+
+HTTP status code 200.
+
 ```json5
 {
     "gameId": 0,
@@ -319,20 +441,20 @@ Response body:
 }
 ```
 
-</details>
+### GET: `/games/<id>`
 
-<details>
-<summary><b>ein bestimmtes Spiel und dessen aktuellen Zustand abfragen</b></summary><br>
+Fragt das Spiel mit der ID `id` ab. _Erfordert Authentifizierung._
 
-`GET: /games/<id>`
+**Request**
 
-#### Parameter:
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `int` | ID des Spiels |
 
-- `id` (int): ID des Spiels
+**Response**
 
-#### Response: 200 OK
+HTTP status code 200.
 
-Response body:
 ```json5
 {
     "gameId": 0,
@@ -362,16 +484,28 @@ Response body:
 }
 ```
 
-</details>
+### DELETE: `/games/<id>`
 
-<details>
-<summary><b>alle Spiele abfragen</b></summary><br>
+Löscht das Spiel mit der ID `id`. _Erfordert Authentifizierung._
 
-`GET: /games/`
+**Request**
 
-#### Response: 200 OK
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `int` | ID des Spiels |
 
-Response body:
+**Response**
+
+HTTP status code 200.
+
+### GET: `/games/`
+
+Fragt alle Spiele ab. _Erfordert Authentifizierung._
+
+**Response**
+
+HTTP status code 200.
+
 ```json5
 {
     "games": [
@@ -409,33 +543,18 @@ Response body:
 }
 ```
 
-</details>
+## Zug
 
-<details>
-<summary><b>ein Spiel löschen</b></summary><br>
+### `POST: /move/<id>`
 
-`DELETE: /games/<id>`
+Setzt einen Zug im Spiel mit der ID `id`. _Erfordert Authentifizierung._
 
-#### Parameter:
+**Request**
 
-- `id` (int): ID des Spiels
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `int` | ID des Spiels |
 
-#### Response: 200 OK
-
-</details>
-
-### Zug
-
-<details>
-<summary><b>einen Zug setzen</b></summary><br>
-
-`POST: /move/<id>`
-
-#### Parameter:
-
-- `id` (int): ID des Spiels
-
-Example for requests' body:
 ```json5
 {
     "move": {
@@ -455,23 +574,16 @@ Example for requests' body:
 }
 ```
 
-#### Response: 200 OK
+**Response**
 
-</details>
+HTTP status code 200.
 
-### Resetting
+## Zurücksetzen
 
-<details>
-<summary><b>alles auf Standardwerte zurücksetzen</b></summary><br>
+### `DELETE: /reset/`
 
-`DELETE: /reset/`
+Setzt den Spielserver auf Standartwerte zurück. Löscht alle Spieler und Spiele.
 
-#### Response: 200 OK
+**Response**
 
-</details>
-
-## Weiterführende Links
-
-- [Aufsetzen der öffentlichen Webseite über den OpenWhisk Service der Hochschule Anhalt](https://gitlab.hs-anhalt.de/gitlab-integration/userdocumentation/-/blob/master/web-action/Node-Web-Programm.md)
-- [Repository der Universität Paderborn, auf dem dieses Projekt basiert](https://github.com/dice-group/Amazons/wiki)
-
+HTTP status code 200. 
