@@ -157,6 +157,10 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
             3. [Turn](#turn)
             2. [Game](#game)
     2. [Komponenten](#komponenten)
+        1. [GameControl](#gamecontrol)
+        2. [PlayerSidebar](#playersidebar)
+        3. [GameBoard](#gameboard)
+        4. [GameBoardTile](#gameboardtile)
 2. [Weiterführende Links](#weiterführende-links)
 
 ## Dokumentation
@@ -170,6 +174,8 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 Custom Typ Definitionen für TypeScript.
 
 ### Spielbrett Typen
+
+TypeScript Typen für das Spielbrett.
 
 #### Coordinates
 
@@ -198,7 +204,11 @@ Custom Typ Definitionen für TypeScript.
 
 ### API Typen
 
+TypeScript Typen für API Responses.
+
 #### Player
+
+Versucht Konsistenz mit den API-Responses von `GET /games/<id>`, `POST /games/` und `GET /games/` zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -208,6 +218,8 @@ Custom Typ Definitionen für TypeScript.
 
 #### Board
 
+Versucht Konsistenz mit den API-Responses von `GET /games/<id>` und `POST /games/` zu erreichen.
+
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `rowCount` | `number` | Reihenanzahl des Spielbrettes |
@@ -216,12 +228,16 @@ Custom Typ Definitionen für TypeScript.
 
 #### Turn
 
+Versucht Konsistenz mit de API-Response von `POST /move/<id>` zu erreichen.
+
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
 | `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
 
 #### Game
+
+Versucht Konsistenz mit den API-Responses von `GET /games/<id>` und `POST /games/` zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -239,25 +255,64 @@ Custom Typ Definitionen für TypeScript.
 
 Die React Komponenten der Webseite.
 
-### Board
+### GameControl
+
+Verwaltet ein Spiel und die zugehörigen API Requests.
+
+**Properties**
 
 | Prop | Typ | Beschreibung |
 | ------ | ------ | ------ |
-| `onTurnEnd` | `(turn): turn => Promise<void>` | ??? |
-| `isLocalPlayer` | `boolean` | ??? |
-| `initialBoard` | `board` | ??? |
+| `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
+| `localPlayers` | `Player[]` | ??? |
+| `initialGame` | `Game` | Das Spiel wird mit diesen Spiel-Informationen initialisiert |
 
-### Tile
+**Methoden**
+
+### PlayerSidebar
+
+Repräsentiert die Spieler-Informationen am Seitenrand des Bildschirms. <br>
+Speichert Informationen wie die Zug-Historie oder gespielte Zeit des jeweiligen Spielers.
+
+**Properties**
 
 | Prop | Typ | Beschreibung |
 | ------ | ------ | ------ |
-| `id` | `string` | ??? |
-| `color` | `string` | ??? |
-| `onClick` | `() => void` | ??? |
-| `tileType` | `TileEnum` | ??? |
-| `disabled` | `boolean` | ??? |
-| `selected` | `boolean` | ??? |
-| `possibleMove` | `boolean` | ??? |
+| `player` | `Player` | Spieler, für den die Informationen angezeigt werden |
+
+**Methoden**
+
+### GameBoard
+
+Repräsentiert das Spielbrett, auf dem die Spieler ihre Amazonen bewegen. <br>
+Stellt das GUI für das Brett bereit und sorgt für die Einhaltung valider Züge des Spielers.
+
+**Properties**
+
+| Prop | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `onTurnEnd` | `(turn): Turn => Promise<void>` | Callback Funktion für wenn der Zug endet |
+| `isLocalPlayer` | `boolean` | `true` falls gerade der lokale Spieler am Zug ist, sonst `false` |
+| `initialBoard` | `Board` | `Board`, mit dem das Spiel initialisiert wird |
+
+**Methoden**
+
+### GameBoardTile
+
+Repräsentiert ein Feld des Spielbrettes, auf dem ein Spielstein liegen kann. <br>
+Verwaltet jeweils ein `HTMLButtonElement`.
+
+**Properties**
+
+| Prop | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `string` | Feld-ID zur Verwendung in HTML |
+| `color` | `string` | Farbe eines Feldes <br> Entweder `"white"` oder `"black"` |
+| `onClick` | `() => void` | Callback Funktion für wenn das Feld angeklickt wird |
+| `tileType` | `TileEnum` | Feldtyp |
+| `disabled` | `boolean` | `false` anklickbar <br> `true` nicht anklickbar |
+
+**Methoden**
 
 ## Weiterführende Links
 
