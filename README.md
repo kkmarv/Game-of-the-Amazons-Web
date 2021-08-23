@@ -147,20 +147,24 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 ## Inhalt
 
 1. [Dokumentation](#dokumentation)
-    1. [Typ Definitionen](#typ-definitionen)
+    1. [Interfaces](#interfaces)
         1. [Für das Spielbrett](#spielbrett-typen)
             1. [Coordinates](#coordinates)
-            2. [TileEnum](#tileenum)
+            2. [Tile](#tile)
+            3. [TileEnum](#tileenum)
         2. [Für die API](#api-typen)
             1. [Player](#player)
             2. [Board](#board)
             3. [Turn](#turn)
-            2. [Game](#game)
+            4. [InitialGame](#initialgame)
+            5. [RunningGame](#runninggame-extends-initialgame)
     2. [Komponenten](#komponenten)
-        1. [GameControl](#gamecontrol)
-        2. [PlayerSidebar](#playersidebar)
-        3. [GameBoard](#gameboard)
-        4. [GameBoardTile](#gameboardtile)
+        1. [LobbyScreen](#lobbyscreen)
+        2. [GameScreen](#gamescreen)
+            1. [GameControl](#gamecontrol)
+            2. [PlayerSidebar](#playersidebar)
+            3. [GameBoard](#gameboard)
+            4. [GameBoardTile](#gameboardtile)
 2. [Weiterführende Links](#weiterführende-links)
 
 ## Dokumentation
@@ -169,13 +173,13 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 | ------ | ------ | ------ |
 | `` | `` | ??? |
 
-## Typ Definitionen
+## Interfaces
 
-Custom Typ Definitionen für TypeScript.
+Custom Interface Definitionen für TypeScript.
 
 ### Spielbrett Typen
 
-TypeScript Typen für das Spielbrett.
+Interfaces für das Spielbrett.
 
 #### Coordinates
 
@@ -183,6 +187,13 @@ TypeScript Typen für das Spielbrett.
 | ------ | ------ | ------ |
 | `row` | `number` | y-Koordinate eines 2D Arrays |
 | `column` | `number` | x-Koordinate eines 2D Arrays |
+
+#### Tile
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `disabled` | `boolean` | `false` anklickbar <br> `true` nicht anklickbar |
+| `tileType` | `TileEnum` | Wert aus dem `TileEnum` |
 
 #### TileEnum
 
@@ -193,18 +204,9 @@ TypeScript Typen für das Spielbrett.
 | `EMPTY` | `-1` | Leeres Feld |
 | `ARROW` | `-2` | Durch Pfeil blockiertes Feld |
 
-#### TileProps
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `tileType` | `TileEnum` | ??? |
-| `disabled` | `boolean` | ??? |
-| `selected` | `boolean` | ??? |
-| `possibleMove` | `boolean` | ??? |
-
 ### API Typen
 
-TypeScript Typen für API Responses.
+Interfaces für API Responses.
 
 #### Player
 
@@ -228,34 +230,51 @@ Versucht Konsistenz mit den API-Responses von `GET /games/<id>` und `POST /games
 
 #### Turn
 
-Versucht Konsistenz mit de API-Response von `POST /move/<id>` zu erreichen.
+Versucht Konsistenz mit der API-Response von `POST /move/<id>` zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
 | `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
 
-#### Game
+#### InitialGame
 
-Versucht Konsistenz mit den API-Responses von `GET /games/<id>` und `POST /games/` zu erreichen.
+Versucht Konsistenz mit den API-Responses von `GET /games/` und `POST /games/` zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `id` | `number` | Spiel-ID |
 | `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
-| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von `GET: /games/<id>` erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
+| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von `GET /games/<id>` erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
 | `board` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
-| `turnId?` | `number` | Index des aktuellen Zuges, zählt von 0 <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
-| `playerId?` | `number` | Spieler-ID, dessen, der gerade am Zug ist <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
-| `lastTurn?` | `Turn` | Zuletzt getätigter Zug <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
-| `messageType?` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt_ |
-| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Wird erst nach der Spielerstellung benutzt und ist nur bei bereits beendeten Spielen vorhanden_ <br> |
+| `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
+
+#### RunningGame `extends InitialGame`
+
+Versucht Konsistenz mit der API-Response von `GET /games/<id>` zu erreichen.  
+Das Attribut `maxTurnTime` von `InitialGame` gibt hier die verbleibende Zugzeit des Spielers an. 
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `turnId` | `number` | Index des aktuellen Zuges, zählt von 0|
+| `playerId` | `number` | Spieler-ID, dessen, der gerade am Zug ist|
+| `lastTurn` | `Turn` | Zuletzt getätigter Zug|
+| `messageType` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet|
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Ist nur bei bereits beendeten Spielen vorhanden_ <br> |
 
 ## Komponenten
 
 Die React Komponenten der Webseite.
 
-### GameControl
+### LobbyScreen
+
+Ist der umgebende Container für das GUI der Lobby-Seite. Der User beginnt hier.
+
+### GameScreen
+
+Ist der umgebende Container für das GUI einer Spiel-Seite.
+
+#### GameControl
 
 Verwaltet ein Spiel und die zugehörigen API Requests.
 
@@ -269,9 +288,9 @@ Verwaltet ein Spiel und die zugehörigen API Requests.
 
 **Methoden**
 
-### PlayerSidebar
+#### PlayerSidebar
 
-Repräsentiert die Spieler-Informationen am Seitenrand des Bildschirms. <br>
+Repräsentiert die Spieler-Informationen am Seitenrand des Bildschirms.  
 Speichert Informationen wie die Zug-Historie oder gespielte Zeit des jeweiligen Spielers.
 
 **Properties**
@@ -282,24 +301,24 @@ Speichert Informationen wie die Zug-Historie oder gespielte Zeit des jeweiligen 
 
 **Methoden**
 
-### GameBoard
+#### GameBoard
 
-Repräsentiert das Spielbrett, auf dem die Spieler ihre Amazonen bewegen. <br>
+Repräsentiert das Spielbrett, auf dem die Spieler ihre Amazonen bewegen.  
 Stellt das GUI für das Brett bereit und sorgt für die Einhaltung valider Züge des Spielers.
 
 **Properties**
 
 | Prop | Typ | Beschreibung |
 | ------ | ------ | ------ |
-| `onTurnEnd` | `(turn): Turn => Promise<void>` | Callback Funktion für wenn der Zug endet |
+| `onTurnEnd` | `(turn): Turn => Promise<void>` | Wird aufgerufen wenn ein Zug endet |
 | `isLocalPlayer` | `boolean` | `true` falls gerade der lokale Spieler am Zug ist, sonst `false` |
-| `initialBoard` | `Board` | `Board`, mit dem das Spiel initialisiert wird |
+| `initialBoard` | `Board` | `Board`, das gerendert wird |
 
 **Methoden**
 
-### GameBoardTile
+#### GameBoardTile
 
-Repräsentiert ein Feld des Spielbrettes, auf dem ein Spielstein liegen kann. <br>
+Repräsentiert ein Feld des Spielbrettes, auf dem ein Spielstein liegen kann.  
 Verwaltet jeweils ein `HTMLButtonElement`.
 
 **Properties**
@@ -362,9 +381,11 @@ _Für den Auth Button werden folgende Properties benötigt:_
 
 ## Spieler
 
-### POST: `/players/`
+### POST `/players/`
 
-Erstellt einen neuen KI-Spieler. _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
+
+Erstellt einen neuen KI-Spieler.
 
 **Request**
 
@@ -374,9 +395,9 @@ Erstellt einen neuen KI-Spieler. _Erfordert Authentifizierung._
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
-```json5
+```json
 {
     "name": "Spieler1",
     "controllable": true,
@@ -386,9 +407,12 @@ HTTP status code 200.
 
 </details>
 
-### DELETE: `/players/<id>`
+### DELETE `/players/<id>`
 
-Löscht den Spieler mit der ID `id`.  _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
+
+Löscht den Spieler mit der ID `id`.   
+Ein Spieler kann nur gelöscht werden, wenn er gerade an keinem Spiel teilnimmt.
 
 **Request**
 
@@ -398,17 +422,19 @@ Löscht den Spieler mit der ID `id`.  _Erfordert Authentifizierung._
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
-### GET: `/players/` 
+### GET `/players/` 
 
-Fragt alle Spieler ab. _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
+
+Fragt alle Spieler ab.
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
-```json5
+```json
 {
     "players": [
         {
@@ -428,9 +454,11 @@ HTTP status code 200.
 
 ## Spiel
 
-### POST: `/games/` 
+### POST `/games/` 
 
-Startet ein neues Spiel. _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
+
+Startet ein neues Spiel.
 
 **Request**
 
@@ -440,7 +468,7 @@ Startet ein neues Spiel. _Erfordert Authentifizierung._
 | `initialBoard` | `array` | Das Spielbrett, auf welchem das Spiel stattfindet (siehe unten) |
 | `players` | `array` | Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig) |
 
-```json5
+```json
 {
     "maxTurnTime": 60000, // eine Minute
     "players": [
@@ -473,9 +501,9 @@ Startet ein neues Spiel. _Erfordert Authentifizierung._
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
-```json5
+```json
 {
     "gameId": 0,
     "maxTurnTime": 60000,
@@ -508,9 +536,11 @@ HTTP status code 200.
 }
 ```
 
-### GET: `/games/<id>`
+### DELETE `/games/<id>`
 
-Fragt das Spiel mit der ID `id` ab. _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
+
+Löscht das Spiel mit der ID `id`.
 
 **Request**
 
@@ -520,10 +550,27 @@ Fragt das Spiel mit der ID `id` ab. _Erfordert Authentifizierung._
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
-```json5
+### GET `/games/<id>`
+
+_Erfordert Authentifizierung._
+
+Fragt den _aktuellen Zustand_ des Spiels mit der ID `id` ab.
+
+**Request**
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `int` | ID des Spiels |
+
+**Response**
+
+HTTP Status Code 200.
+
+```json
 {
+    "messageType": "turn", // turn = auf Zug wird gewartet, end = Spiel beendet, start = Spiel wird noch initialisiert
     "gameId": 0,
     "playerId": 0, // Spieler, der gerade am Zug ist
     "turnId": 0, // Index des aktuellen Zuges (zählt von 0)
@@ -549,31 +596,20 @@ HTTP status code 200.
         }
     }
 }
+
 ```
 
-### DELETE: `/games/<id>`
+### GET `/games/`
 
-Löscht das Spiel mit der ID `id`. _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
 
-**Request**
-
-| Parameter | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `id` | `int` | ID des Spiels |
+Fragt alle Spiele ab, aber nicht in ihrem aktuellen Zustand (siehe GET `/games/<id>`).
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
-### GET: `/games/`
-
-Fragt alle Spiele ab. _Erfordert Authentifizierung._
-
-**Response**
-
-HTTP status code 200.
-
-```json5
+```json
 {
     "games": [
         {
@@ -612,9 +648,11 @@ HTTP status code 200.
 
 ## Zug
 
-### `POST: /move/<id>`
+### POST `/move/<id>`
 
-Setzt einen Zug im Spiel mit der ID `id`. _Erfordert Authentifizierung._
+_Erfordert Authentifizierung._
+
+Setzt einen neuen Zug im Spiel mit der ID `id`.
 
 **Request**
 
@@ -622,7 +660,7 @@ Setzt einen Zug im Spiel mit der ID `id`. _Erfordert Authentifizierung._
 | ------ | ------ | ------ |
 | `id` | `int` | ID des Spiels |
 
-```json5
+```json
 {
     "move": {
         "start": {
@@ -643,14 +681,14 @@ Setzt einen Zug im Spiel mit der ID `id`. _Erfordert Authentifizierung._
 
 **Response**
 
-HTTP status code 200.
+HTTP Status Code 200.
 
 ## Zurücksetzen
 
-### `DELETE: /reset/`
+### DELETE `/reset/`
 
 Setzt den Spielserver auf Standartwerte zurück. Löscht alle Spieler und Spiele.
 
 **Response**
 
-HTTP status code 200. 
+HTTP Status Code 200. 
