@@ -374,10 +374,10 @@ Mit ihr wird erreicht, dass immer nur der Spieler kontrolliert werden kann, als 
 
 _Für den Auth Button werden folgende Properties benötigt:_
 
-| Prop | Typ | Wert |
-| ------ | ------ | ------ |
-| `authServiceURL` | `string` | `"https://webengineering.ins.hs-anhalt.de:40989"` |
-| `serviceBaseURLs` | `string[]` | `["https://webengineering.ins.hs-anhalt.de"]` |
+| Prop | Typ | Wert | Beschreibung |
+| ------ | ------ | ------ | ------ |
+| `authServiceURL` | `string` | `"https://webengineering.ins.hs-anhalt.de:40989"` | Die Authentifizierungs-Url der Hochschule Anhalt. |
+| `serviceBaseURLs` | `string[]` | `["https://webengineering.ins.hs-anhalt.de:<port>"]` | Liste von URLs der Webservices, die eine Authentifizierung benötigen. |
 
 ## Spieler
 
