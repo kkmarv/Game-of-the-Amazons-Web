@@ -147,17 +147,9 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 ## Inhalt
 
 1. [Dokumentation](#dokumentation)
-    1. [Interfaces](#interfaces)
-        1. [Für das Spielbrett](#spielbrett-typen)
-            1. [Coordinates](#coordinates)
-            2. [Tile](#tile)
-            3. [TileEnum](#tileenum)
-        2. [Für die API](#api-typen)
-            1. [Player](#player)
-            2. [Board](#board)
-            3. [Turn](#turn)
-            4. [InitialGame](#initialgame)
-            5. [RunningGame](#runninggame-extends-initialgame)
+    1. [Module](#module)
+        1. [requests](#requests)
+        2. [gameBoardTypes](#gameboardtypes)
     2. [Komponenten](#komponenten)
         1. [LobbyScreen](#lobbyscreen)
         2. [GameScreen](#gamescreen)
@@ -171,15 +163,185 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
-| `` | `` | ??? |
+| `Attributname` | `Datentyp` | Kurze Beschreibung |
 
-## Interfaces
+## Module
 
-Custom Interface Definitionen für TypeScript.
+TypeScript Dateien, welche kein TSX beinhalten und somit keine Komponenten sind.
 
-### Spielbrett Typen
+### requests
 
-Interfaces für das Spielbrett.
+Dieses Modul definiert die API-Anfragen mittels TypeScript.  
+Es wird so gut wie möglich versucht, Konsistenz zu der gegebenen API herzustellen.
+
+### Methoden
+
+#### createAiPlayer(name)
+
+Erstellt einen neuen KI Spieler.
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `name` | `string` | Name des neuen KI-Spielers <br> Der Name darf noch nicht vorhanden sein |
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<Player>` | Der erstellte Spieler |
+| `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
+
+#### deletePlayer(id)
+
+Löscht einen Spieler.  
+Schlägt automatisch fehl, sofern der Spieler an einem laufenden Spiel teilnimmt.
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | ID des zu löschenden Spielers |
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
+
+#### getAllPlayers()
+
+Gibt alle Spieler zurück.
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<Player[]>` | Liste aller menschlichen und KI-Spieler <br> Das Array ist leer, wenn keine Spieler vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
+
+#### createGame(players, maxTurnTime, initialBoard)
+
+Erstellt ein neues Spiel.
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `players` | `number[]` | Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen <br> Es sind mindestens 2 IDs notwendig) |
+| `maxTurnTime` | `int` | Zeit in Millisekunden, welche jeder Spieler hat, um seinen Zug auszuführen |
+| `initialBoard` | `Board` | Das Spielbrett, auf welchem das Spiel stattfindet |
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<InitialGame>` | Das erstellte Spiel |
+| `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
+
+#### deleteGame(id)
+
+Löscht ein Spiel.
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | ID des zu löschenden Spiels |
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
+
+#### getGame(id)
+
+Ruft ein bestimmtes Spiel ab.
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | ID des gefragten Spiels |
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<RunningGame>` | Das gefragte Spiel |
+| `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
+
+#### getAllGames()
+
+Ruft alle Spiele ab.  
+Hier werden im Gegensatz zu `getGame(id)` die Spiele in Form von `InitialGame` zurückgeben.
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<InitialGame[]>` | Liste aller Spiele <br> Jedes einzelne `InitialGame` hat hier das `turns` Attribut, welches alle bisher getätigten Züge beinhält <br> Das Array ist leer, wenn keine Spiele vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
+
+#### createTurn(turn)
+
+Erstellt einen neuen Zug in einem laufenden Spiel.
+
+| Parameter | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `turn` | `Turn` | Der Zug, der gesetzt werden soll <br> Sollte der Zug gemäß der Regeln des Amazonenspiels invalide sein, so wird das Spiel automatisch abgebrochen |
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
+
+#### reset()
+
+Setzt den Spielsever komplett auf Standartwerte zurück. Alle Spieler und Spiele werden gelöscht.
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
+
+### Klassen
+
+Typdefinitionen für die API Responses.
+
+#### Player
+
+Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid), [`POST /games/`](#post-games) und [`GET /games/`](#get-games) zu erreichen.
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | Spieler-ID |
+| `name` | `string` | Spielername |
+| `controllable` | `boolean` | `true` für menschliche und `false` für KI-Spieler |
+
+#### Board
+
+Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid) und [`POST /games/`](#post-games) zu erreichen.
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `rowCount` | `number` | Reihenanzahl des Spielbrettes |
+| `columnCount` | `number` |Spaltenanzahl des Spielbrettes |
+| `tiles` | `number[][]` | Repräsentation des Spielbrettes mit den zugehörigen Werten des `TileEnum` |
+
+#### Turn
+
+Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](#post-moveid) zu erreichen.
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
+| `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
+
+#### InitialGame
+
+Versucht Konsistenz mit den API-Responses von [`GET /games/`](#get-games) und [`POST /games/`](#post-games) zu erreichen.
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `id` | `number` | Spiel-ID |
+| `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
+| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von [`GET /games/<id>`](#get-gamesid) erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
+| `board` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
+| `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
+
+#### RunningGame `extends InitialGame`
+
+Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) zu erreichen.  
+Das Attribut `maxTurnTime` von `InitialGame` gibt hier die verbleibende Zugzeit des Spielers an. 
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `turnId` | `number` | Index des aktuellen Zuges, zählt von 0|
+| `playerId` | `number` | Spieler-ID, dessen, der gerade am Zug ist|
+| `lastTurn` | `Turn` | Zuletzt getätigter Zug|
+| `messageType` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet|
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Ist nur bei bereits beendeten Spielen vorhanden_ <br> |
+
+### gameBoardTypes
+
+### Klassen
+
+Typdefinitionen für das Spielbrett.
 
 #### Coordinates
 
@@ -203,64 +365,6 @@ Interfaces für das Spielbrett.
 | `OPPONENT` | `1` | Feld mit gegnerischer Amazone besetzt |
 | `EMPTY` | `-1` | Leeres Feld |
 | `ARROW` | `-2` | Durch Pfeil blockiertes Feld |
-
-### API Typen
-
-Interfaces für API Responses.
-
-#### Player
-
-Versucht Konsistenz mit den API-Responses von `GET /games/<id>`, `POST /games/` und `GET /games/` zu erreichen.
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `id` | `number` | Spieler-ID |
-| `name` | `string` | Spielername |
-| `controllable` | `boolean` | `true` für menschliche und `false` für KI-Spieler |
-
-#### Board
-
-Versucht Konsistenz mit den API-Responses von `GET /games/<id>` und `POST /games/` zu erreichen.
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `rowCount` | `number` | Reihenanzahl des Spielbrettes |
-| `columnCount` | `number` |Spaltenanzahl des Spielbrettes |
-| `tiles` | `number[][]` | Repräsentation des Spielbrettes mit den zugehörigen Werten des `TileEnum` |
-
-#### Turn
-
-Versucht Konsistenz mit der API-Response von `POST /move/<id>` zu erreichen.
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
-| `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
-
-#### InitialGame
-
-Versucht Konsistenz mit den API-Responses von `GET /games/` und `POST /games/` zu erreichen.
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `id` | `number` | Spiel-ID |
-| `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
-| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von `GET /games/<id>` erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
-| `board` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
-| `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
-
-#### RunningGame `extends InitialGame`
-
-Versucht Konsistenz mit der API-Response von `GET /games/<id>` zu erreichen.  
-Das Attribut `maxTurnTime` von `InitialGame` gibt hier die verbleibende Zugzeit des Spielers an. 
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `turnId` | `number` | Index des aktuellen Zuges, zählt von 0|
-| `playerId` | `number` | Spieler-ID, dessen, der gerade am Zug ist|
-| `lastTurn` | `Turn` | Zuletzt getätigter Zug|
-| `messageType` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet|
-| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Ist nur bei bereits beendeten Spielen vorhanden_ <br> |
 
 ## Komponenten
 
@@ -461,12 +565,6 @@ _Erfordert Authentifizierung._
 Startet ein neues Spiel.
 
 **Request**
-
-| Parameter | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `maxTurnTime` | `int` | Millisekunden, welche jeder Spieler Zeit hat, um seinen Zug auszuführen |
-| `initialBoard` | `array` | Das Spielbrett, auf welchem das Spiel stattfindet (siehe unten) |
-| `players` | `array` | Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen (2 IDs notwendig) |
 
 ```json
 {
