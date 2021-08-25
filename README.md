@@ -259,12 +259,13 @@ Hier werden im Gegensatz zu `getGame(id)` die Spiele in Form von `InitialGame` z
 | ------ | ------ |
 | `Promise<InitialGame[]>` | Liste aller Spiele <br> Jedes einzelne `InitialGame` hat hier das `turns` Attribut, welches alle bisher getätigten Züge beinhält <br> Das Array ist leer, wenn keine Spiele vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
 
-#### createTurn(turn)
+#### createTurn(gameId, turn)
 
 Erstellt einen neuen Zug in einem laufenden Spiel.
 
 | Parameter | Typ | Beschreibung |
 | ------ | ------ | ------ |
+| `gameId` | `number` | Die ID des Spiels, in dem der Zug gemacht werden soll |
 | `turn` | `Turn` | Der Zug, der gesetzt werden soll <br> Sollte der Zug gemäß der Regeln des Amazonenspiels invalide sein, so wird das Spiel automatisch abgebrochen |
 
 | Rückgabewert | Beschreibung |
@@ -273,7 +274,7 @@ Erstellt einen neuen Zug in einem laufenden Spiel.
 
 #### reset()
 
-Setzt den Spielsever komplett auf Standartwerte zurück. Alle Spieler und Spiele werden gelöscht.
+Setzt den Spielsever komplett auf Standartwerte zurück. Alle Spieler und Spiele werden gelöscht. Alle IDs werden auf 0 zurückgesetzt.
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
@@ -489,13 +490,14 @@ _Für den Auth Button werden folgende Properties benötigt:_
 
 _Erfordert Authentifizierung._
 
-Erstellt einen neuen KI-Spieler.
+Erstellt einen neuen Spieler.
 
 **Request**
 
 | Parameter | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `name` | `string` | Spielername |
+| `controllable` | `boolean` | `true` für menschlichen Spieler, sonst `false` |
 
 **Response**
 
