@@ -493,11 +493,6 @@ Erstellt einen neuen KI-Spieler.
 
 **Request**
 
-| Parameter | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `name` | `string` | Spielername |
-| `controllable` | `boolean` | `true` für menschlichen Spieler, sonst `false` |
-
 ```json
 {
     "name": "Spieler1"
