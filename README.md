@@ -222,7 +222,7 @@ Erstellt ein neues Spiel.
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
-| `Promise<InitialGame>` | Das erstellte Spiel |
+| `Promise<BasicGame>` | Das erstellte Spiel |
 | `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
 
 #### deleteGame(id)
@@ -247,17 +247,17 @@ Ruft ein bestimmtes Spiel ab.
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
-| `Promise<RunningGame>` | Das gefragte Spiel |
+| `Promise<DetailedGame>` | Das gefragte Spiel |
 | `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
 
 #### getAllGames()
 
 Ruft alle Spiele ab.  
-Hier werden im Gegensatz zu `getGame(id)` die Spiele in Form von `InitialGame` zurückgeben.
+Hier werden im Gegensatz zu [`getGame(id)`](#getgameid) die Spiele in Form von `BasicGame` zurückgeben.
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
-| `Promise<InitialGame[]>` | Liste aller Spiele <br> Jedes einzelne `InitialGame` hat hier das `turns` Attribut, welches alle bisher getätigten Züge beinhält <br> Das Array ist leer, wenn keine Spiele vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
+| `Promise<BasicGame[]>` | Liste aller Spiele <br> Das Array ist leer, wenn keine Spiele vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
 
 #### createTurn(gameId, turn)
 
@@ -304,6 +304,13 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid) 
 | `columnCount` | `number` |Spaltenanzahl des Spielbrettes |
 | `tiles` | `number[][]` | Repräsentation des Spielbrettes mit den zugehörigen Werten des `TileEnum` |
 
+#### Coordinates
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `row` | `number` | y-Koordinate eines 2D Arrays |
+| `column` | `number` | x-Koordinate eines 2D Arrays |
+
 #### Turn
 
 Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](#post-moveid) zu erreichen.
@@ -313,7 +320,7 @@ Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](#post-moveid) z
 | `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
 | `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
 
-#### InitialGame
+#### BasicGame
 
 Versucht Konsistenz mit den API-Responses von [`GET /games/`](#get-games) und [`POST /games/`](#post-games) zu erreichen.
 
@@ -321,35 +328,27 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/`](#get-games) und [`
 | ------ | ------ | ------ |
 | `id` | `number` | Spiel-ID |
 | `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
-| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers <br> Falls das Game Objekt per Aufruf von [`GET /games/<id>`](#get-gamesid) erzeugt wurde, gibt `maxTurnTime` die verbleibende Zugzeit an |
-| `board` | `Board` | Das zugehörige Spielbrett als `Board` Objekt |
-| `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
+| `maxTurnTime?` | `number` | Maximale Zugzeit eines jeden Spielers <br> _OPTIONAL Wird nicht von [`GET /games/`](#get-games) verwendet_ |
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Wird nicht von [`POST /games/`](#post-games) verwendet und ist nur bei bereits beendeten Spielen vorhanden_ |
+| `board?` | `Board` | Das zugehörige Spielbrett <br> _OPTIONAL Wird nicht von [`GET /games/`](#get-games) verwendet_ |
 
-#### RunningGame `extends InitialGame`
+#### DetailedGame `extends BasicGame`
 
-Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) zu erreichen.  
-Das Attribut `maxTurnTime` von `InitialGame` gibt hier die verbleibende Zugzeit des Spielers an. 
+Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
-| `turnId` | `number` | Index des aktuellen Zuges, zählt von 0|
-| `playerId` | `number` | Spieler-ID, dessen, der gerade am Zug ist|
-| `lastTurn` | `Turn` | Zuletzt getätigter Zug|
-| `messageType` | `string` | `start` Initialisierung des Spielservers <br> `turn` Warten auf Zug <br> `end` Spiel ist beendet|
-| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Ist nur bei bereits beendeten Spielen vorhanden_ <br> |
+| `playerId` | `number` | Spieler-ID, dessen, der gerade am Zug ist |
+| `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers |
+| `remainingTurnTime` | `number` | Verbleibende Zugzeit des aktuellen Spielers <br> Ist gleich der `maxTurnTime`, falls das Spiel bereit beendet wurde |
+| `board` | `Board` | Das zugehörige Spielbrett |
+| `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
 
 ### gameBoardTypes
 
 ### Klassen
 
 Typdefinitionen für das Spielbrett.
-
-#### Coordinates
-
-| Attribut | Typ | Beschreibung |
-| ------ | ------ | ------ |
-| `row` | `number` | y-Koordinate eines 2D Arrays |
-| `column` | `number` | x-Koordinate eines 2D Arrays |
 
 #### Tile
 
@@ -389,7 +388,7 @@ Verwaltet ein Spiel und die zugehörigen API Requests.
 | ------ | ------ | ------ |
 | `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
 | `localPlayers` | `Player[]` | ??? |
-| `initialGame` | `Game` | Das Spiel wird mit diesen Spiel-Informationen initialisiert |
+| `BasicGame` | `Game` | Das Spiel wird mit diesen Spiel-Informationen initialisiert |
 
 **Methoden**
 
@@ -609,10 +608,12 @@ HTTP Status Code 200.
     "maxTurnTime": 60000,
     "players": [
         {
+            "playerId": 0,
             "name": "Spieler1",
             "controllable": true
         },
         {
+            "playerId": 1,
             "name": "Spieler2",
             "controllable": false
         }
@@ -656,7 +657,7 @@ HTTP Status Code 200.
 
 _Erfordert Authentifizierung._
 
-Fragt den _aktuellen Zustand_ des Spiels mit der ID `id` ab.
+Fragt detaillierte Informationen des Spiels mit der ID `id` ab.
 
 **Request**
 
@@ -670,31 +671,44 @@ HTTP Status Code 200.
 
 ```json
 {
-    "messageType": "turn", // turn = auf Zug wird gewartet, end = Spiel beendet, start = Spiel wird noch initialisiert
     "gameId": 0,
     "playerId": 0, // Spieler, der gerade am Zug ist
-    "turnId": 0, // Index des aktuellen Zuges (zählt von 0)
     "winningPlayer": 0, // optional: gibt an, welcher Spieler gewonnen hat
+    "maxTurnTime": 60000, // maximale Zugzeit
+    "remainingTurnTime": 60000, // verbleibende Zugzeit des aktuellen Spielers
     "board": { // siehe oben
         // ...
     },
-    "maxTurnTime": 60000, // verbleibende Zugzeit
-    "enemyTurn": { // der letzte Zug des Gegners
-        "move": {
-            "start": {
-                "row": 3, // Startzeile
-                "column": 2, // Startspalte
+    "players": [
+        {
+            "playerId": 0,
+            "name": "Spieler1",
+            "controllable": true
+        },
+        {
+            "playerId": 1,
+            "name": "Spieler2",
+            "controllable": false
+        }
+    ],
+    "turns": [ // Optional: Liste aller Züge
+        {
+            "move": {
+                "start": {
+                    "row": 3, // Startzeile der Bewegung
+                    "column": 2, // Startspalte der Bewegung
+                },
+                "end": {
+                    "row": 5, // Zielzeile der Bewegung
+                    "column": 2, // Zielspalte der Bewegung
+                }
             },
-            "end": {
-                "row": 5, // Zielzeile
-                "column": 2, // Zielspalte
+            "shot": {
+                "row": 3, // Zeile des Pfeilschusses
+                "column": 2, // Spalte des Pfeilschusses
             }
         },
-        "shot": { // Pfeilschuss
-            "row": 5, // Zeile des Pfeiles
-            "column": 2, // Spalte des Pfeiles
-        }
-    }
+    ]
 }
 
 ```
@@ -703,7 +717,7 @@ HTTP Status Code 200.
 
 _Erfordert Authentifizierung._
 
-Fragt alle Spiele ab, aber nicht in ihrem aktuellen Zustand (siehe GET `/games/<id>`).
+Fragt grobe Informationen aller Spiele ab.
 
 **Response**
 
@@ -714,33 +728,23 @@ HTTP Status Code 200.
     "games": [
         {
             "gameId": 0,
-            "initialBoard": { // siehe oben, das initiale Board (nicht der aktuelle Zustand)
-                // ...
-            },
-            "maxTurnTime": 60000, // Zugzeit, welche jeder Spieler zur Verfügung hat
             "winningPlayer": 0, // optional: gibt den Siegspieler an
-            "turns": [ // Optional: Liste aller Züge
+            "players": [ // Spieler, die am Spiel teilnehmen
                 {
-                    "move": {
-                        "start": {
-                            "row": 3, // Startzeile der Bewegung
-                            "column": 2, // Startspalte der Bewegung
-                        },
-                        "end": {
-                            "row": 5, // Zielzeile der Bewegung
-                            "column": 2, // Zielspalte der Bewegung
-                        }
-                    },
-                    "shot": {
-                        "row": 3, // Zeile des Pfeilschusses
-                        "column": 2, // Spalte des Pfeilschusses
-                    }
+                    "playerId": 0,
+                    "name": "Spieler1",
+                    "controllable": true
                 },
-            ]
+                {
+                    "playerId": 1,
+                    "name": "Spieler2",
+                    "controllable": false
+                }
+            ],
         },
         {
             // ...
-        }
+        },
         // ...
     ]
 }
@@ -787,7 +791,8 @@ HTTP Status Code 200.
 
 ### DELETE `/reset/`
 
-Setzt den Spielserver auf Standartwerte zurück. Löscht alle Spieler und Spiele.
+Setzt den Spielserver auf Standartwerte zurück. Löscht alle Spieler und Spiele.  
+Spieler, die sich per Auth-Button authentifiziert haben und noch eingeloggt sind, werden danach automatisch wieder angelegt.
 
 **Response**
 
