@@ -176,6 +176,8 @@ Es wird so gut wie möglich versucht, Konsistenz zu der gegebenen API herzustell
 
 ### Methoden
 
+---
+
 #### createAiPlayer(name)
 
 Erstellt einen neuen KI Spieler.
@@ -188,6 +190,8 @@ Erstellt einen neuen KI Spieler.
 | ------ | ------ |
 | `Promise<Player>` | Der erstellte Spieler |
 | `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
+
+---
 
 #### deletePlayer(id)
 
@@ -202,6 +206,8 @@ Schlägt automatisch fehl, sofern der Spieler an einem laufenden Spiel teilnimmt
 | ------ | ------ |
 | `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
 
+---
+
 #### getAllPlayers()
 
 Gibt alle Spieler zurück.
@@ -210,7 +216,9 @@ Gibt alle Spieler zurück.
 | ------ | ------ |
 | `Promise<Player[]>` | Liste aller menschlichen und KI-Spieler <br> Das Array ist leer, wenn keine Spieler vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
 
-#### createGame(players, maxTurnTime, initialBoard)
+---
+
+#### createGame(players, maxTurnTime, rowCount, columnCount, tiles)
 
 Erstellt ein neues Spiel.
 
@@ -218,12 +226,16 @@ Erstellt ein neues Spiel.
 | ------ | ------ | ------ |
 | `players` | `number[]` | Liste der Spieler-IDs, welche an diesem Spiel teilnehmen sollen <br> Es sind mindestens 2 IDs notwendig) |
 | `maxTurnTime` | `int` | Zeit in Millisekunden, welche jeder Spieler hat, um seinen Zug auszuführen |
-| `initialBoard` | `Board` | Das Spielbrett, auf welchem das Spiel stattfindet |
+| `rowCount` | `number` | Anzahl der Zeilen des Spielbrettes |
+| `columnCount` | `number` | Anzahl der Spalten des Spielbrettes |
+| `tiles` | `number[]` | Liste der Spalten des Spielbrettes (von 0 bis rowCount - 1) <br> Folgende Integer-Werte sind in diesen Arrays erlaubt: <br> `0` - Amazone des Spielers mit Index 0 in `players` <br> `1` - Amazone des Spielers mit Index 1 in `players` <br> `-1` - leeres Feld <br> `-2` - Giftpfeil |
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
 | `Promise<BasicGame>` | Das erstellte Spiel |
 | `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
+
+---
 
 #### deleteGame(id)
 
@@ -236,6 +248,8 @@ Löscht ein Spiel.
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
 | `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
+
+---
 
 #### getGame(id)
 
@@ -250,6 +264,8 @@ Ruft ein bestimmtes Spiel ab.
 | `Promise<DetailedGame>` | Das gefragte Spiel |
 | `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
 
+---
+
 #### getAllGames()
 
 Ruft alle Spiele ab.  
@@ -258,6 +274,8 @@ Hier werden im Gegensatz zu [`getGame(id)`](#getgameid) die Spiele in Form von `
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
 | `Promise<BasicGame[]>` | Liste aller Spiele <br> Das Array ist leer, wenn keine Spiele vorhanden sind oder ein Fehler bei der Anfrage aufgetreten ist. |
+
+---
 
 #### createTurn(gameId, turn)
 
@@ -272,6 +290,8 @@ Erstellt einen neuen Zug in einem laufenden Spiel.
 | ------ | ------ |
 | `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
 
+---
+
 #### reset()
 
 Setzt den Spielsever komplett auf Standartwerte zurück. Alle Spieler und Spiele werden gelöscht. Alle IDs werden auf 0 zurückgesetzt.
@@ -280,9 +300,13 @@ Setzt den Spielsever komplett auf Standartwerte zurück. Alle Spieler und Spiele
 | ------ | ------ |
 | `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
 
+---
+
 ### Klassen
 
 Typdefinitionen für die API Responses.
+
+---
 
 #### Player
 
@@ -294,6 +318,8 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid),
 | `name` | `string` | Spielername |
 | `controllable` | `boolean` | `true` für menschliche und `false` für KI-Spieler |
 
+---
+
 #### Board
 
 Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid) und [`POST /games/`](#post-games) zu erreichen.
@@ -304,12 +330,16 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid) 
 | `columnCount` | `number` |Spaltenanzahl des Spielbrettes |
 | `tiles` | `number[][]` | Repräsentation des Spielbrettes mit den zugehörigen Werten des `TileEnum` |
 
+---
+
 #### Coordinates
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `row` | `number` | y-Koordinate eines 2D Arrays |
 | `column` | `number` | x-Koordinate eines 2D Arrays |
+
+---
 
 #### Turn
 
@@ -319,6 +349,8 @@ Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](#post-moveid) z
 | ------ | ------ | ------ |
 | `move` | `{start: Coordinates, end: Coordinates}` | Start- und Endkoordinaten der Bewegung einer Amazone |
 | `shot` | `Coordinates` | Koordinaten eines Pfeilschusses |
+
+---
 
 #### BasicGame
 
@@ -332,6 +364,8 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/`](#get-games) und [`
 | `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Wird nicht von [`POST /games/`](#post-games) verwendet und ist nur bei bereits beendeten Spielen vorhanden_ |
 | `board?` | `Board` | Das zugehörige Spielbrett <br> _OPTIONAL Wird nicht von [`GET /games/`](#get-games) verwendet_ |
 
+---
+
 #### DetailedGame `extends BasicGame`
 
 Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) zu erreichen.
@@ -344,11 +378,15 @@ Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) z
 | `board` | `Board` | Das zugehörige Spielbrett |
 | `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
 
+---
+
 ### gameBoardTypes
 
 ### Klassen
 
 Typdefinitionen für das Spielbrett.
+
+---
 
 #### Tile
 
@@ -356,6 +394,8 @@ Typdefinitionen für das Spielbrett.
 | ------ | ------ | ------ |
 | `disabled` | `boolean` | `false` anklickbar <br> `true` nicht anklickbar |
 | `tileType` | `TileEnum` | Wert aus dem `TileEnum` |
+
+---
 
 #### TileEnum
 
@@ -366,17 +406,25 @@ Typdefinitionen für das Spielbrett.
 | `EMPTY` | `-1` | Leeres Feld |
 | `ARROW` | `-2` | Durch Pfeil blockiertes Feld |
 
+---
+
 ## Komponenten
 
 Die React Komponenten der Webseite.
+
+---
 
 ### LobbyScreen
 
 Ist der umgebende Container für das GUI der Lobby-Seite. Der User beginnt hier.
 
+---
+
 ### GameScreen
 
 Ist der umgebende Container für das GUI einer Spiel-Seite.
+
+---
 
 #### GameControl
 
@@ -392,6 +440,8 @@ Verwaltet ein Spiel und die zugehörigen API Requests.
 
 **Methoden**
 
+---
+
 #### PlayerSidebar
 
 Repräsentiert die Spieler-Informationen am Seitenrand des Bildschirms.  
@@ -404,6 +454,8 @@ Speichert Informationen wie die Zug-Historie oder gespielte Zeit des jeweiligen 
 | `player` | `Player` | Spieler, für den die Informationen angezeigt werden |
 
 **Methoden**
+
+---
 
 #### GameBoard
 
@@ -419,6 +471,8 @@ Stellt das GUI für das Brett bereit und sorgt für die Einhaltung valider Züge
 | `initialBoard` | `Board` | `Board`, das gerendert wird |
 
 **Methoden**
+
+---
 
 #### GameBoardTile
 
@@ -436,6 +490,8 @@ Verwaltet jeweils ein `HTMLButtonElement`.
 | `disabled` | `boolean` | `false` anklickbar <br> `true` nicht anklickbar |
 
 **Methoden**
+
+---
 
 ## Weiterführende Links
 
@@ -513,6 +569,8 @@ HTTP Status Code 200.
 
 </details>
 
+---
+
 ### DELETE `/players/<id>`
 
 _Erfordert Authentifizierung._
@@ -529,6 +587,8 @@ Ein Spieler kann nur gelöscht werden, wenn er gerade an keinem Spiel teilnimmt.
 **Response**
 
 HTTP Status Code 200.
+
+---
 
 ### GET `/players/` 
 
@@ -557,6 +617,8 @@ HTTP Status Code 200.
     ]
 }
 ```
+
+---
 
 ## Spiel
 
@@ -638,6 +700,8 @@ HTTP Status Code 200.
 }
 ```
 
+---
+
 ### DELETE `/games/<id>`
 
 _Erfordert Authentifizierung._
@@ -653,6 +717,8 @@ Löscht das Spiel mit der ID `id`.
 **Response**
 
 HTTP Status Code 200.
+
+---
 
 ### GET `/games/<id>`
 
@@ -713,6 +779,8 @@ HTTP Status Code 200.
 }
 
 ```
+
+---
 
 ### GET `/games/`
 
@@ -788,6 +856,8 @@ Setzt einen neuen Zug im Spiel mit der ID `id`.
 
 HTTP Status Code 200.
 
+---
+
 ## Zurücksetzen
 
 ### DELETE `/reset/`
@@ -797,4 +867,6 @@ Spieler, die sich per Auth-Button authentifiziert haben und noch eingeloggt sind
 
 **Response**
 
-HTTP Status Code 200. 
+HTTP Status Code 200.
+
+---
