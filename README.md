@@ -489,7 +489,7 @@ _Für den Auth Button werden folgende Properties benötigt:_
 
 _Erfordert Authentifizierung._
 
-Erstellt einen neuen Spieler.
+Erstellt einen neuen KI-Spieler.
 
 **Request**
 
@@ -498,6 +498,12 @@ Erstellt einen neuen Spieler.
 | `name` | `string` | Spielername |
 | `controllable` | `boolean` | `true` für menschlichen Spieler, sonst `false` |
 
+```json
+{
+    "name": "Spieler1"
+}
+```
+
 **Response**
 
 HTTP Status Code 200.
@@ -505,7 +511,7 @@ HTTP Status Code 200.
 ```json
 {
     "name": "Spieler1",
-    "controllable": true,
+    "controllable": false,
     "playerId": 0
 }
 ```
