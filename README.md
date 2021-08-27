@@ -479,7 +479,7 @@ Stellt das GUI für das Brett bereit und sorgt für die Einhaltung valider Züge
 
 | Prop | Typ | Beschreibung |
 | ------ | ------ | ------ |
-| `onTurnEnd` | `(turn): Turn => Promise<void>` | Wird aufgerufen wenn ein Zug endet |
+| `onTurnEnd` | `(turn: Turn) => Promise<void>` | Wird aufgerufen wenn ein Zug endet |
 | `isLocalPlayer` | `boolean` | `true` falls gerade der lokale Spieler am Zug ist, sonst `false` |
 | `initialBoard` | `Board` | `Board`, das gerendert wird |
 
