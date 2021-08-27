@@ -1,12 +1,14 @@
 # Game of the Amazons
 
-Das Amazonenspiel ist ein abstraktes Strategie-Brettspiel für 2 Spieler, welches auf auf einem 10x10 Schachbrett gespielt wird.
+Das Amazonenspiel ist ein abstraktes Strategie-Brettspiel für 2 Spieler, welches standardmäßig auf auf einem 10x10 Schachbrett gespielt wird.
 
-Es spielt Schwarz gegen Weiß. Weiß beginnt.<br>
-Jeder Spieler hat 4 Amazonen, die bereits zu Beginn des Spiels auf dem Brett platziert sind.<br>
+Es spielt Schwarz gegen Weiß. Weiß beginnt.  
+Jeder Spieler hat 4 Amazonen, die bereits zu Beginn des Spiels auf dem Brett platziert sind.  
 Amazonen können sich wie die Dame im Schach auf der Horizontalen, Vertikalen und den beiden Diagonalen bewegen, bis sie auf ein Hindernis treffen. Die Besonderheit des Amazonenspiels ist jedoch, dass Amazonen nach jedem Zug einen "giftigen" Pfeil verschießen müssen, mit dem Ziel, gegnerische Züge zu blockieren.
 
 Der Spieler, der zuerst keine seiner Amazonen mehr bewegen kann, verliert.
+
+Natürlich gibt es diverse Varianten des Amazonenspiels, in denen beispielsweise mehr Amazonen oder ein kleineres Spielbrett verwendet werden.
 
 Mehr dazu auf der [deutschen Wikipedia Seite.](https://de.wikipedia.org/wiki/Amazonen_(Spiel))
 
@@ -205,6 +207,17 @@ Schlägt automatisch fehl, sofern der Spieler an einem laufenden Spiel teilnimmt
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
 | `Promise<boolean>` | `true` bei Erfolg, sonst `false` |
+
+---
+
+#### getLocalPlayer()
+
+Gibt den aktuell angemeldeten Spieler zurück.
+
+| Rückgabewert | Beschreibung |
+| ------ | ------ |
+| `Promise<Player>` | Der aktuell angemeldete Spieler |
+| `Promise<undefined>` | Falls die Anfrage fehlgeschlagen ist |
 
 ---
 
@@ -561,13 +574,11 @@ HTTP Status Code 200.
 
 ```json
 {
+    "id": 0,
     "name": "Spieler1",
-    "controllable": false,
-    "playerId": 0
+    "controllable": false
 }
 ```
-
-</details>
 
 ---
 
@@ -590,6 +601,27 @@ HTTP Status Code 200.
 
 ---
 
+### GET `/players/me`
+
+_Erfordert Authentifizierung._
+
+Liefert den aktuell eingeloggten Spieler.
+
+**Response**
+
+HTTP Status Code 200.
+
+
+```json
+{
+    "id": 0,
+    "name": "Spieler1",
+    "controllable": true
+}
+```
+
+---
+
 ### GET `/players/` 
 
 _Erfordert Authentifizierung._
@@ -604,12 +636,12 @@ HTTP Status Code 200.
 {
     "players": [
         {
-            "playerId": 0,
+            "id": 0,
             "name": "Spieler 1",
             "controllable": true
         },
         {
-            "playerId": 1,
+            "id": 1,
             "name": "Spieler 2",
             "controllable": false
         }
@@ -637,7 +669,7 @@ Startet ein neues Spiel.
         0,
         1
     ],
-    "initialBoard": {
+    "board": {
         "gameSizeRows": 10, // Zeilen des Spielbrettes
         "gameSizeColumns": 10, // Spalten des Spielbrettes
         "squares": [ // Liste von Zeilen des Spielbrettes (von 0 bis gameSizeRows - 1)
@@ -667,21 +699,21 @@ HTTP Status Code 200.
 
 ```json
 {
-    "gameId": 0,
+    "id": 0,
     "maxTurnTime": 60000,
     "players": [
         {
-            "playerId": 0,
+            "id": 0,
             "name": "Spieler1",
             "controllable": true
         },
         {
-            "playerId": 1,
+            "id": 1,
             "name": "Spieler2",
             "controllable": false
         }
     ],
-    "initialBoard": {
+    "board": {
         "gameSizeRows": 10, // Zeilen des Spielbrettes
         "gameSizeColumns": 10, // Spalten des Spielbrettes
         "squares": [
@@ -738,8 +770,8 @@ HTTP Status Code 200.
 
 ```json
 {
-    "gameId": 0,
-    "playerId": 0, // Spieler, der gerade am Zug ist
+    "id": 0,
+    "turnPlayer": 0, // Spieler, der gerade am Zug ist
     "winningPlayer": 0, // optional: gibt an, welcher Spieler gewonnen hat
     "maxTurnTime": 60000, // maximale Zugzeit
     "remainingTurnTime": 60000, // verbleibende Zugzeit des aktuellen Spielers
@@ -748,12 +780,12 @@ HTTP Status Code 200.
     },
     "players": [
         {
-            "playerId": 0,
+            "id": 0,
             "name": "Spieler1",
             "controllable": true
         },
         {
-            "playerId": 1,
+            "id": 1,
             "name": "Spieler2",
             "controllable": false
         }
@@ -796,16 +828,16 @@ HTTP Status Code 200.
 {
     "games": [
         {
-            "gameId": 0,
+            "id": 0,
             "winningPlayer": 0, // optional: gibt den Siegspieler an
             "players": [ // Spieler, die am Spiel teilnehmen
                 {
-                    "playerId": 0,
+                    "id": 0,
                     "name": "Spieler1",
                     "controllable": true
                 },
                 {
-                    "playerId": 1,
+                    "id": 1,
                     "name": "Spieler2",
                     "controllable": false
                 }
