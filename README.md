@@ -387,7 +387,7 @@ Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) z
 | ------ | ------ | ------ |
 | `playerId` | `number` | Spieler-ID, dessen, der gerade am Zug ist |
 | `maxTurnTime` | `number` | Maximale Zugzeit eines jeden Spielers |
-| `remainingTurnTime` | `number` | Verbleibende Zugzeit des aktuellen Spielers <br> Ist gleich der `maxTurnTime`, falls das Spiel bereit beendet wurde |
+| `remainingTurnTime?` | `number` | Verbleibende Zugzeit des aktuellen Spielers <br> _OPTIONAL Ist nur bei laufenden Spielen vorhanden_ |
 | `board` | `Board` | Das zugehörige Spielbrett |
 | `turns?` | `Turn[]` | Liste aller Züge <br> _OPTIONAL Ist nur bei Spielen mit getätigten Zügen vorhanden_ |
 
@@ -774,7 +774,7 @@ HTTP Status Code 200.
     "turnPlayer": 0, // Spieler, der gerade am Zug ist
     "winningPlayer": 0, // optional: gibt an, welcher Spieler gewonnen hat
     "maxTurnTime": 60000, // maximale Zugzeit
-    "remainingTurnTime": 60000, // verbleibende Zugzeit des aktuellen Spielers
+    "remainingTurnTime": 60000, // optional: verbleibende Zugzeit des aktuellen Spielers
     "board": { // siehe oben
         // ...
     },
