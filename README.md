@@ -86,7 +86,7 @@ Die **fettgedruckten** Funktionalitäten, sowie _alle Tests_ sind für die Absch
 
 #### Auf der Lobby-Seite möchte der Nutzer:
     
-- [ ] seinen eigenen Namen frei wählen können
+- [ ] <del>seinen eigenen Namen frei wählen können</del>
 - [ ] **ein Tutorial sehen können, welches kurz das Spielprinzip erklärt**
     - [ ] in Form von GIFs und kurzen Texten
 - [ ] **Mulitplayer-Spiele gegen andere Menschen spielen, indem er**
