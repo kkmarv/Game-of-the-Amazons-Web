@@ -1,46 +1,84 @@
 import '../styles/App.css';
-import React, {Component} from 'react';
-import {GameControl} from "./GameControl";
 
+import React, {Component} from 'react';
+import AuthButton from "@hs-anhalt/auth-button"
 import * as requests from "../requests";
+import {BasicGame, Player} from "../requests";
+import {LoadingScreen} from "./LoadingScreen";
+import {GameScreen} from "./GameScreen/GameScreen";
+
 
 type State = {
     isLoaded: boolean
+    isAuthenticated: boolean
 }
 
 export default class App extends Component<any, State> {
-    private readonly loadingScreen = <div><h1>Loading...</h1></div>
+    debugTilesArray: number[][] = [
+        [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
+    ]
 
-    // Both get send to GameControl after initial requests.
-    game: any = {}
-    players: any = []
+
+    private players: any = []
 
     constructor(props: any) {
         super(props);
         this.state = {
-            isLoaded: false
+            isLoaded: false,
+            isAuthenticated: false
         }
-    }
-
-    async componentDidMount() {
-        await this.readyUpPlayers()
-        await this.readyUpGame()
-        this.setState({isLoaded: true})
     }
 
     render() {
-        // return this.debugButtons()
-        if (!this.state.isLoaded) return this.loadingScreen
-        else {
+        if (this.state.isAuthenticated) {
+            return this.state.isLoaded ? (
+                // <DebugButtons/>
+                <GameScreen
+                    playerIds={[0, 1]}
+                    maxTurnTime={30000}
+                    tiles={this.debugTilesArray}
+                />
+            ) : (
+                <LoadingScreen/>
+            )
+        } else {
             return (
-                <GameControl players={this.players} localPlayers={[this.players[0]]} initialGameInfo={this.game!}/>
-            );
+                <AuthButton
+                    authServiceURL={"https://webengineering.ins.hs-anhalt.de:40989"}
+                    serviceBaseURLs={["https://webengineering.ins.hs-anhalt.de:40917"]}
+                    onAuthorize={async () => {
+                        console.log("Authentication successful!")
+                        await this.setState({isAuthenticated: true})
+                        await this.test()
+                        // await this.readyUpPlayers()
+                        // await this.readyUpGame()
+                        await this.setState({isLoaded: true})
+                    }}
+                />
+            )
         }
+    }
+
+
+    async test() {
+        let allGames: BasicGame[] = await requests.getAllGames()
+        // let allGames: InitialGame[] = await requests.getAllGames()
+
+        if (allGames.length === 0) await this.createTestGame()
     }
 
 
     async readyUpPlayers(): Promise<void> {
-        let allPlayers = await requests.getAllPlayers() as player[]
+        let allPlayers: Player[] = await requests.getAllPlayers()
 
         console.log("response all players:")
         console.log(allPlayers)
@@ -48,124 +86,51 @@ export default class App extends Component<any, State> {
         if (allPlayers.length !== 2) {
             allPlayers = []
             await requests.reset()
-            allPlayers.push(await requests.createPlayer({name: "player1", controllable: true}) as player) // possible error : players!
-            allPlayers.push(await requests.createPlayer({name: "player2", controllable: false}) as player)
+            allPlayers.push(await requests.createAiPlayer("player1") as Player) // possible error : players!
+            allPlayers.push(await requests.createAiPlayer("player2") as Player)
         }
         this.players = allPlayers
     }
 
-    async readyUpGame(): Promise<void> {
-        const allGames = await requests.getAllGames() as game[]
-
-        console.log("response all games:")
-        console.log(allGames)
-
-        if (allGames.length === 0) this.game = await requests.getGame((await this.createTestGame()).gameId)
-
-        else if (allGames.length === 1) { // Wenn es bereits ein Spiel gibt,
-            if (allGames[0].winningPlayer) { // und es bereits fertig ist
-                await requests.deleteGame(allGames[0].gameId)
-                this.game = await requests.getGame((await this.createTestGame()).gameId)
-            } else this.game = await requests.getGame(allGames[0].gameId) // und es noch läuft
-
-        } else { // Fehlerzustand => reset und alles neu
-            await requests.reset()
-            await this.readyUpPlayers()
-            await this.readyUpGame()
-        }
-    }
+    // async readyUpGame(): Promise<void> {
+    //     const allGames = await requests.getAllGames() as RunningGame[]
+    //
+    //     console.log("response all games:")
+    //     console.log(allGames)
+    //
+    //     if (allGames.length === 0) this.game = await requests.getGame((await this.createTestGame() as InitialGame).id)
+    //
+    //     else if (allGames.length === 1) { // Wenn es bereits ein Spiel gibt,
+    //         if (allGames[0].winningPlayer) { // und es bereits fertig ist
+    //             await requests.deleteGame(allGames[0].id)
+    //             this.game = await requests.getGame((await this.createTestGame() as InitialGame).id)
+    //         } else this.game = await requests.getGame(allGames[0].id) // und es noch läuft
+    //
+    //     } else { // Fehlerzustand => reset und alles neu
+    //         await requests.reset()
+    //         await this.readyUpPlayers()
+    //         await this.readyUpGame()
+    //     }
+    // }
 
     createTestGame() {
-        return requests.createGame({
-            maxTurnTime: 60000,
-            players: this.players.map((player: player) => {
-                return player.playerId
-            }),
-            initialBoard: {
-                gameSizeRows: 10,
-                gameSizeColumns: 10,
-                squares: [
-                    [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
-                    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                    [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-                    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                    [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-                    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                    [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
-                ]
-            }
-        })
-    }
-
-
-    debugButtons() { // temporary
-        return (
-            <div>
-                <button className={"test!"} onClick={async () => {
-                    const players = await requests.getAllPlayers()
-                    let playersTakePart: number[] = []
-                    if (players) {
-                        playersTakePart = [players[players?.length - 1].playerId, players[players?.length - 2].playerId]
-                        console.log(playersTakePart)
-                    }
-                    console.log(await requests.createGame(this.createTestGame()))
-                }}>
-                    Make Game
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    console.log(await requests.createPlayer({name: "pepego", controllable: true}))
-                    console.log(await requests.createPlayer({name: "pepego", controllable: false}))
-                }}>
-                    Make Players
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    console.log(await requests.createTurn(0, {
-                        move: {
-                            start: {row: 6, column: 0},
-                            end: {row: 6, column: 8},
-                        },
-                        shot: {row: 5, column: 8}
-                    }))
-                }}>
-                    Shoot
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    console.log(await requests.getGame(0))
-                }}>
-                    Get Game 0
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    console.log(await requests.getAllPlayers())
-                    console.log(await requests.getAllGames())
-                }}>
-                    Get Data
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    const a: player[] | undefined = await requests.getAllPlayers()
-                    await a?.forEach(async (player) => {
-                        await requests.deletePlayer(player.playerId)
-                    })
-                }}>
-                    Delete all Players
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    const a: game[] | undefined = await requests.getAllGames()
-                    console.log(a)
-                    await a?.forEach(async (game) => {
-                        await requests.deleteGame(game.gameId)
-                    })
-                }}>
-                    Delete all Games
-                </button>
-                <button className={"test!"} onClick={async () => {
-                    await requests.reset()
-                }}>
-                    Reset
-                </button>
-            </div>
+        return requests.createGame(
+            [0, 1],
+            30000,
+            10,
+            10,
+            [
+                [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
+            ]
         )
     }
 }

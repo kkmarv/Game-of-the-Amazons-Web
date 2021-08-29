@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {Tile} from "../../../components/GameBoard/Tile"
+import {GameBoardButton} from "../../../components/GameScreen/GameBoard/GameBoardButton"
 
 // Snapshot Test
 test("renders correctly with props", () => {
-    const tree = renderer.create(<Tile
+    const tree = renderer.create(<GameBoardButton
         tileType={0}
         color={"white"}
         disabled={false}

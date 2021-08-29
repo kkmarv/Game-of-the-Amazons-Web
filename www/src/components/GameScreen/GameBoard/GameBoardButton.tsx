@@ -1,21 +1,19 @@
 import {Component} from "react";
-import {TileType} from "./TileType";
+import {TileEnum} from "./gameBoardTypes";
 
 
 type Props = {
     id: string
     color: string
     onClick: () => void
-    tileType: TileType
+    tileType: TileEnum
     disabled: boolean
-    selected: boolean
-    possibleMove: boolean
 }
 
 /**
  * Represents a single tile
  */
-export class Tile extends Component<Props, any> {
+export class GameBoardButton extends Component<Props, any> {
     render() {
         return (
             <button

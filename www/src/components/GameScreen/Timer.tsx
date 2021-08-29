@@ -1,5 +1,6 @@
 import {Component} from "react";
 
+
 type Props = {
     timeLeft: number // in ms
 }
@@ -14,7 +15,7 @@ export class Timer extends Component<Props, any> {
     }
 
     formatAsReadableTime(milliSeconds: number): string {
-        if (this.props.timeLeft <= 60000) return (milliSeconds / 1000).toString()
+        if (this.props.timeLeft <= 60000) return Math.round((milliSeconds / 1000)).toString()
         else return new Date(milliSeconds).toISOString().substr(14, 5)
     }
 }

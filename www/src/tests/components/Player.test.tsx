@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {Player} from "../../components/Player"
+import {PlayerSidebar} from "../../components/GameScreen/PlayerSidebar"
 
 // Snapshot Test
 test("renders correctly with props", () => {
-    const tree = renderer.create(<Player
+    const tree = renderer.create(<PlayerSidebar
         id={0}
         allowedToMove={true}
         controllable={true}

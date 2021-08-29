@@ -1,14 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {Board} from "../../../components/GameBoard/Board"
+import {GameBoard} from "../../../components/GameScreen/GameBoard/GameBoard"
 
 // Snapshot Test
 test("renders correctly with props", () => {
-    const tree = renderer.create(<Board
+    const tree = renderer.create(<GameBoard
         initialBoard={{
-            gameSizeRows: 10,
-            gameSizeColumns: 10,
-            squares: [
+            rowCount: 10,
+            columnCount: 10,
+            tiles: [
                 [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
                 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
                 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -20,7 +20,7 @@ test("renders correctly with props", () => {
                 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
                 [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
             ]
-        }} isLocalPlayer={true} onTurnEnd={async (turn?: turn):Promise<void> => {}}
+        }} currentPlayerIsLocal={true} onTurnEnd={async (turn?: Turn):Promise<void> => {}}
 
     />).toJSON();
     expect(tree).toMatchSnapshot();

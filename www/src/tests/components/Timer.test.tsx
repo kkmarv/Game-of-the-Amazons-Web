@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {Timer} from "../../components/Timer"
+import {Timer} from "../../components/GameScreen/Timer"
 
 // Snapshot Test
 test("renders correctly with timeleft given", () => {

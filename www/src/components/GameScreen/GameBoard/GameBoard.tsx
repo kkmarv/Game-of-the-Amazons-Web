@@ -1,23 +1,25 @@
 import {Component} from "react";
-import {Tile} from "./Tile";
-import {TileType} from "./TileType";
+import {GameBoardButton} from "./GameBoardButton";
+import {TileEnum, Tile} from "./gameBoardTypes";
+import {Coordinates, Board, Turn} from "../../../requests";
+
 
 type Props = {
-    onTurnEnd: (turn?: turn) => Promise<void>
-    isLocalPlayer: boolean
-    initialBoard: board
+    onTurnEnd: (turn: Turn) => Promise<void>
+    initialBoard: Board
+    currentPlayerIsLocal: boolean
 }
 
 type State = {
     phase: string
+    tiles: Tile[][]
     lastClickCoords?: Coordinates
     clickBeforeLastClickCoords?: Coordinates
-    tiles: TileProps[][]
 }
 
 /* Represents the local board, controllable players are able to move their pieces on.
    Ensures that a controllable player can only do legal moves. */
-export class Board extends Component<Props, State> {
+export class GameBoard extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -25,14 +27,12 @@ export class Board extends Component<Props, State> {
         console.log(this.props.initialBoard)
 
         this.state = {
-            phase: props.isLocalPlayer ? "select" : "wait",
-            tiles: this.props.initialBoard.squares.map((row) => {
+            phase: props.currentPlayerIsLocal ? "select" : "wait",
+            tiles: this.props.initialBoard.tiles.map((row) => {
                 return row.map((value) => {
                     return {
                         tileType: value,
-                        disabled: !this.props.isLocalPlayer || (this.props.isLocalPlayer && value !== TileType.PLAYER),
-                        selected: false, // TODO remove because obsolete
-                        possibleMove: false // TODO remove because obsolete
+                        disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== TileEnum.PLAYER)
                     }
                 })
             })
@@ -42,7 +42,7 @@ export class Board extends Component<Props, State> {
     /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
         // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
-        if (prevProps.isLocalPlayer && (prevProps.isLocalPlayer !== this.props.isLocalPlayer)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
+        if (prevProps.currentPlayerIsLocal && (prevProps.currentPlayerIsLocal !== this.props.currentPlayerIsLocal)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
             if (this.state.phase === "shoot") { // und sich der alte Spieler in der Schuss-Phase befand
                 await this.cancelShot(this.state.lastClickCoords!)
                 await this.cancelMove()
@@ -53,14 +53,12 @@ export class Board extends Component<Props, State> {
         if (this.state.phase === "wait") { // Aktualisiere die state-Tiles nur falls jemand anderes dran ist.
             if (prevProps.initialBoard !== this.props.initialBoard) {
                 this.setState({
-                    phase: this.props.isLocalPlayer ? "select" : "wait",
-                    tiles: this.props.initialBoard.squares.map((row) => {
+                    phase: this.props.currentPlayerIsLocal ? "select" : "wait",
+                    tiles: this.props.initialBoard.tiles.map((row) => {
                         return row.map((value) => {
                             return {
                                 tileType: value,
-                                disabled: !this.props.isLocalPlayer || (this.props.isLocalPlayer && value !== TileType.PLAYER),
-                                selected: false,
-                                possibleMove: false
+                                disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== TileEnum.PLAYER),
                             }
                         })
                     })
@@ -73,21 +71,19 @@ export class Board extends Component<Props, State> {
         return (
             <div className={"board"}>
                 {this.state.tiles.map((row, rowIndex) => {
-                    const inverseRowIndex = this.props.initialBoard.gameSizeRows - rowIndex - 1 // Spielbretter fangen mit (0,0) unten links an
+                    const inverseRowIndex = this.props.initialBoard.rowCount - rowIndex - 1 // Spielbretter fangen mit (0,0) unten links an
                     return (
                         <div className={"row"} id={"row" + inverseRowIndex} key={"row" + inverseRowIndex}>
                             {row.map((tileProps, colIndex) => {
                                 const tileId: number = inverseRowIndex * 10 + colIndex
                                 return (
-                                    <Tile
+                                    <GameBoardButton
                                         id={"tile" + tileId} // calculate the correct id from row and tiles' position in row
                                         key={"tile" + tileId}
                                         color={rowIndex % 2 === colIndex % 2 ? "white" : "black"}
                                         onClick={() => this.handleClick({row: rowIndex, column: colIndex})}
                                         tileType={tileProps.tileType}
-                                        disabled={this.props.isLocalPlayer ? tileProps.disabled : true}
-                                        selected={tileProps.selected}
-                                        possibleMove={tileProps.possibleMove}
+                                        disabled={this.props.currentPlayerIsLocal ? tileProps.disabled : true}
                                     />)
                             })}
                         </div>
@@ -101,9 +97,9 @@ export class Board extends Component<Props, State> {
     handleClick = async (currentCoords: Coordinates) => { // TODO manchmal wird eine Amazone verdoppelt
         const lastClickCoords: Coordinates = this.state.lastClickCoords!
         const clickBeforeLastClickCoords: Coordinates = this.state.clickBeforeLastClickCoords!
-        const clickedTileProps: TileProps = this.state.tiles[currentCoords.row][currentCoords.column]
+        const clickedTileProps: Tile = this.state.tiles[currentCoords.row][currentCoords.column]
 
-        if (clickedTileProps.tileType === TileType.PLAYER) {
+        if (clickedTileProps.tileType === TileEnum.PLAYER) {
             if (this.state.phase === "select") {
                 await this.showPossibleMovesForTileAt(currentCoords)
                 this.setState({phase: "move"})
@@ -111,7 +107,7 @@ export class Board extends Component<Props, State> {
             } else if (this.state.phase === "move") await this.cancelMove()
             else if (this.state.phase === "shoot") await this.cancelShot(currentCoords)
 
-        } else if (clickedTileProps.tileType === TileType.EMPTY) {
+        } else if (clickedTileProps.tileType === TileEnum.EMPTY) {
             if (this.state.phase === "move") {
                 await this.moveAmazonFromTo(lastClickCoords, currentCoords)
                 await this.showPossibleMovesForTileAt(currentCoords)
@@ -146,23 +142,21 @@ export class Board extends Component<Props, State> {
     /* Enable alle von den gegebenen Koordinaten erreichbaren Buttons */
     async showPossibleMovesForTileAt(currentCoords: Coordinates): Promise<void> {
         console.log(`showing moves for ${currentCoords.row} and ${currentCoords.column}`)
-        const possibleMoves: TileProps[] = this.getPossibleMovesForTileAt(currentCoords)
+        const possibleMoves: Tile[] = this.getPossibleMovesForTileAt(currentCoords)
         this.setState({
             tiles: this.state.tiles.map((row) => {
                 return row.map((tileProps) => {
                     const isPossibleMove = possibleMoves.indexOf(tileProps) > -1
                     return {
-                        tileType: tileProps.tileType,
                         disabled: !isPossibleMove,
-                        selected: false,
-                        possibleMove: isPossibleMove
+                        tileType: tileProps.tileType
                     }
                 })
             })
         })
     }
 
-    /* Disable alle angezeigten Buttons außer die der PlayerStats */
+    /* Disable alle angezeigten Buttons außer die der Player */
     async hidePossibleMoves(): Promise<void> {
         console.log("hiding moves!")
         this.setState({
@@ -170,9 +164,7 @@ export class Board extends Component<Props, State> {
                 return row.map((tileProps) => {
                     return {
                         tileType: tileProps.tileType,
-                        disabled: tileProps.tileType !== TileType.PLAYER,
-                        selected: false,
-                        possibleMove: false
+                        disabled: tileProps.tileType !== TileEnum.PLAYER
                     }
                 })
             })
@@ -187,15 +179,11 @@ export class Board extends Component<Props, State> {
             tiles: this.state.tiles.map((row, rowIndex) => {
                 return row.map((tileProps, colIndex) => {
                     if (rowIndex === fromCoords.row && colIndex === fromCoords.column) return {
-                        tileType: TileType.EMPTY,
                         disabled: true,
-                        selected: false,
-                        possibleMove: false
+                        tileType: TileEnum.EMPTY
                     }; else if (rowIndex === toCoords.row && colIndex === toCoords.column) return {
-                        tileType: TileType.PLAYER,
                         disabled: false,
-                        selected: false,
-                        possibleMove: false
+                        tileType: TileEnum.PLAYER
                     }; else return tileProps
                 })
             })
@@ -210,10 +198,8 @@ export class Board extends Component<Props, State> {
                 return row.map((tileProps, colIndex) => {
                     const isArrowTile: boolean = (rowIndex === coordinates.row && colIndex === coordinates.column)
                     return {
-                        tileType: isArrowTile ? TileType.ARROW : tileProps.tileType,
                         disabled: isArrowTile ? true : tileProps.disabled,
-                        selected: false,
-                        possibleMove: false
+                        tileType: isArrowTile ? TileEnum.ARROW : tileProps.tileType
                     }
                 })
             })
@@ -249,11 +235,11 @@ export class Board extends Component<Props, State> {
 
     // TODO evtl ein enum für alle 8 richtungen verwenden
     // TODO FRAGE ob besser geht als 8 for loops | evtl eine Methode, die eine Richtung annimmt zB [-1,-1] und dann immer in diese weiter geht
-    /* Finde alle möglichen Koordinaten, zu denen man von der gegebenen Koordinate ziehen kann */
-    getPossibleMovesForTileAt(coordinates: Coordinates): TileProps[] {
+    /* Findet alle möglichen Koordinaten, zu denen man von der gegebenen Koordinate ziehen kann */
+    getPossibleMovesForTileAt(coordinates: Coordinates): Tile[] {
         const rowIndex: number = coordinates.row
         const colIndex: number = coordinates.column
-        const possibleMoves: TileProps[] = [this.state.tiles[rowIndex][colIndex]] // start with clickedTile as a first possible mve
+        const possibleMoves: Tile[] = [this.state.tiles[rowIndex][colIndex]] // start with clickedTile as a first possible mve
 
         this.getPossibleMovesToTop(rowIndex - 1, colIndex, possibleMoves)
         this.getPossibleMovesToBottom(rowIndex + 1, colIndex, possibleMoves)
@@ -267,72 +253,72 @@ export class Board extends Component<Props, State> {
         return possibleMoves
     }
 
-    getPossibleMovesToTop(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToTop(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let rowIndex = rowStart; rowIndex >= 0 && !moveBlocked; rowIndex--) {
-            const possibleTile: TileProps = this.state.tiles[rowIndex][colStart]
-            if (possibleTile.tileType === TileType.EMPTY) moves.push(possibleTile)
+            const possibleTile: Tile = this.state.tiles[rowIndex][colStart]
+            if (possibleTile.tileType === TileEnum.EMPTY) moves.push(possibleTile)
             else moveBlocked = true
         }
     }
 
-    getPossibleMovesToBottom(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToBottom(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let rowIndex = rowStart; rowIndex < this.state.tiles.length && !moveBlocked; rowIndex++) {
-            const possibleTile: TileProps = this.state.tiles[rowIndex][colStart]
-            if (possibleTile.tileType === TileType.EMPTY) moves.push(possibleTile)
+            const possibleTile: Tile = this.state.tiles[rowIndex][colStart]
+            if (possibleTile.tileType === TileEnum.EMPTY) moves.push(possibleTile)
             else moveBlocked = true
         }
     }
 
-    getPossibleMovesToRight(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToRight(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex < this.state.tiles.length && !moveBlocked; colIndex++) {
-            const possibleTile: TileProps = this.state.tiles[rowStart][colIndex]
-            if (possibleTile.tileType === TileType.EMPTY) {
+            const possibleTile: Tile = this.state.tiles[rowStart][colIndex]
+            if (possibleTile.tileType === TileEnum.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
         }
     }
 
-    getPossibleMovesToLeft(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToLeft(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex >= 0 && !moveBlocked; colIndex--) {
-            const possibleTile: TileProps = this.state.tiles[rowStart][colIndex]
-            if (possibleTile.tileType === TileType.EMPTY) {
+            const possibleTile: Tile = this.state.tiles[rowStart][colIndex]
+            if (possibleTile.tileType === TileEnum.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
         }
     }
 
 
-    getPossibleMovesToTopLeft(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToTopLeft(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex >= 0 && !moveBlocked && rowStart >= 0; colIndex--) {
-            const possibleTile: TileProps = this.state.tiles[rowStart--][colIndex]
-            if (possibleTile.tileType === TileType.EMPTY) {
+            const possibleTile: Tile = this.state.tiles[rowStart--][colIndex]
+            if (possibleTile.tileType === TileEnum.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
         }
     }
 
-    getPossibleMovesToTopRight(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToTopRight(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex < this.state.tiles[0].length && !moveBlocked && rowStart >= 0; colIndex++) {
-            const possibleTile: TileProps = this.state.tiles[rowStart--][colIndex]
-            if (possibleTile.tileType === TileType.EMPTY) {
+            const possibleTile: Tile = this.state.tiles[rowStart--][colIndex]
+            if (possibleTile.tileType === TileEnum.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
         }
     }
 
-    getPossibleMovesToBottomLeft(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToBottomLeft(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex >= 0 && !moveBlocked && rowStart < this.state.tiles.length; colIndex--) {
-            const possibleTile: TileProps = this.state.tiles[rowStart++][colIndex]
-            if (possibleTile.tileType === TileType.EMPTY) {
+            const possibleTile: Tile = this.state.tiles[rowStart++][colIndex]
+            if (possibleTile.tileType === TileEnum.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
         }
     }
 
-    getPossibleMovesToBottomRight(rowStart: number, colStart: number, moves: TileProps[], moveBlocked = false) {
+    getPossibleMovesToBottomRight(rowStart: number, colStart: number, moves: Tile[], moveBlocked = false) {
         for (let colIndex = colStart; colIndex < this.state.tiles[0].length && !moveBlocked && rowStart < this.state.tiles.length; colIndex++) {
-            const possibleTile: TileProps = this.state.tiles[rowStart++][colIndex]
-            if (possibleTile.tileType === TileType.EMPTY) {
+            const possibleTile: Tile = this.state.tiles[rowStart++][colIndex]
+            if (possibleTile.tileType === TileEnum.EMPTY) {
                 moves.push(possibleTile)
             } else moveBlocked = true
         }
