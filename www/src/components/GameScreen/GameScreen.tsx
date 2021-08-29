@@ -16,6 +16,7 @@ interface Props {
 interface State {
     game?: DetailedGame
     gameIsLoaded: boolean
+    currentPlayer?: Player
     gameIsFinished: boolean
     remainingTurnTime: number
 }
@@ -49,10 +50,13 @@ export class GameScreen extends Component<Props, State> {
             this.props.tiles
         ) as BasicGame
 
-        const game: DetailedGame = await requests.getGame(createdGame.id) as DetailedGame
         this.setState({
-            game: game,
-            gameIsLoaded: true
+            game: await requests.getGame(createdGame.id) as DetailedGame,
+        }, () => { // executes right after first setState()
+            this.setState({
+                gameIsLoaded: true,
+                currentPlayer: this.getPlayerById(this.state.game!.playerId)
+            })
         })
     }
 
@@ -61,14 +65,18 @@ export class GameScreen extends Component<Props, State> {
 
         if (!winningPlayerId) { // if game is still running // TODO maybe add timer synchronization
             if (prevState.game && prevState.game.playerId !== this.state.game!.playerId) { // if player switches
-                this.setState({
-                    game: await requests.getGame(this.state.game!.id),
-                    remainingTurnTime: this.props.maxTurnTime
-                })
+                this.switchPlayer()
+                await this.updateGame()
             }
-
-        } else if (winningPlayerId && !prevState.game!.winningPlayer) { // if game has ended
-            if (!this.state.gameIsFinished) await this.finishGame()
+        } else {
+            if (!prevState.game!.winningPlayer) { // if game has ended with this update
+                if (!this.state.gameIsFinished) {
+                    clearInterval(this.timer)
+                    this.switchPlayer()
+                    // this.setState({gameIsFinished: true}) // TODO die endcard machen
+                    console.log(this.getPlayerById(this.state.game!.winningPlayer!).name + " won")
+                }
+            }
         }
     }
 
@@ -90,7 +98,7 @@ export class GameScreen extends Component<Props, State> {
                     />
                     <TurnInfo
                         isWinner={!!this.state.game!.winningPlayer}
-                        currentPlayer={this.getCurrentPlayer()}
+                        currentPlayer={this.state.currentPlayer!}
                         remainingTurnTime={this.state.remainingTurnTime}
                     />
                     <GameBoard
@@ -111,10 +119,7 @@ export class GameScreen extends Component<Props, State> {
 
     private makeATurn = async (turn: Turn): Promise<void> => {
         if (await requests.createTurn(this.state.game!.id, turn)) console.log("turn successfully submitted")
-        this.setState({
-            game: await requests.getGame(this.state.game!.id),
-            remainingTurnTime: this.state.game!.maxTurnTime
-        })
+        await this.updateGame()
     }
 
     private timerFunction = async (): Promise<void> => { // TODO bot displayed am anfang beheben
@@ -131,10 +136,18 @@ export class GameScreen extends Component<Props, State> {
         }
     }
 
-    private async finishGame(): Promise<void> {
-        clearInterval(this.timer)
-        // this.setState({gameIsFinished: true}) // TODO die endcard machen
-        console.log(this.getPlayerById(this.state.game!.winningPlayer!).name + " won")
+    private switchPlayer() {
+        this.setState({currentPlayer: this.getTheOtherPlayer(this.state.currentPlayer!)})
+    }
+
+    private async updateGame() {
+        this.setState({
+            game: await requests.getGame(this.state.game!.id)
+        }, () => { // executes right after first setState()
+            this.setState({
+                remainingTurnTime: this.state.game!.remainingTurnTime!
+            })
+        })
     }
 
 
@@ -152,11 +165,17 @@ export class GameScreen extends Component<Props, State> {
         return this.state.game!.players[0].id === id ? this.state.game!.players[0] : this.state.game!.players[1]
     }
 
+    private getTheOtherPlayer(myPlayer: Player): Player {
+        const playerArray: Player[] = this.state.game!.players
+        return playerArray[0].id === myPlayer.id ? playerArray[1] : playerArray[0]
+    }
+
+    private getTheOtherPlayerId(myPlayerId: number): number {
+        const playerArray: Player[] = this.state.game!.players
+        return playerArray[0].id === myPlayerId ? playerArray[1].id : playerArray[0].id
+    }
+
     private getPlayersColorById(id: number): string {
-        let theOthersPlayerId: number
-        for (let player of this.state.game!.players) {
-            if (player.id !== id) theOthersPlayerId = player.id
-        }
-        return id < theOthersPlayerId! ? "white" : "black"
+        return id < this.getTheOtherPlayerId(id) ? "white" : "black"
     }
 }

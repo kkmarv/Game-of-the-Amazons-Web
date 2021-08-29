@@ -1,17 +1,16 @@
 import {Component} from "react";
 import {GameBoardButton} from "./GameBoardButton";
-import {TileEnum, Tile} from "./gameBoardTypes";
-import {Coordinates, Board, Turn} from "../../../requests";
+import {PhaseEnum, Tile, TileEnum} from "./gameBoardTypes";
+import {Board, Coordinates, Turn} from "../../../requests";
 
 
-type Props = {
+interface Props {
     onTurnEnd: (turn: Turn) => Promise<void>
     initialBoard: Board
     currentPlayerIsLocal: boolean
 }
 
-type State = {
-    phase: string
+interface State {
     tiles: Tile[][]
     lastClickCoords?: Coordinates
     clickBeforeLastClickCoords?: Coordinates
@@ -20,14 +19,13 @@ type State = {
 /* Represents the local board, controllable players are able to move their pieces on.
    Ensures that a controllable player can only do legal moves. */
 export class GameBoard extends Component<Props, State> {
+    private phase: PhaseEnum = PhaseEnum.SELECT
+
     constructor(props: Props) {
         super(props);
-
-        console.log("board arriving in board component:")
-        console.log(this.props.initialBoard)
+        this.setPhase(props.currentPlayerIsLocal ? PhaseEnum.SELECT : PhaseEnum.WAIT)
 
         this.state = {
-            phase: props.currentPlayerIsLocal ? "select" : "wait",
             tiles: this.props.initialBoard.tiles.map((row) => {
                 return row.map((value) => {
                     return {
@@ -39,21 +37,25 @@ export class GameBoard extends Component<Props, State> {
         }
     }
 
+    setPhase(phase: PhaseEnum): void {
+        this.phase = phase
+    }
+
     /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
         // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
         if (prevProps.currentPlayerIsLocal && (prevProps.currentPlayerIsLocal !== this.props.currentPlayerIsLocal)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
-            if (this.state.phase === "shoot") { // und sich der alte Spieler in der Schuss-Phase befand
+            if (this.phase === PhaseEnum.SHOOT) { // und sich der alte Spieler in der Schuss-Phase befand
                 await this.cancelShot(this.state.lastClickCoords!)
                 await this.cancelMove()
-            } else if (this.state.phase === "move") await this.cancelMove()  // oder sich in der Bewegen-Phase befand
+            } else if (this.phase === PhaseEnum.MOVE) await this.cancelMove()  // oder sich in der Bewegen-Phase befand
             this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined})
         }
 
-        if (this.state.phase === "wait") { // Aktualisiere die state-Tiles nur falls jemand anderes dran ist.
+        if (this.phase === PhaseEnum.WAIT) { // Aktualisiere die state-Tiles nur falls jemand anderes dran ist.
             if (prevProps.initialBoard !== this.props.initialBoard) {
+                this.setPhase(this.props.currentPlayerIsLocal ? PhaseEnum.SELECT : PhaseEnum.WAIT)
                 this.setState({
-                    phase: this.props.currentPlayerIsLocal ? "select" : "wait",
                     tiles: this.props.initialBoard.tiles.map((row) => {
                         return row.map((value) => {
                             return {
@@ -100,24 +102,24 @@ export class GameBoard extends Component<Props, State> {
         const clickedTileProps: Tile = this.state.tiles[currentCoords.row][currentCoords.column]
 
         if (clickedTileProps.tileType === TileEnum.PLAYER) {
-            if (this.state.phase === "select") {
+            if (this.phase === PhaseEnum.SELECT) {
                 await this.showPossibleMovesForTileAt(currentCoords)
-                this.setState({phase: "move"})
+                this.setPhase(PhaseEnum.MOVE)
 
-            } else if (this.state.phase === "move") await this.cancelMove()
-            else if (this.state.phase === "shoot") await this.cancelShot(currentCoords)
+            } else if (this.phase === PhaseEnum.MOVE) await this.cancelMove()
+            else if (this.phase === PhaseEnum.SHOOT) await this.cancelShot(currentCoords)
 
         } else if (clickedTileProps.tileType === TileEnum.EMPTY) {
-            if (this.state.phase === "move") {
+            if (this.phase === PhaseEnum.MOVE) {
                 await this.moveAmazonFromTo(lastClickCoords, currentCoords)
                 await this.showPossibleMovesForTileAt(currentCoords)
-                this.setState({phase: "shoot"})
+                this.setPhase(PhaseEnum.SHOOT)
 
-            } else if (this.state.phase === "shoot") {
+            } else if (this.phase === PhaseEnum.SHOOT) {
                 await this.shootArrowAt(currentCoords)
                 await this.hidePossibleMoves()
-                this.setState({phase: "wait"})
-                this.endTurnWith(clickBeforeLastClickCoords, lastClickCoords, currentCoords)
+                this.setPhase(PhaseEnum.WAIT)
+                await this.endTurnWith(clickBeforeLastClickCoords, lastClickCoords, currentCoords)
             }
         }
         await this.updateLastClickWith(currentCoords)
@@ -127,7 +129,7 @@ export class GameBoard extends Component<Props, State> {
     /* Bricht die Bewegen-Phase ab. */
     async cancelMove() {
         await this.hidePossibleMoves()
-        this.setState({phase: "select"})
+        this.setPhase(PhaseEnum.SELECT)
     }
 
     /* Bricht die Schuss-Phase ab. */
@@ -135,7 +137,7 @@ export class GameBoard extends Component<Props, State> {
         await this.hidePossibleMoves()
         await this.moveAmazonFromTo(currentCoords, this.state.clickBeforeLastClickCoords!)
         await this.showPossibleMovesForTileAt(this.state.clickBeforeLastClickCoords!)
-        this.setState({phase: "move"})
+        this.setPhase(PhaseEnum.MOVE)
     }
 
 

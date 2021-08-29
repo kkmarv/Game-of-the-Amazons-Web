@@ -1,5 +1,5 @@
 /* Type definitions for the GameBoard components. */
-export type Tile = {
+export interface Tile {
     disabled: boolean
     tileType: TileEnum
 }
@@ -9,4 +9,11 @@ export enum TileEnum {
     OPPONENT = 1,
     EMPTY = -1,
     ARROW = -2
+}
+
+export enum PhaseEnum {
+    SELECT,
+    MOVE,
+    SHOOT,
+    WAIT
 }
