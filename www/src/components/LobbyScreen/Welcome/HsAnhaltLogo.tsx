@@ -1,0 +1,21 @@
+import {Component} from "react";
+
+
+interface Props {
+    onClick: () => void
+}
+
+interface State {
+
+}
+
+export class HsAnhaltLogo extends Component<Props, State> {
+    render() {
+        return (
+            <img
+                onClick={this.props.onClick}
+                src={"../../../assets/images/Logo_HSA_a_o_Standorte_oneliner-400px.png"}
+                alt={"Anhalt University HsAnhaltLogo"}
+            />)
+    }
+}

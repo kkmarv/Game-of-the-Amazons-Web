@@ -57,11 +57,11 @@ export default class App extends Component<any, State> {
                     serviceBaseURLs={["https://webengineering.ins.hs-anhalt.de:40917"]}
                     onAuthorize={async () => {
                         console.log("Authentication successful!")
-                        await this.setState({isAuthenticated: true})
+                        this.setState({isAuthenticated: true})
                         await this.test()
                         // await this.readyUpPlayers()
                         // await this.readyUpGame()
-                        await this.setState({isLoaded: true})
+                        this.setState({isLoaded: true})
                     }}
                 />
             )
@@ -119,18 +119,7 @@ export default class App extends Component<any, State> {
             30000,
             10,
             10,
-            [
-                [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
-                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-                [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
-            ]
+            this.debugTilesArray
         )
     }
 }
