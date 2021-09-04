@@ -510,7 +510,14 @@ Verwaltet jeweils ein `HTMLButtonElement`.
 
 **Projekt-Abhängigkeiten**
 
-- [Auth-Button](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button)
+- [node-sass](https://www.npmjs.com/package/node-sass)  
+`npm install node-sass`
+- [class-transformer](https://www.npmjs.com/package/class-transformer)  
+`npm install class-transformer --save` & `npm install reflect-metadata --save`  
+_Des Weiteren muss reflect-metadata in einer globalen Komponente (index.tsx) importiert werden:_
+`import 'reflect-metadata';`
+- [@hs-anhalt/auth-button](https://www.npmjs.com/package/@hs-anhalt/auth-button)  
+`npm install @hs-anhalt/auth-button`
 
 **Tutorials**
 
@@ -520,6 +527,7 @@ Verwaltet jeweils ein `HTMLButtonElement`.
 
 - [Amazonenspiel API GitLab Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 - [Amazonenspiel Webseite während des Entwicklungszeitraums](https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/)
+- [Authentication Button GitLab Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button)
 - [Repository der Universität Paderborn, auf dem dieses Projekt basiert](https://github.com/dice-group/Amazons/wiki)
 
 
@@ -542,7 +550,7 @@ Sämtliche Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf 
 **Authentifizierung**
 
 Alle API-Aufrufe außer dem Reset (Zurücksetzen) bedürfen einer JSON Web Token (JWT) Authentifizierung.
-Dazu wird die React Komponente [Auth-Button](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button) der Hochschule Anhalt verwendet.
+Dazu wird die React Komponente [Authentication Button](https://gitlab.hs-anhalt.de/zwischenprojekte/authentication-button) der Hochschule Anhalt verwendet.
 Mit ihr wird erreicht, dass immer nur der Spieler kontrolliert werden kann, als der man gerade angemeldet ist.
 
 _Für den Auth Button werden folgende Properties benötigt:_
