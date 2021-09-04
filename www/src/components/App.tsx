@@ -1,4 +1,4 @@
-import '../styles/App.css';
+import '../styles/components/_app.scss';
 
 import React, {Component} from 'react';
 import AuthButton from "@hs-anhalt/auth-button"
@@ -6,6 +6,7 @@ import * as requests from "../requests";
 import {BasicGame, Player} from "../requests";
 import {LoadingScreen} from "./LoadingScreen";
 import {GameScreen} from "./GameScreen/GameScreen";
+import {LobbyScreen} from "./LobbyScreen/LobbyScreen";
 
 
 type State = {
@@ -42,11 +43,12 @@ export default class App extends Component<any, State> {
         if (this.state.isAuthenticated) {
             return this.state.isLoaded ? (
                 // <DebugButtons/>
-                <GameScreen
-                    playerIds={[0, 1]}
-                    maxTurnTime={30000}
-                    tiles={this.debugTilesArray}
-                />
+                <LobbyScreen/>
+                // <GameScreen
+                //     playerIds={[0, 1]}
+                //     maxTurnTime={30000}
+                //     tiles={this.debugTilesArray}
+                // />
             ) : (
                 <LoadingScreen/>
             )

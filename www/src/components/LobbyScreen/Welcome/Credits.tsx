@@ -7,6 +7,6 @@ interface Props {
 
 export class Credits extends Component<Props, any> {
     render() {
-        return undefined // TODO
+        return null // TODO
     }
 }

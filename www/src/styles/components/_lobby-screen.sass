@@ -1,0 +1,59 @@
+// #3c4f76
+// TODO media query at 1000px or maybe without media query i dunno
+
+div
+    display: flex
+    flex-flow: row wrap
+    .greeting
+        flex: 2.5
+        flex-flow: column
+        .preference-btn
+        .title
+            flex-flow: column
+            *
+                margin: 0
+                padding: 0
+            .localized-name
+                flex-flow: row
+                h1
+                    line-height: 1em
+                    font-size: 6rem
+                div
+                    margin-left: 1em
+                    margin-right: 1em
+                    flex-flow: column
+                    h2
+                        font-size: 2em
+                    h3
+                        font-size: 1em
+                        margin-top: auto
+                        margin-bottom: 0
+            .player-name
+                margin: .5em
+                font-size: 2em
+                &:before
+                    content: "» "
+                &:after
+                    content: " «"
+        .tutorial-container
+            margin-bottom: auto
+            .tutorial-player
+                width: 60vw
+                height: 60vh
+                border: solid crimson
+                margin-top: 2em
+                margin-left: 3em
+        img
+            margin-left: auto
+            margin-right: 0
+            width: 40%
+    .game-card-list
+        flex: 1
+        margin-left: 1em
+        div
+            flex-flow: column wrap
+            .game-card
+                margin: .3em
+                span
+                    &:first-of-type
+                        padding-bottom: .1em

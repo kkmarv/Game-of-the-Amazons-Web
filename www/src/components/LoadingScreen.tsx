@@ -1,3 +1,5 @@
+import "../styles/components/_loading-screen.sass"
+
 import React, {Component} from "react";
 
 

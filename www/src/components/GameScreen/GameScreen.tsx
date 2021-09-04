@@ -1,3 +1,5 @@
+import "../../styles/components/_game-screen.sass"
+
 import {Component} from "react";
 import {LoadingScreen} from "../LoadingScreen";
 import {PlayerSidebar} from "./PlayerSidebar";
@@ -55,7 +57,7 @@ export class GameScreen extends Component<Props, State> {
         }, () => { // executes right after first setState()
             this.setState({
                 gameIsLoaded: true,
-                currentPlayer: this.getPlayerById(this.state.game!.playerId)
+                currentPlayer: this.getCurrentPlayer()
             })
         })
     }
@@ -122,8 +124,8 @@ export class GameScreen extends Component<Props, State> {
         await this.updateGame()
     }
 
-    private timerFunction = async (): Promise<void> => { // TODO bot displayed am anfang beheben
-        if (this.state.gameIsLoaded && !this.state.gameIsFinished) { // TODO die null am ende beheben
+    private timerFunction = async (): Promise<void> => { // TODO bot displayed am anfang beheben | Toni fragen
+        if (this.state.gameIsLoaded && !this.state.gameIsFinished) {
             if (this.state.remainingTurnTime >= 1000) {
                 if (!this.isItLocalPlayersTurn()) { // if we're waiting on opponents' turn
                     this.setState({game: await requests.getGame(this.state.game!.id)}) // update the game
@@ -136,7 +138,7 @@ export class GameScreen extends Component<Props, State> {
         }
     }
 
-    private switchPlayer() {
+    private switchPlayer() { // consistency in UI, I guess
         this.setState({currentPlayer: this.getTheOtherPlayer(this.state.currentPlayer!)})
     }
 

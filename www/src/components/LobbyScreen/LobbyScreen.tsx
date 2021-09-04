@@ -1,3 +1,5 @@
+import "../../styles/components/_lobby-screen.sass"
+
 import {Component} from "react";
 import {GameCardList} from "./GameCardList/GameCardList";
 import {LoadingScreen} from "../LoadingScreen";
@@ -7,6 +9,7 @@ import {GotAHeading} from "./Welcome/GotAHeading";
 import {Tutorial} from "./Welcome/Tutorial";
 import {BasicGame, Player} from "../../requests";
 import * as requests from "../../requests";
+import {PreferenceButtons} from "../PreferenceButtons";
 
 
 interface Props {
@@ -19,7 +22,7 @@ interface State {
 }
 
 export class LobbyScreen extends Component<Props, State> {
-    private localPlayer!: Player
+    private localPlayer: Player = {id: -1, name: "loading", controllable: false}
 
     constructor(props: Props) {
         super(props);
@@ -32,6 +35,7 @@ export class LobbyScreen extends Component<Props, State> {
 
     async componentDidMount() {
         this.localPlayer = await requests.getOwnPlayer() as Player
+        console.log(this.localPlayer)
         this.setState({gamesList: await requests.getAllGames()}, () => {
             this.setState({isLoaded: true})
         })
@@ -44,10 +48,22 @@ export class LobbyScreen extends Component<Props, State> {
                 <Credits onLeave={this.toggleCredits}/>
             ) : (
                 <>
-                    <GotAHeading currentPlayerName={this.localPlayer.name}/>
-                    <Tutorial/>
-                    <GameCardList gamesList={this.state.gamesList}/>
-                    <HsAnhaltLogo onClick={this.toggleCredits}/>
+                    <div className={"greeting"}>
+                        <PreferenceButtons
+                            currentTheme={""}
+                            currentLanguage={""}
+                            switchTheme={() => {
+                                return null // TODO
+                            }}
+                            toggleLanguage={() => {
+                                return null // TODO
+                            }}
+                        />
+                        <GotAHeading currentPlayerName={this.localPlayer.name}/>
+                        <Tutorial/>
+                        <HsAnhaltLogo onClick={this.toggleCredits}/>
+                    </div>
+                    <GameCardList localPlayer={this.localPlayer} gamesList={this.state.gamesList}/>
                 </>
             )
         }

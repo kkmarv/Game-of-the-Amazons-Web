@@ -1,5 +1,5 @@
 import 'reflect-metadata'; // used for class-transformer
-import './styles/index.css';
+import './styles/index.sass';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

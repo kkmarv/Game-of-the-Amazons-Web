@@ -14,10 +14,10 @@ interface State {
 export class PreferenceButtons extends Component<Props, State> {
     render() {
         return (
-            <>
+            <div className={"preference-btn"}>
                 <button id={"langButton"} value={this.props.currentLanguage} onClick={this.props.toggleLanguage}/>
                 <button id={"themeButton"} value={this.props.currentTheme} onClick={this.props.switchTheme}/>
-            </>
+            </div>
         )
     }
 }

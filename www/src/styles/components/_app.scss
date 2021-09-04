@@ -110,12 +110,12 @@ h2 {
 }
 
 .tile[value="0"] {
-    background: var(--player0-main-color) url("../assets/images/player0.png") no-repeat center;
+    background: var(--player0-main-color) url("../../assets/images/player0.png") no-repeat center;
     background-size: 3vw 3vw;
 }
 
 .tile[value="1"] {
-    background: var(--player1-accent-color) url("../assets/images/player1.png") no-repeat center;
+    background: var(--player1-accent-color) url("../../assets/images/player1.png") no-repeat center;
     background-size: 3vw 3vw;
 }
 
@@ -138,11 +138,11 @@ h2 {
 }
 
 .tile.black[value="-2"] {
-    background: var(--black-tile-color) url("../assets/images/arrow.png") no-repeat center;
+    background: var(--black-tile-color) url("../../assets/images/arrow.png") no-repeat center;
     background-size: 3vw 3vw;
 }
 
 .tile.white[value="-2"] {
-    background: var(--player0-accent-color) url("../assets/images/arrow.png") no-repeat center;
+    background: var(--player0-accent-color) url("../../assets/images/arrow.png") no-repeat center;
     background-size: 3vw 3vw;
 }

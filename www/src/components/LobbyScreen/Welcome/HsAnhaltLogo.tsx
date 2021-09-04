@@ -1,4 +1,5 @@
 import {Component} from "react";
+import logo from "../../../assets/images/Logo_HSA_a_o_Standorte_oneliner-400px.png"
 
 
 interface Props {
@@ -6,7 +7,6 @@ interface Props {
 }
 
 interface State {
-
 }
 
 export class HsAnhaltLogo extends Component<Props, State> {
@@ -14,8 +14,9 @@ export class HsAnhaltLogo extends Component<Props, State> {
         return (
             <img
                 onClick={this.props.onClick}
-                src={"../../../assets/images/Logo_HSA_a_o_Standorte_oneliner-400px.png"}
-                alt={"Anhalt University HsAnhaltLogo"}
-            />)
+                src={logo}
+                alt={"Anhalt University Logo"}
+            />
+        )
     }
 }
