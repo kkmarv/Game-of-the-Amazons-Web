@@ -5,7 +5,10 @@ interface Props {
     onLeave: () => void
 }
 
-export class Credits extends Component<Props, any> {
+interface State {
+}
+
+export class Credits extends Component<Props, State> {
     render() {
         return null // TODO
     }

@@ -4,12 +4,12 @@ import {Component} from "react";
 import {GameCardList} from "./GameCardList/GameCardList";
 import {LoadingScreen} from "../LoadingScreen";
 import {Credits} from "./Welcome/Credits";
-import {HsAnhaltLogo} from "./Welcome/HsAnhaltLogo";
-import {GotAHeading} from "./Welcome/GotAHeading";
+import {Logo} from "./Welcome/Logo";
+import {Title} from "./Welcome/Title";
 import {Tutorial} from "./Welcome/Tutorial";
 import {BasicGame, Player} from "../../requests";
 import * as requests from "../../requests";
-import {PreferenceButtons} from "../PreferenceButtons";
+import {Preferences} from "../Preferences";
 
 
 interface Props {
@@ -48,22 +48,20 @@ export class LobbyScreen extends Component<Props, State> {
                 <Credits onLeave={this.toggleCredits}/>
             ) : (
                 <>
-                    <div className={"greeting"}>
-                        <PreferenceButtons
-                            currentTheme={""}
-                            currentLanguage={""}
-                            switchTheme={() => {
-                                return null // TODO
-                            }}
-                            toggleLanguage={() => {
-                                return null // TODO
-                            }}
-                        />
-                        <GotAHeading currentPlayerName={this.localPlayer.name}/>
-                        <Tutorial/>
-                        <HsAnhaltLogo onClick={this.toggleCredits}/>
-                    </div>
+                    <Preferences
+                        currentTheme={""}
+                        currentLanguage={""}
+                        switchTheme={() => {
+                            return null // TODO
+                        }}
+                        toggleLanguage={() => {
+                            return null // TODO
+                        }}
+                    />
+                    <Title currentPlayerName={this.localPlayer.name}/>
+                    <Tutorial/>
                     <GameCardList localPlayer={this.localPlayer} gamesList={this.state.gamesList}/>
+                    <Logo onClick={this.toggleCredits}/>
                 </>
             )
         }

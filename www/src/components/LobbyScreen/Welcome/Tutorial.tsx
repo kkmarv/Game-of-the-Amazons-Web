@@ -1,13 +1,19 @@
 import {Component} from "react";
 
 
-export class Tutorial extends Component<any, any> {
+interface Props {
+}
+
+interface State {
+}
+
+export class Tutorial extends Component<Props, State> {
     render() {
         return (
-            <div className={"tutorial-container"}>
-                <div className={"tutorial-player"}>
-
-                </div>
+            <div className={"tutorial"}> // TODO
+                <button/>
+                <video/>
+                <button/>
             </div>
         )
     }
