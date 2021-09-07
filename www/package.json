@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://webengineering.ins.hs-anhalt.de:40443/api/v1/web/whisk.system/911_master/website/",
   "dependencies": {
-    "@hs-anhalt/auth-button": "^1.2.31",
+    "@hs-anhalt/auth-button": "^1.2.32",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
