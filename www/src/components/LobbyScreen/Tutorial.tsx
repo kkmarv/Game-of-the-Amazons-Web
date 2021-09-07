@@ -9,8 +9,8 @@ interface State {
 
 export class Tutorial extends Component<Props, State> {
     render() {
-        return (
-            <div className={"tutorial"}> // TODO
+        return ( // TODO
+            <div className={"tutorial"}>
                 <button/>
                 <video/>
                 <button/>

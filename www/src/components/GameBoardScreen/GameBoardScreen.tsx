@@ -23,7 +23,7 @@ interface State {
     remainingTurnTime: number
 }
 
-export class GameScreen extends Component<Props, State> {
+export class GameBoardScreen extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
     private localPlayer!: Player;
 

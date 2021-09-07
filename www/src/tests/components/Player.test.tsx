@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {PlayerSidebar} from "../../components/GameScreen/PlayerSidebar"
+import {PlayerSidebar} from "../../components/GameBoardScreen/PlayerSidebar"
 
 // Snapshot Test
 test("renders correctly with props", () => {

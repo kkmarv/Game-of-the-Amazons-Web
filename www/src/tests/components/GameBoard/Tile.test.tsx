@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {GameBoardButton} from "../../../components/GameScreen/GameBoard/GameBoardButton"
+import {GameBoardButton} from "../../../components/GameBoardScreen/GameBoard/GameBoardButton"
 
 // Snapshot Test
 test("renders correctly with props", () => {

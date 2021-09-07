@@ -1,9 +1,9 @@
-import 'reflect-metadata'; // used for class-transformer
+import 'reflect-metadata'; // required for class-transformer
 import './styles/index.sass';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import App from './App';
 
 import reportWebVitals from './reportWebVitals';
 

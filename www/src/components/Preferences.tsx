@@ -1,9 +1,10 @@
 import React, {Component} from "react";
+import {LanguageEnum, ThemeEnum} from "./LobbyScreen/lobbyScreenTypes";
 
 
 interface Props {
-    currentTheme: string // TODO
-    currentLanguage: string
+    currentTheme: ThemeEnum
+    currentLanguage: LanguageEnum
     switchTheme: () => void
     toggleLanguage: () => void
 }
@@ -13,10 +14,14 @@ interface State {
 
 export class Preferences extends Component<Props, State> {
     render() {
-        return (
+        return ( // TODO add icons
             <div className={"preferences"}>
-                <button value={this.props.currentLanguage} onClick={this.props.toggleLanguage}/>
-                <button value={this.props.currentTheme} onClick={this.props.switchTheme}/>
+                <button value={this.props.currentLanguage} onClick={this.props.toggleLanguage}>
+                    <img src={""} alt={""}/>
+                </button>
+                <button value={this.props.currentTheme} onClick={this.props.switchTheme}>
+                    <img src={""} alt={""}/>
+                </button>
             </div>
         )
     }

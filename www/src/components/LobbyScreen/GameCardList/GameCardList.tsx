@@ -1,18 +1,29 @@
 import {Component} from "react";
 import {BasicGame, Player} from "../../../requests";
 import {GameCard} from "./GameCard";
+import {GameCardInfo} from "./GameCardInfo";
 
 
 interface Props {
     gamesList: BasicGame[]
     localPlayer: Player
+    onCreateNewGame: () => void
 }
 
 interface State {
+    isViewingGameInfo: boolean
 }
 
 export class GameCardList extends Component<Props, State> {
     private yourGames: BasicGame[] = this.getYourGames()
+    private clickedGameId!: number
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            isViewingGameInfo: true
+        }
+    }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
         if (prevProps.gamesList.length !== this.props.gamesList.length) { // this will cause problems when many users
@@ -30,24 +41,13 @@ export class GameCardList extends Component<Props, State> {
                     {this.getGameCards()}
                 </div>
                 <div className={"new-game-button"}>
-                    <button onClick={this.handleClick}>New Game</button>
+                    <button onClick={this.props.onCreateNewGame}>New Game</button>
                 </div>
+                {this.state.isViewingGameInfo ? (this.getGameCardInfo) : null}
             </div>
         )
     }
 
-
-    private handleClick = () => {
-        // TODO
-    }
-
-
-    private getGameCards(): JSX.Element[] {
-        return this.yourGames.map((yourGame, index) => {
-            const winningPlayer: Player | undefined = this.getPlayerById(yourGame.players, yourGame.winningPlayer)
-            return <GameCard key={"gameCard" + index} players={yourGame.players} winningPlayer={winningPlayer}/>
-        })
-    }
 
     private getYourGames(): BasicGame[] {
         let yourGames: BasicGame[] = []
@@ -60,10 +60,32 @@ export class GameCardList extends Component<Props, State> {
         return yourGames
     }
 
-    /* Helper functions */
+    private getGameCards(): JSX.Element[] {
+        return this.yourGames.map((yourGame, index) => {
+            return (
+                <GameCard
+                    key={index}
+                    game={yourGame}
+                    onClick={() => {
+                        this.clickedGameId = yourGame.id
+                    }}
+                />
+            )
+        })
+    }
 
-    private getPlayerById(players: Player[], id?: number): Player | undefined {
-        if (id === undefined) return undefined
-        else return players[0].id === id ? players[0] : players[1]
+    private getGameCardInfo(): JSX.Element {
+        return (
+            <GameCardInfo
+                forGameId={this.clickedGameId}
+                onLeave={() => {
+                    this.toggleIsViewingGameInfo()
+                }}
+            />
+        )
+    }
+
+    private toggleIsViewingGameInfo(): void {
+        this.setState({isViewingGameInfo: !this.state.isViewingGameInfo})
     }
 }

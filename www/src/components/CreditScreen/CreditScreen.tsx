@@ -8,8 +8,8 @@ interface Props {
 interface State {
 }
 
-export class Credits extends Component<Props, State> {
+export class CreditScreen extends Component<Props, State> {
     render() {
-        return null // TODO
+        return null // TODO research react router
     }
 }
