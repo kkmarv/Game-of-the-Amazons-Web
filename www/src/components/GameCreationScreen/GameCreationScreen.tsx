@@ -3,7 +3,7 @@ import {GameSettings} from "./GameSettings";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
-interface Props {
+interface Props { // RAWR
 }
 
 interface State {
