@@ -1,4 +1,5 @@
 import {Component} from "react";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
 interface Props {
@@ -8,8 +9,10 @@ interface Props {
 interface State {
 }
 
-export class CreditScreen extends Component<Props, State> {
+class CreditScreen extends Component<RouteComponentProps & Props, State> {
     render() {
         return null // TODO research react router
     }
 }
+
+export default withRouter(CreditScreen)

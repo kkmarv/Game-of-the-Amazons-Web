@@ -9,7 +9,7 @@ interface State {
 
 export class Tutorial extends Component<Props, State> {
     render() {
-        return ( // TODO
+        return ( // TODO passi fragen
             <div className={"tutorial"}>
                 <button/>
                 <video/>

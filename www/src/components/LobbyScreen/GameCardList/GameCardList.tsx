@@ -66,7 +66,7 @@ export class GameCardList extends Component<Props, State> {
                 <GameCard
                     key={index}
                     game={yourGame}
-                    onClick={() => {
+                    onClick={() => { // TODO detailed game info machen
                         this.clickedGameId = yourGame.id
                     }}
                 />
