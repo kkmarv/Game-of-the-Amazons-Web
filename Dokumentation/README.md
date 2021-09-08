@@ -25,11 +25,17 @@ Enthält die Dokumentation zu allen Komponenten und Modulen, sowie Hinweise zu P
 
 - [node-sass](https://www.npmjs.com/package/node-sass)  
   `npm install node-sass`
+- [react-player](https://www.npmjs.com/package/react-player)  
+  `npm install react-player`
 - [class-transformer](https://www.npmjs.com/package/class-transformer)  
   `npm install class-transformer --save`  
   `npm install reflect-metadata --save`  
   _Des Weiteren muss reflect-metadata in einer globalen Komponente (index.tsx) importiert werden:_  
   `import 'reflect-metadata';`
+- [react-custom-scrollbars](https://www.npmjs.com/package/react-custom-scrollbars)  
+  `npm install react-custom-scrollbars`
+- [@types/react-custom-scrollbars](https://www.npmjs.com/package/@types/react-custom-scrollbars)  
+  `npm install --save @types/react-custom-scrollbars`
 - [@hs-anhalt/auth-button](https://www.npmjs.com/package/@hs-anhalt/auth-button)  
   `npm install @hs-anhalt/auth-button`
 
