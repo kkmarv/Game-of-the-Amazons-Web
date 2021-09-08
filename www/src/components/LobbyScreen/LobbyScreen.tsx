@@ -1,4 +1,4 @@
-import "../../styles/components/_lobby-screen.sass"
+import "../../styles/components/_lobby-screen.scss"
 
 import {Component} from "react";
 import {GameCardList} from "./GameCardList/GameCardList";
@@ -48,20 +48,24 @@ export class LobbyScreen extends Component<Props, State> {
                 <Credits onLeave={this.toggleCredits}/>
             ) : (
                 <>
-                    <Preferences
-                        currentTheme={""}
-                        currentLanguage={""}
-                        switchTheme={() => {
-                            return null // TODO
-                        }}
-                        toggleLanguage={() => {
-                            return null // TODO
-                        }}
-                    />
-                    <Title currentPlayerName={this.localPlayer.name}/>
-                    <Tutorial/>
-                    <GameCardList localPlayer={this.localPlayer} gamesList={this.state.gamesList}/>
-                    <Logo onClick={this.toggleCredits}/>
+                    <div className={"left"}>
+                        <Preferences
+                            currentTheme={""}
+                            currentLanguage={""}
+                            switchTheme={() => {
+                                return null // TODO
+                            }}
+                            toggleLanguage={() => {
+                                return null // TODO
+                            }}
+                        />
+                        <Title currentPlayerName={this.localPlayer.name}/>
+                        <Tutorial/>
+                    </div>
+                    <div className={"right"}>
+                        <GameCardList localPlayer={this.localPlayer} gamesList={this.state.gamesList}/>
+                        <Logo onClick={this.toggleCredits}/>
+                    </div>
                 </>
             )
         }

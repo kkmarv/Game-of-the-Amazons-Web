@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {BasicGame, Player} from "../../../requests";
 import {GameCard} from "./GameCard";
+import {Scrollbars} from "react-custom-scrollbars";
 
 
 interface Props {
@@ -27,7 +28,49 @@ export class GameCardList extends Component<Props, State> {
                     <h2>Your Games</h2>
                 </div>
                 <div className={"card-list"}>
-                    {this.getGameCards()}
+                    <Scrollbars id={"scroll"} autoHide={true} autoHideTimeout={1500}>
+                        {this.getGameCards()}
+                        <div className={"game-card"}> {/*TODO remove game card*/}
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 1`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 2`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 3`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 4`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 5`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 6`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 7`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                        <div className={"game-card"}>
+                            <span>{`PEPEGO VS PEPEGA`}</span>
+                            <span>{`Game 7`}</span>
+                            <span>{"Still in progress..."}</span>
+                        </div>
+                    </Scrollbars>
                 </div>
                 <div className={"new-game-button"}>
                     <button onClick={this.handleClick}>New Game</button>

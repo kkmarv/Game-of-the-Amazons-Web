@@ -1,4 +1,4 @@
-import "../../styles/components/_game-screen.sass"
+import "../../styles/components/_game-screen.scss"
 
 import {Component} from "react";
 import {LoadingScreen} from "../LoadingScreen";
