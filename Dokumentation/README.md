@@ -32,6 +32,8 @@ Enthält die Dokumentation zu allen Komponenten und Modulen, sowie Hinweise zu P
   `npm install reflect-metadata --save`  
   _Des Weiteren muss reflect-metadata in einer globalen Komponente (index.tsx) importiert werden:_  
   `import 'reflect-metadata';`
+- [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+  `npm install --save react-router-dom`
 - [react-custom-scrollbars](https://www.npmjs.com/package/react-custom-scrollbars)  
   `npm install react-custom-scrollbars`
 - [@types/react-custom-scrollbars](https://www.npmjs.com/package/@types/react-custom-scrollbars)  
