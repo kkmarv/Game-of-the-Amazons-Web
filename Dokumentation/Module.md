@@ -1,4 +1,49 @@
-### requests
+
+# Module
+
+Hier werden die TypeScript Dateien gelistet, welche kein TSX beinhalten und somit keine Komponenten sind. (Die mit der .ts Dateiendung)
+
+1. [gameBoardTypes](#gameboardtypes)
+3. [lobbyScreenTypes](#lobbyscreentypes)
+2. [requests](#requests)
+
+## gameBoardTypes
+
+Dieses Modul enthält Typdefinitionen für die Benutzung des Spielbrettes.
+
+### Klassen
+
+---
+
+#### Tile
+
+| Attribut | Typ | Beschreibung |
+| ------ | ------ | ------ |
+| `disabled` | `boolean` | `false` anklickbar <br> `true` nicht anklickbar |
+| `tileType` | `TileEnum` | Wert aus dem `TileEnum` |
+
+---
+
+#### TileEnum
+
+| Konstante | Wert | Beschreibung |
+| ------ | ------ | ------ |
+| `PLAYER` | `0` | Feld mit eigener Amazone besetzt |
+| `OPPONENT` | `1` | Feld mit gegnerischer Amazone besetzt |
+| `EMPTY` | `-1` | Leeres Feld |
+| `ARROW` | `-2` | Durch Pfeil blockiertes Feld |
+
+---
+
+## lobbyScreenTypes
+
+Dieses Modul enthält Typdefinitionen für die Benutzung der Lobby.
+
+### Klassen
+
+---
+
+## requests
 
 Dieses Modul definiert die API-Anfragen mittels TypeScript.  
 Es wird so gut wie möglich versucht, Konsistenz zu der gegebenen API herzustellen.
