@@ -6,7 +6,7 @@ Enthält die Dokumentation zu allen Komponenten und Modulen, sowie Hinweise zu P
 
   1. [Komponenten](Komponenten.md)
   2. [Module](Module.md)
-  3. [API-Spezifiktaion](API-Spezifiktaion.md)
+  3. [API-Spezifikation](API-Spezifikation.md)
   4. [Weiterführende Links](#weiterführende-links)
       1. [Projekt-Abhängigkeiten](#projekt-abhängigkeiten)
       2. [Verweise](#verweise)
