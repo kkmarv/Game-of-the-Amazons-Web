@@ -318,11 +318,12 @@
         }
     }
 
-    #root {
+    .App {
         display: flex;
         flex-flow: row;
     }
 }
+
 
 /* all */
 
@@ -339,6 +340,7 @@
 
 button {
     cursor: pointer;
+    background: none;
 }
 
 .preferences {
