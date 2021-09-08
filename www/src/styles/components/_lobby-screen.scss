@@ -1,0 +1,413 @@
+@media screen and (max-width: 412px) {
+
+  h1 {
+    font-size: calc(16px + 9.5vw);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: calc(16px + 2.5vw);
+    margin: 0;
+  }
+
+  h3 {
+    font-size: calc(16px + 1vw);
+    margin: 0;
+  }
+
+  #scroll {
+    width: 95vw !important;
+    height: 62vw !important;
+  }
+
+  .tutorial {
+    text-align: center;
+    margin-top: 2vw;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 50vw !important;
+
+
+    div {
+      display: flex;
+      align-items: center;
+      background: #e7264f;
+      height: 50vw !important;
+      width: auto !important;
+    }
+
+    button {
+      padding: 0;
+      height: 100%;
+      width: 5vw;
+      background: url("../../assets/images/next.svg") no-repeat center;
+    }
+
+    button#previous {
+      transform: rotate(180deg);
+    }
+
+    video {
+      height: 50vw !important;
+      width: auto;
+      background: #12264f;
+    }
+  }
+
+  .new-game-button {
+    text-align: center;
+
+    button {
+      margin-top: 2vw !important;
+      width: 35vw !important;
+      height: 10vw !important;
+      font-size: 3.5vw;
+      background: cornflowerblue;
+      border-radius: 5px;
+    }
+  }
+
+  .logo {
+    margin-top: 6vw;
+    text-align: center;
+
+    img {
+      height: 10vw;
+    }
+  }
+}
+
+
+@media screen and (min-width: 413px) and (max-width: 1025px) {
+
+  h1 {
+    font-size: calc(16px + 6vw);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: calc(16px + 2vw);
+    margin: 0;
+  }
+
+  h3 {
+    font-size: calc(16px + 1vw);
+  }
+
+  #scroll {
+    width: 95vw !important;
+    height: 41vw !important;
+  }
+
+  .new-game-button {
+    text-align: center;
+
+    button {
+      margin-top: 1vw;
+      width: 25vw;
+      height: 7vw;
+      font-size: 2.7vw;
+      background: cornflowerblue;
+      border-radius: 5px;
+    }
+  }
+
+  .title {
+    margin-top: 0vw;
+    flex-flow: column;
+    text-align: left;
+  }
+
+  .logo {
+    margin-top: 6vw;
+    text-align: center;
+
+    img {
+      height: 7vw;
+    }
+  }
+
+  .preferences {
+    float: right;
+  }
+
+  .tutorial {
+    text-align: center;
+    margin-top: 5vw;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 50vw !important;
+
+
+    div {
+      display: flex;
+      align-items: center;
+      background: #e7264f;
+      height: 50vw !important;
+      width: auto !important;
+    }
+
+    button {
+      padding: 0;
+      height: 100%;
+      width: 5vw;
+      background: url("../../assets/images/next.svg") no-repeat center;
+    }
+
+    button#previous {
+      transform: rotate(180deg);
+    }
+
+    video {
+      height: 50vw !important;
+      width: auto;
+      background: #12264f;
+    }
+  }
+
+}
+
+@media screen and (min-width: 1026px) {
+
+  h1 {
+    font-size: calc(16px + 4vw);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: calc(16px + 1vw);
+    margin: 0;
+  }
+
+  h3 {
+    font-size: calc(16px + .5vw);
+  }
+
+  .title {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    .playername {
+      padding: .5vw 10vw;
+      font-size: calc(16px + 1.5vw);
+    }
+
+    .row {
+      margin: 0;
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: flex-start;
+      align-content: center;
+
+      .column {
+        flex-flow: column;
+        padding: 0 1vw;
+        bottom: 0;
+        margin: 0 0vw;
+
+        .row {
+          flex-flow: row;
+        }
+      }
+    }
+  }
+
+  .preferences {
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin: 2px;
+      width: 40px;
+      height: 40px;
+      background: #e7264f;
+    }
+  }
+
+  .tutorial {
+    text-align: center;
+    margin: 1vw 1vw 0 1vw !important;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    height: 35vw !important;
+
+    div {
+      display: flex;
+      align-items: center;
+      background: #e7264f;
+      height: 35vw !important;
+      width: auto !important;
+    }
+
+    button {
+      padding: 0;
+      height: 100% !important;
+      width: 3vw;
+      background: url("../../assets/images/next.svg") no-repeat center;
+    }
+
+    button#previous {
+      transform: rotate(180deg);
+    }
+
+    video {
+      height: 40vw;
+      background: #12264f;
+    }
+  }
+
+  #scroll {
+    width: 25vw !important;
+    height: 36.5vw !important;
+  }
+
+  .new-game-button {
+    text-align: center;
+
+    button {
+      margin-top: 1vw;
+      width: 9vw;
+      height: 2.5vw;
+      font-size: 1.2vw;
+      background: cornflowerblue;
+      border-radius: 5px;
+    }
+  }
+
+  .logo {
+    margin-top: 2vw;
+    text-align: center;
+
+    img {
+      height: 2.5vw;
+    }
+  }
+  .games {
+
+    h2 {
+      margin-left: 3vw;
+    }
+
+    .title {
+      margin: 2vw auto 1vw auto !important;
+      text-align: center;
+    }
+
+    .card-list {
+      margin: 0 1vw;
+      border-radius: 5px;
+      background: darkgrey;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      padding: .5vw 0vw !important;
+      overflow: auto;
+
+      .game-card {
+        width: 60% !important;
+        margin: .5vw 1vw !important;
+        padding: 1vw 4vw !important;
+      }
+    }
+  }
+
+  #root {
+    display: flex;
+    flex-flow: row;
+  }
+}
+
+/* all */
+
+
+.playername {
+  &:before {
+    content: "» "
+  }
+
+  &:after {
+    content: "  «"
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.preferences {
+  margin: 1px;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin: 2px;
+    width: 40px;
+    height: 40px;
+    background: #e7264f;
+  }
+}
+
+.title {
+  text-align: center;
+
+  .row {
+    margin: 0;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: center;
+
+    .column {
+      flex-flow: column;
+      padding: 0 1vw;
+      bottom: 0;
+      margin: 0 0vw;
+
+      .row {
+        flex-flow: row;
+      }
+    }
+  }
+}
+
+.games {
+
+  h2 {
+    margin-left: 3vw;
+  }
+
+  .title {
+    margin: 3vw auto 2vw auto;
+    text-align: center;
+  }
+
+  .card-list {
+    margin: 0 2vw;
+    border-radius: 5px;
+    background: darkgrey;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 1vw 0vw;
+    overflow: auto;
+
+    .game-card {
+      width: 83%;
+      margin: 1vw 3vw;
+      padding: 1vw 5vw;
+      display: flex;
+      flex-flow: column;
+      background: white;
+      border-radius: 5px 30px;
+      cursor: pointer;
+    }
+  }
+}

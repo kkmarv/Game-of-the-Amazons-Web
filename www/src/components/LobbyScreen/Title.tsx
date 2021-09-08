@@ -19,7 +19,7 @@ export class Title extends Component<Props, State> {
                     </div>
                     <h1 className={"column"}>Amazons</h1>
                 </div>
-                <h3 className={"row"}>{this.props.currentPlayerName}</h3>
+                <h3 className={"row playername"}>{this.props.currentPlayerName}</h3>
             </div>
         )
     }

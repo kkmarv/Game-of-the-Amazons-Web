@@ -1,4 +1,4 @@
-import "../../styles/components/_lobby-screen.sass"
+import "../../styles/components/_lobby-screen.scss"
 
 import {Component} from "react";
 import {GameCardList} from "./GameCardList/GameCardList";
@@ -47,20 +47,24 @@ class LobbyScreen extends Component<RouteComponentProps & Props, State> {
         else {
             return (
                 <>
-                    <Preferences
-                        currentTheme={this.state.theme}
-                        currentLanguage={this.state.isCurrentLanguageGerman ? LanguageEnum.DE : LanguageEnum.EN}
-                        switchTheme={this.onSwitchThemeClick}
-                        toggleLanguage={this.onToggleLanguageClick}
-                    />
-                    <Title currentPlayerName={this.localPlayer.name}/>
-                    <Tutorial/>
+                    <div className={"left"}>
+                        <Preferences
+                            currentTheme={this.state.theme}
+                            currentLanguage={this.state.isCurrentLanguageGerman ? LanguageEnum.DE : LanguageEnum.EN}
+                            switchTheme={this.onSwitchThemeClick}
+                            toggleLanguage={this.onToggleLanguageClick}
+                        />
+                        <Title currentPlayerName={this.localPlayer.name}/>
+                        <Tutorial/>
+                    </div>
+                    <div className={"right"}>
                     <GameCardList
                         localPlayer={this.localPlayer}
                         gamesList={this.state.gamesList}
                         onCreateNewGame={this.onCreateNewGameClick}
                     />
                     <Logo onClick={this.onLogoClick}/>
+                    </div>
                 </>
             )
         }

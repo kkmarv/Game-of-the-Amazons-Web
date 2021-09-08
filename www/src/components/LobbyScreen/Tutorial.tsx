@@ -1,5 +1,6 @@
 import {Component} from "react";
-
+import ReactPlayer from 'react-player'
+import video from './../../../assets/videos/idle.mp4'
 
 interface Props {
 }
@@ -9,11 +10,15 @@ interface State {
 
 export class Tutorial extends Component<Props, State> {
     render() {
-        return ( // TODO passi fragen
+        return (
             <div className={"tutorial"}>
-                <button/>
-                <video/>
-                <button/>
+                <div>
+                    <button id={"previous"}/>
+                    <ReactPlayer url={video} playing={true} muted={false}
+                                 volume={0}
+                                 controls={false} loop={true}></ReactPlayer>
+                    <button id={"next"}/>
+                </div>
             </div>
         )
     }
