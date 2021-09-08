@@ -47,23 +47,25 @@ class LobbyScreen extends Component<RouteComponentProps & Props, State> {
         else {
             return (
                 <>
-                    <div className={"left"}>
-                        <Preferences
-                            currentTheme={this.state.theme}
-                            currentLanguage={this.state.isCurrentLanguageGerman ? LanguageEnum.DE : LanguageEnum.EN}
-                            switchTheme={this.onSwitchThemeClick}
-                            toggleLanguage={this.onToggleLanguageClick}
-                        />
-                        <Title currentPlayerName={this.localPlayer.name}/>
-                        <Tutorial/>
-                    </div>
-                    <div className={"right"}>
-                    <GameCardList
-                        localPlayer={this.localPlayer}
-                        gamesList={this.state.gamesList}
-                        onCreateNewGame={this.onCreateNewGameClick}
-                    />
-                    <Logo onClick={this.onLogoClick}/>
+                    <div className={"lobby"}>
+                        <div className={"left"}>
+                            <Preferences
+                                currentTheme={this.state.theme}
+                                currentLanguage={this.state.isCurrentLanguageGerman ? LanguageEnum.DE : LanguageEnum.EN}
+                                switchTheme={this.onSwitchThemeClick}
+                                toggleLanguage={this.onToggleLanguageClick}
+                            />
+                            <Title currentPlayerName={this.localPlayer.name}/>
+                            <Tutorial/>
+                        </div>
+                        <div className={"right"}>
+                            <GameCardList
+                                localPlayer={this.localPlayer}
+                                gamesList={this.state.gamesList}
+                                onCreateNewGame={this.onCreateNewGameClick}
+                            />
+                            <Logo onClick={this.onLogoClick}/>
+                        </div>
                     </div>
                 </>
             )

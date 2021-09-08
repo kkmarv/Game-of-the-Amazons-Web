@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import AuthButton from "@hs-anhalt/auth-button";
+import "../../styles/components/_authentication-screen.scss"
 
 
 interface Props {
