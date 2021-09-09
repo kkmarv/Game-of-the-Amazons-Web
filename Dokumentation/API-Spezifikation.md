@@ -1,3 +1,5 @@
+[Wiki](README.md) > [Dokumentation](Dokumentation.md) > API-Spezifikation
+
 # API-Spezifikation
 
 ## Inhalt

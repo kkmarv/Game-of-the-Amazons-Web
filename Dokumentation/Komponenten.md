@@ -1,6 +1,16 @@
+[Wiki](README.md) > [Dokumentation](Dokumentation.md) > Komponenten
+
 # Komponenten
 
+## Inhalt
+
 Die React Komponenten der Webseite.
+
+1. [AuthenticationScreen](#authenticationscreen)
+2. [CreditScreen](#creditscreen)
+3. [GameBoardScreen](#gameboardscreen)
+4. [GameCreationScreen](#gamecreationscreen)
+5. [LobbyScreen](#lobbyscreen)
 
 <details>
 <summary>Ordnerstruktur</summary>
@@ -35,15 +45,6 @@ Die React Komponenten der Webseite.
 ```
 
 </details>
-
-
-## Inhalt
-
-1. [AuthenticationScreen](#authenticationscreen)
-2. [CreditScreen](#creditscreen)
-3. [GameBoardScreen](#gameboardscreen)
-4. [GameCreationScreen](#gamecreationscreen)
-5. [LobbyScreen](#lobbyscreen)
 
 ## AuthenticationScreen
 

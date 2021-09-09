@@ -1,7 +1,10 @@
+[Wiki](README.md) > [Dokumentation](Dokumentation.md) > Module
 
 # Module
 
-Hier werden die TypeScript Dateien gelistet, welche kein TSX beinhalten und somit keine Komponenten sind. (Die mit der .ts Dateiendung)
+## Inhalt
+
+Hier werden die TypeScript Dateien gelistet, welche kein TSX beinhalten und somit keine Komponenten sind.
 
 1. [gameBoardTypes](#gameboardtypes)
 3. [lobbyScreenTypes](#lobbyscreentypes)
@@ -113,7 +116,7 @@ Erstellt ein neues Spiel.
 | `maxTurnTime` | `int` | Zeit in Millisekunden, welche jeder Spieler hat, um seinen Zug auszuführen |
 | `rowCount` | `number` | Anzahl der Zeilen des Spielbrettes |
 | `columnCount` | `number` | Anzahl der Spalten des Spielbrettes |
-| `tiles` | `number[]` | Liste der Spalten des Spielbrettes (von 0 bis rowCount - 1) <br> Folgende Integer-Werte sind in diesen Arrays erlaubt: <br> `0` - Amazone des Spielers mit Index 0 in `players` <br> `1` - Amazone des Spielers mit Index 1 in `players` <br> `-1` - leeres Feld <br> `-2` - Giftpfeil |
+| `tiles` | `number[][]` | Liste der Spalten des Spielbrettes (von 0 bis rowCount - 1) <br> Folgende Integer-Werte sind in diesen Arrays erlaubt: <br> `0` - Amazone des Spielers mit Index 0 in `players` <br> `1` - Amazone des Spielers mit Index 1 in `players` <br> `-1` - leeres Feld <br> `-2` - Giftpfeil |
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
