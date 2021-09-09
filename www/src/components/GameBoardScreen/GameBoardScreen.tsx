@@ -124,7 +124,7 @@ export class GameBoardScreen extends Component<Props, State> {
         await this.updateGame()
     }
 
-    private timerFunction = async (): Promise<void> => { // TODO bot displayed am anfang beheben | Toni fragen
+    private timerFunction = async (): Promise<void> => {
         if (this.state.gameIsLoaded && !this.state.gameIsFinished) {
             if (this.state.remainingTurnTime >= 1000) {
                 if (!this.isItLocalPlayersTurn()) { // if we're waiting on opponents' turn

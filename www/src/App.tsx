@@ -7,6 +7,7 @@ import GameCreationScreen from "./components/GameCreationScreen/GameCreationScre
 import {GameBoardScreen} from "./components/GameBoardScreen/GameBoardScreen";
 import LobbyScreen from "./components/LobbyScreen/LobbyScreen";
 import AuthenticationScreen from "./components/AuthenticationScreen/AuthenticationScreen";
+import {ErrorScreen} from "./components/Error/ErrorScreen";
 
 
 interface Props {
@@ -32,11 +33,13 @@ export default class App extends Component<Props, State> {
                         {
                             this.state.isAuthorized ? (
                                 <>
+                                    <Route exact path="/"><Redirect to="/lobby"/></Route>
                                     <Route exact path="/lobby" component={LobbyScreen}/>
-                                    <Route exact path="/credits" component={CreditScreen}/>
                                     <Route exact path="/create" component={GameCreationScreen}/>
+                                    <Route exact path="/credits" component={CreditScreen}/>
                                     <Route exact path="/game" component={GameBoardScreen}/>
-                                    <Redirect to={"/lobby"}/>
+                                    <Route exact path="/error" component={ErrorScreen}/>
+                                    <Route exact path="/error/player" component={ErrorScreen}/>
                                 </>
                             ) : (
                                 <AuthenticationScreen onAuthorize={() => {

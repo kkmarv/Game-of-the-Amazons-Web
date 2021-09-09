@@ -1,6 +1,6 @@
 import "../../styles/components/_lobby-screen.scss"
 
-import {Component} from "react";
+import React, {Component} from "react";
 import {GameCardList} from "./GameCardList/GameCardList";
 import {LoadingScreen} from "../LoadingScreen";
 import {Logo} from "./Logo";
@@ -36,9 +36,10 @@ class LobbyScreen extends Component<RouteComponentProps & Props, State> {
     }
 
     async componentDidMount() {
-        this.localPlayer = await getOwnPlayer() as Player // TODO @Toni: Fehlerbehandlung WIE?
+        this.localPlayer = await getOwnPlayer() as Player
         this.setState({gamesList: await getAllGames()}, () => {
-            this.setState({isLoaded: true})
+            if (this.localPlayer === undefined) this.props.history.push("/error/player")
+            else this.setState({isLoaded: true})
         })
     }
 
