@@ -1,6 +1,10 @@
+[Wiki](README.md) > [Dokumentation](Dokumentation.md) > Module
+
 # Module
 
-Hier werden die TypeScript Dateien gelistet, welche kein TSX beinhalten und somit keine Komponenten sind. (Die mit der .ts Dateiendung)
+## Inhalt
+
+Hier werden die TypeScript Dateien gelistet, welche kein TSX beinhalten und somit keine Komponenten sind.
 
 1. [gameBoardTypes](#gameboardtypes)
 3. [lobbyScreenTypes](#lobbyscreentypes)
