@@ -24,9 +24,7 @@ Container-Beschreibung
 
 Auflistung der Komponenten des Containers
 
-### Komponenten-Bezeichnung
-
-Komponente (Teil eines Containers)
+### Komponente (Teil eines Containers)
 
 **Properties**
 
