@@ -2,10 +2,10 @@ import {ChangeEvent, Component} from "react";
 
 
 interface Props {
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void
-    rowCount: number
-    columnCount: number
+    boardSize: number
     amazonCount: number
+    onAmazonChange: (event: ChangeEvent<HTMLInputElement>) => void
+    onBoardSizeChange: (newBoardSize: number) => void
 }
 
 interface State {
@@ -36,33 +36,25 @@ export class AdvancedSettings extends Component<Props, State> {
                                         type={"number"}
                                         value={this.props.amazonCount}
                                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                            this.props.onChange(event)
+                                            this.props.onAmazonChange(event)
                                         }}
                                     />
                                 </label>
                             </div>
                             <div className={"board-size"}>
                                 <label id={"front"}>Board Size: </label>
-                                <label id={"rows"}>{`Rows`}
-                                    <input
-                                        id={"row-selection"}
-                                        type={"number"}
-                                        value={this.props.rowCount}
-                                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                            this.props.onChange(event)
-                                        }}
-                                    />
-                                </label>
-                                <label id={"columns"}>{`Columns`}
-                                    <input
-                                        id={"column-selection"}
-                                        type={"number"}
-                                        value={this.props.columnCount}
-                                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                            this.props.onChange(event)
-                                        }}
-                                    />
-                                </label>
+                                <select>
+                                    <option id={"row-selection"} value={"checkerboard"}
+                                            onChange={(event) => {
+                                                this.props.onBoardSizeChange(10)
+                                            }}>Checkerboard
+                                    </option>
+                                    <option id={"column-selection"} value={"chessboard"}
+                                            onSelect={(event) => {
+                                                this.props.onBoardSizeChange(8)
+                                            }}>Chessboard
+                                    </option>
+                                </select>
                             </div>
                         </>
                     ) : null

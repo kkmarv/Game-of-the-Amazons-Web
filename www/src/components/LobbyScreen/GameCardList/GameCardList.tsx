@@ -1,11 +1,12 @@
 import {Component} from "react";
-import {BasicGame, Player} from "../../../requests";
+import {BasicGame, DetailedGame, getGame, Player} from "../../../requests";
 import {GameCard} from "./GameCard";
 import {GameCardInfo} from "./GameCardInfo";
 import {Scrollbars} from "react-custom-scrollbars";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
-interface Props {
+interface Props extends RouteComponentProps {
     gamesList: BasicGame[]
     localPlayer: Player
     onCreateNewGame: () => void
@@ -15,7 +16,8 @@ interface State {
     isViewingGameInfo: boolean
 }
 
-export class GameCardList extends Component<Props, State> {
+
+class GameCardList extends Component<Props, State> {
     private yourGames: BasicGame[] = this.getYourGames()
     private clickedGameId!: number
 
@@ -41,52 +43,6 @@ export class GameCardList extends Component<Props, State> {
                 <div className={"card-list"}>
                     <Scrollbars id={"scroll"} autoHide={true} autoHideTimeout={1500}>
                         {this.getGameCards()}
-                        <div className={"game-card btn"}>
-                            <span>Marwing VS Basgal</span><span>Game 2</span>
-                            <span>
-                            Marwing has won this round!
-                    </span>
-                        </div>
-                        <div className={"game-card btn"}> {/*TODO remove game cards*/}
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 1`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 2`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 3`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 4`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 5`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 6`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 7`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
-                        <div className={"game-card btn"}>
-                            <span>{`PEPEGO VS PEPEGA`}</span>
-                            <span>{`Game 7`}</span>
-                            <span>{"Still in progress..."}</span>
-                        </div>
                     </Scrollbars>
                 </div>
                 <div className={"new-game-button"}>
@@ -115,12 +71,15 @@ export class GameCardList extends Component<Props, State> {
                 <GameCard
                     key={index}
                     game={yourGame}
-                    onClick={() => { // TODO detailed game info machen
-                        this.clickedGameId = yourGame.id
+                    onClick={async () => {
+                        const yourGameIsFinished: boolean = (await getGame(yourGame.id) as DetailedGame).winningPlayer === undefined
+                        if (yourGameIsFinished) { // TODO how the fuck is this working?
+                            this.props.history.push(`/game/${yourGame.id}`)
+                        }
                     }}
                 />
             )
-        })
+        }).reverse() // used to receive games in chronological order
     }
 
     private getGameCardInfo(): JSX.Element {
@@ -138,3 +97,5 @@ export class GameCardList extends Component<Props, State> {
         this.setState({isViewingGameInfo: !this.state.isViewingGameInfo})
     }
 }
+
+export default withRouter(GameCardList)

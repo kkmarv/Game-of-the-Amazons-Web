@@ -4,14 +4,14 @@ import AuthButton from "@hs-anhalt/auth-button";
 import "../../styles/components/_authentication-screen.scss"
 
 
-interface Props {
+interface Props extends RouteComponentProps {
     onAuthorize: () => void
 }
 
 interface State {
 }
 
-class AuthenticationScreen extends Component<RouteComponentProps & Props, State> {
+class AuthenticationScreen extends Component<Props, State> {
     render() {
         return (
             <div className={"auth-button"}>

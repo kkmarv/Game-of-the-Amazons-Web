@@ -1,4 +1,4 @@
-import "../../styles/components/_game-screen.scss"
+import "../../styles/components/_game-screen.scss";
 
 import {Component} from "react";
 import {LoadingScreen} from "../LoadingScreen";
@@ -6,33 +6,36 @@ import {PlayerSidebar} from "./PlayerSidebar";
 import {TurnInfo} from "./TurnInfo";
 import {GameBoard} from "./GameBoard/GameBoard";
 import * as requests from "../../requests";
-import {BasicGame, DetailedGame, Player, Turn} from "../../requests";
+import {DetailedGame, Player, Turn} from "../../requests";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
-interface Props {
-    playerIds: number[]
-    maxTurnTime: number
-    tiles: number[][]
+interface URLParameter {
+    id: string
+}
+
+interface Props extends RouteComponentProps<URLParameter> {
+
 }
 
 interface State {
-    game?: DetailedGame
+    game?: DetailedGame // gets defined with game request
     gameIsLoaded: boolean
-    currentPlayer?: Player
+    currentPlayer?: Player // gets defined with game request
     gameIsFinished: boolean
-    remainingTurnTime: number
+    remainingTurnTime?: number // gets defined with game request
 }
 
-export class GameBoardScreen extends Component<Props, State> {
+
+class GameBoardScreen extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
     private localPlayer!: Player;
 
-    constructor(props: Props) {
+    constructor(props: RouteComponentProps & Props) {
         super(props);
         this.state = {
             gameIsLoaded: false,
-            gameIsFinished: false,
-            remainingTurnTime: props.maxTurnTime
+            gameIsFinished: false
         }
     }
 
@@ -44,21 +47,17 @@ export class GameBoardScreen extends Component<Props, State> {
         this.timer = setInterval(this.timerFunction, 1000)
         this.localPlayer = await requests.getOwnPlayer() as Player
 
-        const createdGame: BasicGame = await requests.createGame(
-            this.props.playerIds,
-            this.props.maxTurnTime,
-            this.props.tiles.length,
-            this.props.tiles[0].length,
-            this.props.tiles
-        ) as BasicGame
-
         this.setState({
-            game: await requests.getGame(createdGame.id) as DetailedGame,
+            game: await requests.getGame(parseInt(this.props.match.params.id)) as DetailedGame,
         }, () => { // executes right after first setState()
-            this.setState({
-                gameIsLoaded: true,
-                currentPlayer: this.getCurrentPlayer()
-            })
+            if (this.state.game === undefined) this.props.history.push("/error")
+            else { // initialize state when game request was successful
+                this.setState({
+                    gameIsLoaded: true,
+                    currentPlayer: this.getCurrentPlayer(),
+                    remainingTurnTime: this.state.game?.remainingTurnTime
+                })
+            }
         })
     }
 
@@ -101,7 +100,7 @@ export class GameBoardScreen extends Component<Props, State> {
                     <TurnInfo
                         isWinner={!!this.state.game!.winningPlayer}
                         currentPlayer={this.state.currentPlayer!}
-                        remainingTurnTime={this.state.remainingTurnTime}
+                        remainingTurnTime={this.state.remainingTurnTime!}
                     />
                     <GameBoard
                         onTurnEnd={this.makeATurn}
@@ -126,7 +125,7 @@ export class GameBoardScreen extends Component<Props, State> {
 
     private timerFunction = async (): Promise<void> => {
         if (this.state.gameIsLoaded && !this.state.gameIsFinished) {
-            if (this.state.remainingTurnTime >= 1000) {
+            if (this.state.remainingTurnTime! >= 1000) {
                 if (!this.isItLocalPlayersTurn()) { // if we're waiting on opponents' turn
                     this.setState({game: await requests.getGame(this.state.game!.id)}) // update the game
                 }
@@ -134,7 +133,7 @@ export class GameBoardScreen extends Component<Props, State> {
             } else { // if turn time is up
                 this.setState({game: await requests.getGame(this.state.game!.id)})
             }
-            this.setState({remainingTurnTime: this.state.remainingTurnTime - 1000})
+            this.setState({remainingTurnTime: this.state.remainingTurnTime! - 1000})
         }
     }
 
@@ -181,3 +180,5 @@ export class GameBoardScreen extends Component<Props, State> {
         return id < this.getTheOtherPlayerId(id) ? "white" : "black"
     }
 }
+
+export default withRouter(GameBoardScreen)

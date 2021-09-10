@@ -1,7 +1,7 @@
 import "../../styles/components/_lobby-screen.scss"
 
 import React, {Component} from "react";
-import {GameCardList} from "./GameCardList/GameCardList";
+import GameCardList from "./GameCardList/GameCardList";
 import {LoadingScreen} from "../LoadingScreen";
 import {Logo} from "./Logo";
 import {Title} from "./Title";
