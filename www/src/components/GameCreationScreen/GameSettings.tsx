@@ -70,7 +70,6 @@ export class GameSettings extends Component<Props, State> {
                                 this.setState({hasSelectedBot: hasSelectedBot})
                             }}
                         />
-                        <br/>
                         <PlayerList
                             localPlayer={this.props.localPlayer}
                             hasSelectedBot={this.state.hasSelectedBot}

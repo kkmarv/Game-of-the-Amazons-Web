@@ -50,10 +50,12 @@ export class PlayerList extends Component<Props, State> {
     render() {
         return (
             <>
-                <label htmlFor="playerNames">Choose your opponent: </label>
-                <select id="playerNames" name="playerNames" disabled={!this.state.isLoaded}>
-                    {this.state.isLoaded ? this.generateOptionElements() : <option>Loading...</option>}
-                </select>
+                <div className={"opponent"}>
+                    <label htmlFor="playerNames">Choose your opponent </label>
+                    <select id="playerNames" name="playerNames" disabled={!this.state.isLoaded}>
+                        {this.state.isLoaded ? this.generateOptionElements() : <option>Loading...</option>}
+                    </select>
+                </div>
             </>
         )
     }

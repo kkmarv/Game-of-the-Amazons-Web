@@ -12,7 +12,7 @@ interface State {
 export class Logo extends Component<Props, State> {
     render() {
         return (
-            <div className={"logo"}>
+            <div className={"logo btn"}>
                 <button onClick={this.props.onClick}>
                     <img src={logo} alt={"Anhalt University Logo"}/>
                 </button>

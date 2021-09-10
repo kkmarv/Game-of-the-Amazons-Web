@@ -14,7 +14,7 @@ export class TimerInput extends Component<Props, State> {
     render() {
         return (
             <div className={"time-selection"}>
-                <h3>{"Draw time: "}
+                <label>{"Draw time "}
                     <input
                         id={"turnTime"} type={"number"} name={"time"} value={this.props.turnTime / 1000}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ export class TimerInput extends Component<Props, State> {
                         }}
                     />
                     {" sec"}
-                </h3>
+                </label>
             </div>
         )
     }

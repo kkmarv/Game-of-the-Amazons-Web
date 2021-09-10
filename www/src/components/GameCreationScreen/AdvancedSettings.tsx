@@ -30,7 +30,7 @@ export class AdvancedSettings extends Component<Props, State> {
                     this.state.visible ? (
                         <>
                             <div className={"number-of-amazons"}>
-                                <h3>{`Number of Amazons: `}
+                                <label>{`Number of Amazons `}
                                     <input
                                         id={"amazon-selection"}
                                         type={"number"}
@@ -39,11 +39,11 @@ export class AdvancedSettings extends Component<Props, State> {
                                             this.props.onChange(event)
                                         }}
                                     />
-                                </h3>
+                                </label>
                             </div>
                             <div className={"board-size"}>
-                                <h3>Board Size</h3>
-                                <h4>{`Rows: `}
+                                <label id={"front"}>Board Size: </label>
+                                <label id={"rows"}>{`Rows`}
                                     <input
                                         id={"row-selection"}
                                         type={"number"}
@@ -52,8 +52,8 @@ export class AdvancedSettings extends Component<Props, State> {
                                             this.props.onChange(event)
                                         }}
                                     />
-                                </h4>
-                                <h4>{`Columns: `}
+                                </label>
+                                <label id={"columns"}>{`Columns`}
                                     <input
                                         id={"column-selection"}
                                         type={"number"}
@@ -62,7 +62,7 @@ export class AdvancedSettings extends Component<Props, State> {
                                             this.props.onChange(event)
                                         }}
                                     />
-                                </h4>
+                                </label>
                             </div>
                         </>
                     ) : null

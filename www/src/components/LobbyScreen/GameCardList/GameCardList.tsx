@@ -41,42 +41,48 @@ export class GameCardList extends Component<Props, State> {
                 <div className={"card-list"}>
                     <Scrollbars id={"scroll"} autoHide={true} autoHideTimeout={1500}>
                         {this.getGameCards()}
-                        <div className={"game-card"}> {/*TODO remove game card*/}
+                        <div className={"game-card btn"}>
+                            <span>Marwing VS Basgal</span><span>Game 2</span>
+                            <span>
+                            Marwing has won this round!
+                    </span>
+                        </div>
+                        <div className={"game-card btn"}> {/*TODO remove game cards*/}
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 1`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 2`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 3`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 4`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 5`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 6`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 7`}</span>
                             <span>{"Still in progress..."}</span>
                         </div>
-                        <div className={"game-card"}>
+                        <div className={"game-card btn"}>
                             <span>{`PEPEGO VS PEPEGA`}</span>
                             <span>{`Game 7`}</span>
                             <span>{"Still in progress..."}</span>
@@ -84,7 +90,7 @@ export class GameCardList extends Component<Props, State> {
                     </Scrollbars>
                 </div>
                 <div className={"new-game-button"}>
-                    <button onClick={this.props.onCreateNewGame}>New Game</button>
+                    <button className={"btn"} onClick={this.props.onCreateNewGame}>New Game</button>
                 </div>
                 {this.state.isViewingGameInfo ? (this.getGameCardInfo) : null}
             </div>
