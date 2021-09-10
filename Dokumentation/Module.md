@@ -48,8 +48,8 @@ Dieses Modul enthält Typdefinitionen für die Benutzung der Lobby.
 
 ## requests
 
-Dieses Modul definiert die API-Anfragen mittels TypeScript.  
-Es wird so gut wie möglich versucht, Konsistenz zu der gegebenen API herzustellen.
+Dieses Modul definiert die API-Anfragen an den [Game Of The Amazons Service](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service) mittels TypeScript, wobei so gut wie möglich versucht wird, Konsistenz zu der gegebenen API herzustellen.  
+Eine verbesserte Version der API Dokumentation ist [hier](API-Spezifikation.md) zu finden.
 
 ### Methoden
 
@@ -157,7 +157,7 @@ Ruft ein bestimmtes Spiel ab.
 #### getAllGames()
 
 Ruft alle Spiele ab.  
-Hier werden im Gegensatz zu [`getGame(id)`](#getgameid) die Spiele in Form von `BasicGame` zurückgeben.
+Hier werden, im Gegensatz zu [`getGame(id)`](#getgameid), die Spiele in Form von `BasicGame` zurückgeben.
 
 | Rückgabewert | Beschreibung |
 | ------ | ------ |
@@ -198,7 +198,7 @@ Typdefinitionen für die API Responses.
 
 #### Player
 
-Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid), [`POST /games/`](#post-games) und [`GET /games/`](#get-games) zu erreichen.
+Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](API-Spezifikation.md#get-gamesid), [`POST /games/`](API-Spezifikation.md#post-games) und [`GET /games/`](API-Spezifikation.md#get-games) zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -210,7 +210,7 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid),
 
 #### Board
 
-Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid) und [`POST /games/`](#post-games) zu erreichen.
+Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](API-Spezifikation.md#get-gamesid) und [`POST /games/`](API-Spezifikation.md#post-games) zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -231,7 +231,7 @@ Versucht Konsistenz mit den API-Responses von [`GET /games/<id>`](#get-gamesid) 
 
 #### Turn
 
-Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](#post-moveid) zu erreichen.
+Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](API-Spezifikation.md#post-moveid) zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
@@ -242,21 +242,21 @@ Versucht Konsistenz mit der API-Response von [`POST /move/<id>`](#post-moveid) z
 
 #### BasicGame
 
-Versucht Konsistenz mit den API-Responses von [`GET /games/`](#get-games) und [`POST /games/`](#post-games) zu erreichen.
+Versucht Konsistenz mit den API-Responses von [`GET /games/`](API-Spezifikation.md#get-games) und [`POST /games/`](API-Spezifikation.md#post-games) zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |
 | `id` | `number` | Spiel-ID |
 | `players` | `Player[]` | Spieler, die am Spiel teilnehmen |
-| `maxTurnTime?` | `number` | Maximale Zugzeit eines jeden Spielers <br> _OPTIONAL Wird nicht von [`GET /games/`](#get-games) verwendet_ |
-| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Wird nicht von [`POST /games/`](#post-games) verwendet und ist nur bei bereits beendeten Spielen vorhanden_ |
-| `board?` | `Board` | Das zugehörige Spielbrett <br> _OPTIONAL Wird nicht von [`GET /games/`](#get-games) verwendet_ |
+| `maxTurnTime?` | `number` | Maximale Zugzeit eines jeden Spielers <br> _OPTIONAL Wird nicht von [`GET /games/`](API-Spezifikation.md#get-games) verwendet_ |
+| `winningPlayer?` | `number` | ID des Spielers, der gewonnen hat <br> _OPTIONAL Wird nicht von [`POST /games/`](API-Spezifikation.md#post-games) verwendet und ist nur bei bereits beendeten Spielen vorhanden_ |
+| `board?` | `Board` | Das zugehörige Spielbrett <br> _OPTIONAL Wird nicht von [`GET /games/`](API-Spezifikation.md#get-games) verwendet_ |
 
 ---
 
 #### DetailedGame `extends BasicGame`
 
-Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](#get-gamesid) zu erreichen.
+Versucht Konsistenz mit der API-Response von [`GET /games/<id>`](API-Spezifikation.md#get-gamesid) zu erreichen.
 
 | Attribut | Typ | Beschreibung |
 | ------ | ------ | ------ |

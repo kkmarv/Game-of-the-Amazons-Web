@@ -4,6 +4,8 @@
 
 ## Inhalt
 
+Auch wenn diese Dokumentation vollständig ist, soll sie als Ergänzung zu der bereits vorhandenen des [Game Of The Amazons Service](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service) gesehen werden, da sich während der Entwicklung Ungenauigkeiten in der offiziellen Dokumentation offenbart haben.
+
 1. [Anfragen zum Spieler](#spieler)
 2. [Anfragen zum Spiel](#spiel)
 3. [Anfragen zum Zug](#zug)
@@ -13,8 +15,6 @@ Die API dieses Spiels ist während des Entwicklungszeitraums unter https://weben
 Dafür steht – aus technischen Gründen – ein variabler Port zwischen 40910 und 40919 zur Verfügung.
 
 Sämtliche Aufrufe sollten mit dem Status-Code 200 antworten, sofern der Aufruf erfolgreich war. Fehlerhafte Aufrufe sollten mit dem Status-Code 400 und einem hilfreichen Fehlertext beantwortet werden. Ausnahmen können hierbei Fehler in der Programmierung des Backends darstellen, bei welchen üblicherweise mit Status-Code 500 und einer Webseite im HTML-Format geantwortet wird, welche den Stacktrace des Fehlers beinhaltet.
-
-[API GitLab Repository](https://gitlab.hs-anhalt.de/zwischenprojekte/game-of-the-amazons-service)
 
 **Authentifizierung**
 
