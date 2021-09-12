@@ -14,16 +14,18 @@ interface URLParameter {
     id: string
 }
 
+
 interface Props extends RouteComponentProps<URLParameter> {
 
 }
 
+
 interface State {
-    game?: DetailedGame // gets defined with game request
+    game?: DetailedGame // gets defined later with game request
     gameIsLoaded: boolean
-    currentPlayer?: Player // gets defined with game request
+    currentPlayer?: Player // gets defined later with game request
     gameIsFinished: boolean
-    remainingTurnTime?: number // gets defined with game request
+    remainingTurnTime?: number // gets defined later with game request
 }
 
 
@@ -50,7 +52,7 @@ class GameBoardScreen extends Component<Props, State> {
         this.setState({
             game: await requests.getGame(parseInt(this.props.match.params.id)) as DetailedGame,
         }, () => { // executes right after first setState()
-            if (this.state.game === undefined) this.props.history.push("/error")
+            if (this.state.game === undefined) this.props.history.push("/error/game")
             else { // initialize state when game request was successful
                 this.setState({
                     gameIsLoaded: true,
@@ -108,10 +110,9 @@ class GameBoardScreen extends Component<Props, State> {
                         currentPlayerIsLocal={this.isItLocalPlayersTurn()}
                     />
                 </>
-            ) : ( // TODO die endcard machen
+            ) : ( // TODO die endcard bzw animation machen
                 <>
-                    <h1>GREAT! ABSOLUTELY FKNG GREAT!</h1>
-                    <h2>(you broke the page)</h2>
+                    <p>TODO die endcard bzw animation machen</p>
                 </>
             )
         }
@@ -120,6 +121,7 @@ class GameBoardScreen extends Component<Props, State> {
 
     private makeATurn = async (turn: Turn): Promise<void> => {
         if (await requests.createTurn(this.state.game!.id, turn)) console.log("turn successfully submitted")
+        else this.props.history.push("error/turn")
         await this.updateGame()
     }
 
@@ -133,6 +135,7 @@ class GameBoardScreen extends Component<Props, State> {
             } else { // if turn time is up
                 this.setState({game: await requests.getGame(this.state.game!.id)})
             }
+            if (this.state.game === undefined) this.props.history.push("/error/game")
             this.setState({remainingTurnTime: this.state.remainingTurnTime! - 1000})
         }
     }
@@ -145,6 +148,7 @@ class GameBoardScreen extends Component<Props, State> {
         this.setState({
             game: await requests.getGame(this.state.game!.id)
         }, () => { // executes right after first setState()
+            if (this.state.game === undefined) this.props.history.push("/error/game")
             this.setState({
                 remainingTurnTime: this.state.game!.remainingTurnTime!
             })
@@ -180,5 +184,6 @@ class GameBoardScreen extends Component<Props, State> {
         return id < this.getTheOtherPlayerId(id) ? "white" : "black"
     }
 }
+
 
 export default withRouter(GameBoardScreen)

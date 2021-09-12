@@ -29,7 +29,7 @@ class GameCreationScreen extends Component<Props, State> {
 
     async componentDidMount() {
         this.localPlayer = await getOwnPlayer() as Player
-        if (this.localPlayer === undefined) this.props.history.push("/error")
+        if (this.localPlayer === undefined) this.props.history.push("/error/player")
         else this.setState({isLoaded: true})
     }
 

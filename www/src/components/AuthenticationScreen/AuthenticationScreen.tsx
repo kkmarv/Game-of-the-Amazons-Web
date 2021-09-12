@@ -8,8 +8,10 @@ interface Props extends RouteComponentProps {
     onAuthorize: () => void
 }
 
+
 interface State {
 }
+
 
 class AuthenticationScreen extends Component<Props, State> {
     render() {
@@ -27,5 +29,6 @@ class AuthenticationScreen extends Component<Props, State> {
         )
     }
 }
+
 
 export default withRouter(AuthenticationScreen)

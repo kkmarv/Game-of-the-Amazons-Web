@@ -1,21 +1,23 @@
-import './styles/components/_app.scss';
+import '../styles/components/_app.scss';
 
 import React, {Component} from 'react';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import CreditScreen from "./components/CreditScreen/CreditScreen";
-import GameCreationScreen from "./components/GameCreationScreen/GameCreationScreen";
-import GameBoardScreen from "./components/GameBoardScreen/GameBoardScreen";
-import LobbyScreen from "./components/LobbyScreen/LobbyScreen";
-import AuthenticationScreen from "./components/AuthenticationScreen/AuthenticationScreen";
-import {ErrorScreen} from "./components/Error/ErrorScreen";
+import CreditScreen from "./CreditScreen/CreditScreen";
+import GameCreationScreen from "./GameCreationScreen/GameCreationScreen";
+import GameBoardScreen from "./GameBoardScreen/GameBoardScreen";
+import LobbyScreen from "./LobbyScreen/LobbyScreen";
+import AuthenticationScreen from "./AuthenticationScreen/AuthenticationScreen";
+import ErrorScreen from "./Error/ErrorScreen";
 
 
 interface Props {
 }
 
+
 interface State {
     isAuthorized: boolean
 }
+
 
 export default class App extends Component<Props, State> {
     constructor(props: Props) {
@@ -40,6 +42,8 @@ export default class App extends Component<Props, State> {
                                     <Route exact path="/game/:id" component={GameBoardScreen}/>
                                     <Route exact path="/error" component={ErrorScreen}/>
                                     <Route exact path="/error/player" component={ErrorScreen}/>
+                                    <Route exact path="/error/turn" component={ErrorScreen}/>
+                                    <Route exact path="/error/game" component={ErrorScreen}/>
                                 </>
                             ) : (
                                 <AuthenticationScreen onAuthorize={() => {

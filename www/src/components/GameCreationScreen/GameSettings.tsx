@@ -13,6 +13,7 @@ interface Props {
     updateSettings: (settingToChange: keyof Settings, newValue: any) => void
 }
 
+
 interface State {
     hasSelectedBot: boolean
     opposingPlayer: Player | undefined
@@ -29,7 +30,7 @@ export class GameSettings extends Component<Props, State> {
     }
 
     render() {
-        return ( // TODO layout überlegen -> Passi fragen // TODO evtl player-selection in eigene komponente
+        return ( // TODO evtl player-selection in eigene komponente
             <div className={"game-settings"}>
                 <div className={"player-selection"}>
                     <div className={"player1"}>
@@ -66,12 +67,20 @@ export class GameSettings extends Component<Props, State> {
                     }}
                     onAmazonChange={(event: ChangeEvent<HTMLInputElement>) => {
                         const inputElement: HTMLInputElement = event.currentTarget
-                        if (inputElement.id === "amazon-selection") { // TODO we need constraints!!!
-                            this.props.updateSettings("amazonCount", parseInt(inputElement.value))
-                        } else if (inputElement.id === "row-selection") {
-                            this.props.updateSettings("boardSize", 10)
-                        } else if (inputElement.id === "column-selection") {
-                            this.props.updateSettings("boardSize", 8)
+                        if (inputElement.id === "amazon-selection") {
+                            let newValue = inputElement.valueAsNumber
+                            const oldValue = this.props.settings.amazonCount
+
+                            if (newValue > oldValue) newValue = (newValue - 1) * 2
+                            else if (newValue < oldValue) newValue = (newValue + 1) / 2
+
+                            this.props.updateSettings("amazonCount", newValue)
+                        } else {
+                            if (inputElement.id === "row-selection") {
+                                this.props.updateSettings("boardSize", 10)
+                            } else if (inputElement.id === "column-selection") {
+                                this.props.updateSettings("boardSize", 8)
+                            }
                         }
                     }}
                 />

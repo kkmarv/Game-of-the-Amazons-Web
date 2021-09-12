@@ -1,4 +1,5 @@
 import {Player} from "../../requests";
+import {checkerBoard4Amazons, chessBoard4Amazons} from "./boardTemplates";
 
 
 export interface Settings {
@@ -9,21 +10,11 @@ export interface Settings {
     tiles: number[][]
 }
 
+
 export const defaultSettings: Settings = {
     opponent: {name: "<select>", controllable: false, id: -1}, // this is a placeholder player
     maxTurnTime: 30000,
     amazonCount: 4,
     boardSize: 10,
-    tiles: [
-        [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
-    ]
+    tiles: checkerBoard4Amazons
 }

@@ -15,12 +15,14 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 interface Props {
 }
 
+
 interface State {
     theme: number
     isLoaded: boolean
     isCurrentLanguageGerman: boolean
     gamesList: BasicGame[]
 }
+
 
 class LobbyScreen extends Component<RouteComponentProps & Props, State> {
     private localPlayer!: Player
@@ -89,5 +91,6 @@ class LobbyScreen extends Component<RouteComponentProps & Props, State> {
         this.setState({isCurrentLanguageGerman: !this.state.isCurrentLanguageGerman})
     }
 }
+
 
 export default withRouter(LobbyScreen)

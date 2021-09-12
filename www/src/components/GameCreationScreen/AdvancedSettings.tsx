@@ -8,9 +8,11 @@ interface Props {
     onBoardSizeChange: (newBoardSize: number) => void
 }
 
+
 interface State {
     visible: boolean
 }
+
 
 export class AdvancedSettings extends Component<Props, State> {
     constructor(props: Props) {
@@ -32,9 +34,10 @@ export class AdvancedSettings extends Component<Props, State> {
                             <div className={"number-of-amazons"}>
                                 <label>{`Number of Amazons `}
                                     <input
-                                        id={"amazon-selection"}
-                                        type={"number"}
+                                        id={"amazon-selection"} type={"number"} disabled={true} // TODO
+                                        min={2} max={64}
                                         value={this.props.amazonCount}
+                                        onKeyDown={(event) => event.preventDefault()}
                                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                             this.props.onAmazonChange(event)
                                         }}

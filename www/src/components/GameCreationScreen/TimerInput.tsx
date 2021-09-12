@@ -7,8 +7,10 @@ interface Props {
     onChange: (turnTime: number) => void
 }
 
+
 interface State {
 }
+
 
 export class TimerInput extends Component<Props, State> {
     render() {
@@ -16,7 +18,8 @@ export class TimerInput extends Component<Props, State> {
             <div className={"time-selection"}>
                 <label>{"Draw time "}
                     <input
-                        id={"turnTime"} type={"number"} name={"time"} value={this.props.turnTime / 1000}
+                        id={"turnTime"} type={"number"} name={"time"}
+                        value={this.props.turnTime / 1000} min={5} max={600}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                             const inputValue: number = parseInt(event.currentTarget.value)
                             if (inputValue >= 5 && inputValue <= 600) this.props.onChange(inputValue * 1000)

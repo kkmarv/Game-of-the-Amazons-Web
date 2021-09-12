@@ -12,6 +12,7 @@ interface Props extends RouteComponentProps {
     onCreateNewGame: () => void
 }
 
+
 interface State {
     isViewingGameInfo: boolean
 }
@@ -72,14 +73,14 @@ class GameCardList extends Component<Props, State> {
                     key={index}
                     game={yourGame}
                     onClick={async () => {
-                        const yourGameIsFinished: boolean = (await getGame(yourGame.id) as DetailedGame).winningPlayer === undefined
-                        if (yourGameIsFinished) { // TODO how the fuck is this working?
+                        const yourGameIsRunning: boolean = (await getGame(yourGame.id) as DetailedGame).winningPlayer === undefined
+                        if (yourGameIsRunning) { // view game if its still running
                             this.props.history.push(`/game/${yourGame.id}`)
                         }
                     }}
                 />
             )
-        }).reverse() // used to receive games in chronological order
+        }).reverse() // to view the games in chronological order
     }
 
     private getGameCardInfo(): JSX.Element {
@@ -97,5 +98,6 @@ class GameCardList extends Component<Props, State> {
         this.setState({isViewingGameInfo: !this.state.isViewingGameInfo})
     }
 }
+
 
 export default withRouter(GameCardList)
