@@ -13,7 +13,7 @@ export class TurnInfo extends Component<Props, any> {
     render() {
         if (this.props.isWinner) {
             return (
-                <h2>{`${this.props.currentPlayer.name} has won!`}</h2>
+                <h1 className={"winner"}>{`${this.props.currentPlayer.name} has won!`}</h1>
             )
         } else if (this.props.remainingTurnTime < 500) {
             return (
@@ -22,7 +22,7 @@ export class TurnInfo extends Component<Props, any> {
         } else {
             return (
                 <>
-                    <h2>{`It's ${this.props.currentPlayer.name}'s turn!`}</h2>
+                    <h2 className={"current-turn-player"}>{`It's ${this.props.currentPlayer.name}'s turn!`}</h2>
                     <Timer timeLeft={this.props.remainingTurnTime}/>
                 </>
             )

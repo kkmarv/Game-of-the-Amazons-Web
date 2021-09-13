@@ -78,7 +78,7 @@
         width: 35vw !important;
         height: 10vw !important;
         font-size: 5.5vw;
-        background: #e7264f !important;
+        background: #26e739 !important;
         border-radius: 5px;
       }
     }
@@ -124,7 +124,7 @@
         width: 25vw;
         height: 7vw;
         font-size: 3.2vw;
-        background: #e7264f !important;
+        background: #26e739 !important;
         border-radius: 5px;
       }
     }
@@ -252,6 +252,7 @@
   }
 
   .preferences {
+    margin: 2px 2px 0 0;
     float: right;
     display: flex;
     justify-content: flex-end;
@@ -260,7 +261,6 @@
       margin: 2px;
       width: 40px;
       height: 40px;
-      background: #e7264f;
     }
   }
 
@@ -325,7 +325,7 @@
       width: 9vw;
       height: 2.5vw;
       font-size: 1.4vw;
-      background: #e7264f !important;
+      background: #26e739 !important;
       border-radius: 5px;
     }
   }
@@ -363,7 +363,7 @@
         width: 60% !important;
         margin: .5vw 1vw !important;
         padding: 1vw 4vw !important;
-        font-size: calc(16px + .2vw);
+        font-size: calc(16px + .4vw);
       }
     }
   }
@@ -394,9 +394,36 @@
 
     button {
       margin: 2px;
-      width: 40px;
-      height: 40px;
-      background: #e7264f;
+      width: 50px;
+      height: 50px;
+      background: none;
+    }
+
+    #lang[value="0"] {
+      background: url("../../assets/images/en.svg") no-repeat center;
+      background-size: 50px;
+    }
+
+    #lang[value="1"] {
+      background: url("../../assets/images/de.svg") no-repeat center;
+      background-size: 50px;
+    }
+
+
+    #theme[value="0"] {
+      background: url("../../assets/images/dark.png") no-repeat center;
+      background-size: 35px;
+    }
+
+    #theme[value="1"] {
+      background: url("../../assets/images/light.png") no-repeat center;
+      background-size: 50px;
+    }
+
+    #theme[value="3"] {
+      background: url("../../assets/images/light.png") no-repeat center;
+      background-size: 50px;
+      background: black;
     }
   }
 

@@ -9,6 +9,11 @@ interface State {
 
 export class ErrorScreen extends Component<Props, State> {
     render() {
-        return null; // TODO
+        return (
+            <>
+                <h1>GREAT! ABSOLUTELY FKNG GREAT!</h1>
+                <h2>(you broke the page)</h2>
+            </>
+        ) // TODO
     }
 }

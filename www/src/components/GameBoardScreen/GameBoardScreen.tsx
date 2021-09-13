@@ -89,29 +89,32 @@ class GameBoardScreen extends Component<Props, State> {
         } else {
             return !this.state.gameIsFinished ? (
                 <>
-                    <PlayerSidebar
-                        player={this.state.game!.players[0]}
-                        playerColor={this.getPlayersColorById(this.state.game!.players[0].id)}
-                    />
-                    <PlayerSidebar
-                        player={this.state.game!.players[1]}
-                        playerColor={this.getPlayersColorById(this.state.game!.players[1].id)}
-                    />
-                    <TurnInfo
-                        isWinner={!!this.state.game!.winningPlayer}
-                        currentPlayer={this.state.currentPlayer!}
-                        remainingTurnTime={this.state.remainingTurnTime!}
-                    />
-                    <GameBoard
-                        onTurnEnd={this.makeATurn}
-                        initialBoard={this.state.game!.board}
-                        currentPlayerIsLocal={this.isItLocalPlayersTurn()}
-                    />
+                    <div className={"gameboard-screen"}>
+                        <PlayerSidebar
+                            player={this.state.game!.players[0]}
+                            playerColor={this.getPlayersColorById(this.state.game!.players[0].id)}
+                        />
+                        <PlayerSidebar
+                            player={this.state.game!.players[1]}
+                            playerColor={this.getPlayersColorById(this.state.game!.players[1].id)}
+                        />
+                        <TurnInfo
+                            isWinner={!!this.state.game!.winningPlayer}
+                            currentPlayer={this.state.currentPlayer!}
+                            remainingTurnTime={this.state.remainingTurnTime!}
+                        />
+                        <GameBoard
+                            onTurnEnd={this.makeATurn}
+                            initialBoard={this.state.game!.board}
+                            currentPlayerIsLocal={this.isItLocalPlayersTurn()}
+                        />
+                    </div>
                 </>
             ) : ( // TODO die endcard machen
                 <>
                     <h1>GREAT! ABSOLUTELY FKNG GREAT!</h1>
                     <h2>(you broke the page)</h2>
+
                 </>
             )
         }
