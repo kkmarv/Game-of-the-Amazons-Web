@@ -1,8 +1,9 @@
 import {Component} from "react";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends WithTranslation {
     onLeave: () => void
 }
 
@@ -15,18 +16,14 @@ class CreditScreen extends Component<RouteComponentProps & Props, State> {
     render() {
         return ( // TODO Back button is reused here, could be moved to own component
             <>
-                <h1>Credits</h1>
-                <p>We, that are the two students Pascal Wegener and Marvin Kästing, have developed this website during
-                    the second semester in the module Web and Media Programming of Prof. Andreas Both.</p>
-                <p>During the whole development Toni Barth bravely assisted by us.</p>
-                <p>The goal of this site is to provide a user interface for the AI for the Game of the Amazons, which
-                    was
-                    developed by students of the University of Paderborn in the winter semester 20/21.
-                </p>
+                <h1>{this.props.t("credits.title")}</h1>
+                <p>{this.props.t("credits.part1")}</p>
+                <p>{this.props.t("credits.part2")}</p>
+                <p>{this.props.t("credits.part3")}</p>
                 <div className={"back-button"}>
                     <button className={"btn"} onClick={() => {
                         this.props.history.push("/lobby")
-                    }}>Back to Lobby
+                    }}>{this.props.t("buttons.lobby")}
                     </button>
                 </div>
             </>
@@ -35,12 +32,4 @@ class CreditScreen extends Component<RouteComponentProps & Props, State> {
 }
 
 
-export default withRouter(CreditScreen)
-
-/*
-* Wir, das sind die beiden Studenten Pascal Wegener und Marvin Kästing, haben diese Webseite während des zweiten Semesters im Modul Web- und Medienprogrammierung von Herrn Prof. Andreas Both entwickelt.
-
-Während der gesamten Entwicklung stand uns Toni Barth tapfer zur Seite.
-
-Ziel dieser Seite ist es, der von Studenten der Universität Paderborn im Wintersemester 20/21 entwickelten KI zum Amazonenspiel, ein User Interface zu bieten.
-* */
+export default withRouter(withTranslation()(CreditScreen))

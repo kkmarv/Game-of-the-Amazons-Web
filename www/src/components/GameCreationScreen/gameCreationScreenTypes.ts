@@ -15,6 +15,6 @@ export const defaultSettings: Settings = {
     opponent: {name: "<select>", controllable: false, id: -1}, // this is a placeholder player
     maxTurnTime: 30000,
     amazonCount: 4,
-    boardSize: 10,
-    tiles: checkerBoard4Amazons
+    boardSize: 8,
+    tiles: chessBoard4Amazons
 }

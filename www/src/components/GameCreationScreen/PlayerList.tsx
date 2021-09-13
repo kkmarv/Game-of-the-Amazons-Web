@@ -1,19 +1,22 @@
 import {Component} from "react";
 import {getAllPlayers, Player} from "../../requests";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends WithTranslation {
     localPlayer: Player
     hasSelectedBot: boolean
     onPlayerSelect: (player: Player) => void
 }
+
 
 interface State {
     isLoaded: boolean
     relevantPlayers: Player[]
 }
 
-export class PlayerList extends Component<Props, State> {
+
+class PlayerList extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -51,9 +54,14 @@ export class PlayerList extends Component<Props, State> {
         return (
             <>
                 <div className={"opponent"}>
-                    <label htmlFor="playerNames">Choose your opponent </label>
+                    <label htmlFor="playerNames">{`${this.props.t("settings.settings.choose")} `}</label>
                     <select id="playerNames" name="playerNames" disabled={!this.state.isLoaded}>
-                        {this.state.isLoaded ? this.generateOptionElements() : <option>Loading...</option>}
+                        {this.state.isLoaded ?
+                            (
+                                this.generateOptionElements()
+                            ) : (
+                                <option>{this.props.t("loading")}</option>
+                            )}
                     </select>
                 </div>
             </>
@@ -89,3 +97,6 @@ export class PlayerList extends Component<Props, State> {
         return options
     }
 }
+
+
+export default withTranslation()(PlayerList)

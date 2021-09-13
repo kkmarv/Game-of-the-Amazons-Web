@@ -1,8 +1,9 @@
 import {ChangeEvent} from "react";
 import {Component} from "react";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends WithTranslation {
     turnTime: number
     onChange: (turnTime: number) => void
 }
@@ -12,11 +13,11 @@ interface State {
 }
 
 
-export class TimerInput extends Component<Props, State> {
+class TimerInput extends Component<Props, State> {
     render() {
         return (
             <div className={"time-selection"}>
-                <label>{"Draw time "}
+                <label>{`${this.props.t("settings.settings.time")} `}
                     <input
                         id={"turnTime"} type={"number"} name={"time"}
                         value={this.props.turnTime / 1000} min={5} max={600}
@@ -25,10 +26,12 @@ export class TimerInput extends Component<Props, State> {
                             if (inputValue >= 5 && inputValue <= 600) this.props.onChange(inputValue * 1000)
                         }}
                     />
-                    {" sec"}
+                    {` ${this.props.t("settings.settings.sec")}`}
                 </label>
             </div>
         )
     }
 }
 
+
+export default withTranslation()(TimerInput)

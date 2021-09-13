@@ -1,5 +1,6 @@
 import 'reflect-metadata'; // required for class-transformer
 import './styles/index.sass';
+import './i18n'; // required for i18next
 
 import React from 'react';
 import ReactDOM from 'react-dom';

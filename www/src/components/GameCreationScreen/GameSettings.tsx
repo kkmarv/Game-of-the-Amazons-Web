@@ -1,13 +1,14 @@
 import {ChangeEvent, Component} from "react";
 import {Player} from "../../requests";
-import {PlayerList} from "./PlayerList";
-import {AIOrNotSelection} from "./AIOrNotSelection";
-import {AdvancedSettings} from "./AdvancedSettings";
-import {TimerInput} from "./TimerInput";
+import PlayerList from "./PlayerList";
+import AIOrNotSelection from "./AIOrNotSelection";
+import AdvancedSettings from "./AdvancedSettings";
+import TimerInput from "./TimerInput";
 import {Settings} from "./gameCreationScreenTypes";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends WithTranslation {
     settings: Settings
     localPlayer: Player
     updateSettings: (settingToChange: keyof Settings, newValue: any) => void
@@ -20,7 +21,7 @@ interface State {
 }
 
 
-export class GameSettings extends Component<Props, State> {
+class GameSettings extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -34,10 +35,10 @@ export class GameSettings extends Component<Props, State> {
             <div className={"game-settings"}>
                 <div className={"player-selection"}>
                     <div className={"player1"}>
-                        <h3>Player 1: {`${this.props.localPlayer.name} (you)`}</h3>
+                        <h3>{`${this.props.t("settings.settings.player")} 1: ${this.props.localPlayer.name} (${this.props.t("settings.settings.you")})`}</h3>
                     </div>
                     <div className={"player2"}>
-                        <h3>Player 2: {this.props.settings.opponent.name}</h3>
+                        <h3>{`${this.props.t("settings.settings.player")} 2: ${this.props.settings.opponent.name}`}</h3>
                         <AIOrNotSelection
                             hasSelectedBot={this.state.hasSelectedBot}
                             onSelect={(hasSelectedBot: boolean) => {
@@ -88,3 +89,6 @@ export class GameSettings extends Component<Props, State> {
         )
     }
 }
+
+
+export default withTranslation()(GameSettings)

@@ -2,17 +2,17 @@ import "../../styles/components/_lobby-screen.scss"
 
 import React, {Component} from "react";
 import GameCardList from "./GameCardList/GameCardList";
-import {LoadingScreen} from "../LoadingScreen";
+import LoadingScreen from "../LoadingScreen";
 import {Logo} from "./Logo";
-import {Title} from "./Title";
+import Title from "./Title";
 import {Tutorial} from "./Tutorial";
 import {BasicGame, getAllGames, getOwnPlayer, Player} from "../../requests";
 import {Preferences} from "../Preferences";
-import {LanguageEnum, ThemeEnum} from "./lobbyScreenTypes";
+import {ThemeEnum} from "./lobbyScreenTypes";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 
-interface Props {
+interface Props extends RouteComponentProps {
 }
 
 
@@ -24,7 +24,7 @@ interface State {
 }
 
 
-class LobbyScreen extends Component<RouteComponentProps & Props, State> {
+class LobbyScreen extends Component<Props, State> {
     private localPlayer!: Player
 
     constructor(props: RouteComponentProps) {
@@ -54,9 +54,7 @@ class LobbyScreen extends Component<RouteComponentProps & Props, State> {
                         <div className={"left"}>
                             <Preferences
                                 currentTheme={this.state.theme}
-                                currentLanguage={this.state.isCurrentLanguageGerman ? LanguageEnum.DE : LanguageEnum.EN}
                                 switchTheme={this.onSwitchThemeClick}
-                                toggleLanguage={this.onToggleLanguageClick}
                             />
                             <Title currentPlayerName={this.localPlayer.name}/>
                             <Tutorial/>
@@ -85,10 +83,6 @@ class LobbyScreen extends Component<RouteComponentProps & Props, State> {
 
     private onSwitchThemeClick = (): void => { // TODO Funktionalität, themes googlen
         this.setState({theme: (this.state.theme + 1) % (Object.keys(ThemeEnum).length / 2)})
-    }
-
-    private onToggleLanguageClick = (): void => { // TODO Funktionalität, lokalisierung googlen
-        this.setState({isCurrentLanguageGerman: !this.state.isCurrentLanguageGerman})
     }
 }
 

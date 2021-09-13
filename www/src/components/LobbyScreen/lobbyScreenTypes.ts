@@ -3,8 +3,3 @@ export enum ThemeEnum {
     DARK,
     NICE
 }
-
-export enum LanguageEnum {
-    DE,
-    EN
-}

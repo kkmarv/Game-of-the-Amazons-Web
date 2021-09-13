@@ -1,17 +1,19 @@
 import {Component} from "react";
 import {BasicGame, Player} from "../../../requests";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends WithTranslation {
     game: BasicGame
     onClick: () => void
 }
+
 
 interface State {
 }
 
 
-export class GameCard extends Component<Props, State> {
+class GameCard extends Component<Props, State> {
     render() {
         return (
             <div className={"game-card btn"} onClick={this.props.onClick}>
@@ -22,9 +24,9 @@ export class GameCard extends Component<Props, State> {
                 </span>
                 <span>
                         {this.props.game.winningPlayer === undefined ? (
-                            "Still in progress..."
+                            this.props.t("lobby.card.progress")
                         ) : (
-                            this.getPlayerById(this.props.game.winningPlayer).name + " has won this round"
+                            `${this.getPlayerById(this.props.game.winningPlayer).name} ${this.props.t("lobby.card.end")}`
                         )}
                 </span>
             </div>
@@ -36,3 +38,6 @@ export class GameCard extends Component<Props, State> {
         return this.props.game.players[0].id === id ? this.props.game.players[0] : this.props.game.players[1]
     }
 }
+
+
+export default withTranslation()(GameCard)

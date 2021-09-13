@@ -7,7 +7,7 @@ import GameCreationScreen from "./GameCreationScreen/GameCreationScreen";
 import GameBoardScreen from "./GameBoardScreen/GameBoardScreen";
 import LobbyScreen from "./LobbyScreen/LobbyScreen";
 import AuthenticationScreen from "./AuthenticationScreen/AuthenticationScreen";
-import ErrorScreen from "./Error/ErrorScreen";
+import ErrorScreen from "./ErrorScreen/ErrorScreen";
 
 
 interface Props {

@@ -1,16 +1,17 @@
 import React, {Component} from "react";
-import {LanguageEnum, ThemeEnum} from "./LobbyScreen/lobbyScreenTypes";
+import {ThemeEnum} from "./LobbyScreen/lobbyScreenTypes";
+import i18n from "i18next";
 
 
 interface Props {
     currentTheme: ThemeEnum
-    currentLanguage: LanguageEnum
     switchTheme: () => void
-    toggleLanguage: () => void
 }
+
 
 interface State {
 }
+
 
 export class Preferences extends Component<Props, State> {
     render() {
@@ -18,7 +19,9 @@ export class Preferences extends Component<Props, State> {
             <div className={"preferences"}>
                 <button
                     id={"lang"}
-                    value={this.props.currentLanguage} onClick={this.props.toggleLanguage}>
+                    value={i18n.language} onClick={() => {
+                    i18n.language === "de" ? i18n.changeLanguage("en") : i18n.changeLanguage("de")
+                }}>
                     <img src={""} alt={""}/>
                 </button>
                 <button

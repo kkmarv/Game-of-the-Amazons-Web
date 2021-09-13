@@ -1,21 +1,24 @@
 import {Component} from "react";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends WithTranslation {
     onSelect: (hasSelectedBot: boolean) => void
     hasSelectedBot: boolean
 }
 
+
 interface State {
 }
 
-export class AIOrNotSelection extends Component<Props, State> {
+
+class AIOrNotSelection extends Component<Props, State> {
     render() {
         return (
             <>
                 <div className={"radio"}>
                     <div className={"bot"}>
-                        <label htmlFor="aiTrue">Play vs Bot</label>
+                        <label htmlFor="aiTrue">{this.props.t("settings.settings.bot")}</label>
                         <input
                             id={"aiTrue"} type={"radio"} name={"ai"}
                             checked={this.props.hasSelectedBot}
@@ -25,7 +28,7 @@ export class AIOrNotSelection extends Component<Props, State> {
                         />
                     </div>
                     <div className={"human"}>
-                        <label htmlFor="aiFalse">Play vs Human</label>
+                        <label htmlFor="aiFalse">{this.props.t("settings.settings.human")}</label>
                         <input
                             id={"aiFalse"} type={"radio"} name={"ai"}
                             checked={!this.props.hasSelectedBot}
@@ -39,3 +42,6 @@ export class AIOrNotSelection extends Component<Props, State> {
         )
     }
 }
+
+
+export default withTranslation()(AIOrNotSelection)

@@ -1,12 +1,13 @@
 import {Component} from "react";
 import {BasicGame, DetailedGame, getGame, Player} from "../../../requests";
-import {GameCard} from "./GameCard";
+import GameCard from "./GameCard";
 import {GameCardInfo} from "./GameCardInfo";
 import {Scrollbars} from "react-custom-scrollbars";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props extends RouteComponentProps {
+interface Props extends RouteComponentProps, WithTranslation {
     gamesList: BasicGame[]
     localPlayer: Player
     onCreateNewGame: () => void
@@ -39,7 +40,7 @@ class GameCardList extends Component<Props, State> {
         return (
             <div className={"games"}>
                 <div className={"title"}>
-                    <h2>Your Games</h2>
+                    <h2>{this.props.t("lobby.card.title")}</h2>
                 </div>
                 <div className={"card-list"}>
                     <Scrollbars id={"scroll"} autoHide={true} autoHideTimeout={1500}>
@@ -47,7 +48,11 @@ class GameCardList extends Component<Props, State> {
                     </Scrollbars>
                 </div>
                 <div className={"new-game-button"}>
-                    <button className={"btn"} onClick={this.props.onCreateNewGame}>New Game</button>
+                    <button
+                        className={"btn"}
+                        onClick={this.props.onCreateNewGame}
+                    >{this.props.t("buttons.new")}
+                    </button>
                 </div>
                 {this.state.isViewingGameInfo ? (this.getGameCardInfo) : null}
             </div>
@@ -100,4 +105,4 @@ class GameCardList extends Component<Props, State> {
 }
 
 
-export default withRouter(GameCardList)
+export default withRouter(withTranslation()(GameCardList))

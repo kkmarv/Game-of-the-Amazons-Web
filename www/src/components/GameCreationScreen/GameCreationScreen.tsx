@@ -1,14 +1,16 @@
 import {Component} from "react";
-import {GameSettings} from "./GameSettings";
+import GameSettings from "./GameSettings";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {BasicGame, createGame, getOwnPlayer, Player} from "../../requests";
-import {LoadingScreen} from "../LoadingScreen";
+import LoadingScreen from "../LoadingScreen";
 import {defaultSettings, Settings} from "./gameCreationScreenTypes";
 import "../../styles/components/_game-creation-screen.scss"
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props extends RouteComponentProps {
+interface Props extends RouteComponentProps, WithTranslation {
 }
+
 
 interface State {
     isLoaded: boolean
@@ -37,7 +39,7 @@ class GameCreationScreen extends Component<Props, State> {
         return this.state.isLoaded ? (
             <>
                 <div className={"game-creation-screen"}>
-                    <div className={"title"}><h1>Create a Game</h1></div>
+                    <div className={"title"}><h1>{this.props.t("settings.title")}</h1></div>
                     <GameSettings
                         settings={this.state.settings}
                         localPlayer={this.localPlayer}
@@ -47,13 +49,13 @@ class GameCreationScreen extends Component<Props, State> {
                         <div className={"back-button"}>
                             <button className={"btn"} onClick={() => {
                                 this.props.history.push("/lobby")
-                            }}>Back to Lobby
+                            }}>{this.props.t("buttons.lobby")}
                             </button>
                         </div>
                         <div className={"start-button"}>
                             <button className={"btn"} onClick={async () => {
                                 await this.createGame(this.state.settings)
-                            }}>Start
+                            }}>{this.props.t("buttons.start")}
                             </button>
                         </div>
                     </div>
@@ -88,4 +90,5 @@ class GameCreationScreen extends Component<Props, State> {
     }
 }
 
-export default withRouter(GameCreationScreen)
+
+export default withRouter(withTranslation()(GameCreationScreen))

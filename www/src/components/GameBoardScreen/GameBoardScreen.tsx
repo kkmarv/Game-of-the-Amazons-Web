@@ -1,9 +1,9 @@
 import "../../styles/components/_game-screen.scss";
 
 import {Component} from "react";
-import {LoadingScreen} from "../LoadingScreen";
-import {PlayerSidebar} from "./PlayerSidebar";
-import {TurnInfo} from "./TurnInfo";
+import LoadingScreen from "../LoadingScreen";
+import PlayerSidebar from "./PlayerSidebar";
+import TurnInfo from "./TurnInfo";
 import {GameBoard} from "./GameBoard/GameBoard";
 import * as requests from "../../requests";
 import {DetailedGame, Player, Turn} from "../../requests";
