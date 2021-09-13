@@ -17,10 +17,12 @@ export class Preferences extends Component<Props, State> {
         return ( // TODO add icons
             <div className={"preferences"}>
                 <button
+                    id={"lang"}
                     value={this.props.currentLanguage} onClick={this.props.toggleLanguage}>
                     <img src={""} alt={""}/>
                 </button>
                 <button
+                    id={"theme"}
                     value={this.props.currentTheme} onClick={this.props.switchTheme}>
                     <img src={""} alt={""}/>
                 </button>

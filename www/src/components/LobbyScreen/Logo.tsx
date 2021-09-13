@@ -1,5 +1,5 @@
 import {Component} from "react";
-import logo from "../../assets/images/Logo_HSA_a_o_Standorte_oneliner-400px.png"
+import logo from "../../assets/images/Logo_HSA.png"
 
 
 interface Props {

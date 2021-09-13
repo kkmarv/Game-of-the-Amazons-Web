@@ -235,6 +235,13 @@
       u {
         font-size: calc(16px + .3vw);
       }
+
+      .board-size {
+        select {
+          font-size: 1vw;
+          width: 8.5vw !important;
+        }
+      }
     }
   }
 

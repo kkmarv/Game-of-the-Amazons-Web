@@ -50,12 +50,12 @@ export class AdvancedSettings extends Component<Props, State> {
                                     <option id={"row-selection"} value={"checkerboard"}
                                             onChange={(event) => {
                                                 this.props.onBoardSizeChange(10)
-                                            }}>Checkerboard
+                                            }}>Checkerboard (10)
                                     </option>
-                                    <option id={"column-selection"} value={"chessboard"}
+                                    <option id={"column-selection"} value={"chessboard (8)"}
                                             onSelect={(event) => {
                                                 this.props.onBoardSizeChange(8)
-                                            }}>Chessboard
+                                            }}>Chessboard (8)
                                     </option>
                                 </select>
                             </div>

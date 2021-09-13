@@ -18,7 +18,8 @@ export class PlayerSidebar extends Component<Props, any> {
         return (
             <div className={`player-sidebar ${this.props.playerColor}`}>
                 <div className={"player-label"}>
-                    <h2>{"PLAYER " + (this.playerId + 1) + ": " + this.playerName}</h2>
+                    <h2>{"PLAYER " + (this.playerId + 1) + ":"}</h2>
+                    <h2>{this.playerName}</h2>
                 </div>
                 <div className={"player-stats"}>
 
