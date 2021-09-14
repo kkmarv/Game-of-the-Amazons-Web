@@ -8,13 +8,16 @@ interface Props {
     onTurnEnd: (turn: Turn) => Promise<void>
     initialBoard: Board
     currentPlayerIsLocal: boolean
+    currentPlayerPosition: number
 }
+
 
 interface State {
     tiles: Tile[][]
     lastClickCoords?: Coordinates
     clickBeforeLastClickCoords?: Coordinates
 }
+
 
 /* Represents the local board, controllable players are able to move their pieces on.
    Ensures that a controllable player can only do legal moves. */
@@ -30,7 +33,7 @@ export class GameBoard extends Component<Props, State> {
                 return row.map((value) => {
                     return {
                         tileType: value,
-                        disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== TileEnum.PLAYER)
+                        disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== this.props.currentPlayerPosition)
                     }
                 })
             })
@@ -41,7 +44,7 @@ export class GameBoard extends Component<Props, State> {
         this.phase = phase
     }
 
-    /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat
+    /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat (könnte bereits behoben sein)
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
         // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
         if (prevProps.currentPlayerIsLocal && (prevProps.currentPlayerIsLocal !== this.props.currentPlayerIsLocal)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,

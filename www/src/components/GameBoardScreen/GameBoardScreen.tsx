@@ -93,12 +93,14 @@ class GameBoardScreen extends Component<Props, State> {
                 <>
                     <div className={"gameboard-screen"}>
                         <PlayerSidebar
-                            player={this.state.game!.players[0]}
+                            playerName={this.state.game!.players[0].name}
                             playerColor={this.getPlayersColorById(this.state.game!.players[0].id)}
+                            playerPosition={0}
                         />
                         <PlayerSidebar
-                            player={this.state.game!.players[1]}
+                            playerName={this.state.game!.players[1].name}
                             playerColor={this.getPlayersColorById(this.state.game!.players[1].id)}
+                            playerPosition={1}
                         />
                         <TurnInfo
                             isWinner={!!this.state.game!.winningPlayer}
@@ -109,6 +111,7 @@ class GameBoardScreen extends Component<Props, State> {
                             onTurnEnd={this.makeATurn}
                             initialBoard={this.state.game!.board}
                             currentPlayerIsLocal={this.isItLocalPlayersTurn()}
+                            currentPlayerPosition={this.state.game!.players.indexOf(this.state.currentPlayer!)}
                         />
                     </div>
                 </>
