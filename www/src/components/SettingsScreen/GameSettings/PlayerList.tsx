@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {getAllPlayers, Player} from "../../requests";
+import {getAllPlayers, Player} from "../../../requests";
 import {WithTranslation, withTranslation} from "react-i18next";
 
 

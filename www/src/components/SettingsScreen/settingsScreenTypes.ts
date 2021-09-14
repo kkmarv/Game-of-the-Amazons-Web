@@ -1,5 +1,5 @@
 import {Player} from "../../requests";
-import {checkerBoard4Amazons, chessBoard4Amazons} from "./boardTemplates";
+import {checkerBoard4Amazons, chessBoard4Amazons} from "./GameSettings/boardTemplates";
 
 
 export interface Settings {

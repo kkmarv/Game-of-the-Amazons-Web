@@ -1,9 +1,9 @@
 import {Component} from "react";
-import GameSettings from "./GameSettings";
+import GameSettings from "./GameSettings/GameSettings";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {BasicGame, createGame, getOwnPlayer, Player} from "../../requests";
 import LoadingScreen from "../LoadingScreen";
-import {defaultSettings, Settings} from "./gameCreationScreenTypes";
+import {defaultSettings, Settings} from "./settingsScreenTypes";
 import {withTranslation, WithTranslation} from "react-i18next";
 
 import "../../styles/components/_game-creation-screen.scss"
@@ -19,7 +19,7 @@ interface State {
 }
 
 
-class GameCreationScreen extends Component<Props, State> {
+class SettingsScreen extends Component<Props, State> {
     private localPlayer!: Player
 
     constructor(props: Props) {
@@ -92,4 +92,4 @@ class GameCreationScreen extends Component<Props, State> {
 }
 
 
-export default withRouter(withTranslation()(GameCreationScreen))
+export default withRouter(withTranslation()(SettingsScreen))

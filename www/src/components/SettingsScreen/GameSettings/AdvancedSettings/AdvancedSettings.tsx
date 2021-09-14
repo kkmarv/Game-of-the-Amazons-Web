@@ -36,7 +36,7 @@ class AdvancedSettings extends Component<Props, State> {
                                 <label>{`${this.props.t("settings.advanced.number")} `}
                                     <input
                                         id={"amazon-selection"} type={"number"} disabled={false} // TODO
-                                        min={2} max={64}
+                                        min={4} max={8}
                                         value={this.props.amazonCount}
                                         onKeyDown={(event) => event.preventDefault()}
                                         onChange={(event: ChangeEvent<HTMLInputElement>) => {

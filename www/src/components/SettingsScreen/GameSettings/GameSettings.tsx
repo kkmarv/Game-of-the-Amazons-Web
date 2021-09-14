@@ -1,10 +1,10 @@
 import {ChangeEvent, Component} from "react";
-import {Player} from "../../requests";
+import {Player} from "../../../requests";
 import PlayerList from "./PlayerList";
 import AIOrNotSelection from "./AIOrNotSelection";
-import AdvancedSettings from "./AdvancedSettings";
+import AdvancedSettings from "./AdvancedSettings/AdvancedSettings";
 import TimerInput from "./TimerInput";
-import {Settings} from "./gameCreationScreenTypes";
+import {Settings} from "../settingsScreenTypes";
 import {withTranslation, WithTranslation} from "react-i18next";
 
 

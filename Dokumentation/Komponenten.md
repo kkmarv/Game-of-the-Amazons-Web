@@ -9,7 +9,7 @@ Die React Komponenten der Webseite.
 1. [AuthenticationScreen](#authenticationscreen)
 2. [CreditScreen](#creditscreen)
 3. [GameBoardScreen](#gameboardscreen)
-4. [GameCreationScreen](#gamecreationscreen)
+4. [SettingsScreen](#gamecreationscreen)
 5. [LobbyScreen](#lobbyscreen)
 
 <details>
@@ -30,8 +30,8 @@ Die React Komponenten der Webseite.
     │   ├── PlayerSidebar.tsx
     │   ├── Timer.tsx
     │   └── TurnInfo.tsx
-    ├── GameCreationScreen
-    │   ├── GameCreationScreen.tsx
+    ├── SettingsScreen
+    │   ├── SettingsScreen.tsx
     │   └── GameSettings.tsx
     └── LoobbyScreen
         ├── GameCardList
@@ -146,15 +146,15 @@ Speichert Informationen wie die Zug-Historie oder gespielte Zeit des jeweiligen 
 
 ---
 
-## GameCreationScreen
+## SettingsScreen
 
 Ist der umgebende Container für das GUI der Spiel-Erstellungs-Seite.  
 Hier können die Einstellungen eines neuen Spiel eingestellet, die teilnehmenden Spieler ausgewählt und das Spiel gestartet werden.
 
-1. [GameCreationScreen.tsx](url)
+1. [SettingsScreen.tsx](url)
 2. [GameSettings.tsx](url)
 
-### GameCreationScreen.tsx
+### SettingsScreen.tsx
 
 ---
 
