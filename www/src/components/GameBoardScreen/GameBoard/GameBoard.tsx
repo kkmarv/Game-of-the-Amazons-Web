@@ -1,7 +1,7 @@
 import {Component} from "react";
 import {GameBoardButton} from "./GameBoardButton";
 import {PhaseEnum, Tile, TileEnum} from "./gameBoardTypes";
-import {Board, Coordinates, Turn} from "../../../requests";
+import {Board, Coordinates, Player, Turn} from "../../../requests";
 
 
 interface Props {
@@ -33,7 +33,7 @@ export class GameBoard extends Component<Props, State> {
                 return row.map((value) => {
                     return {
                         tileType: value,
-                        disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== this.props.currentPlayerPosition)
+                        disabled: !(this.props.currentPlayerIsLocal && value === this.props.currentPlayerPosition)
                     }
                 })
             })
@@ -63,7 +63,7 @@ export class GameBoard extends Component<Props, State> {
                         return row.map((value) => {
                             return {
                                 tileType: value,
-                                disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== this.props.currentPlayerPosition)
+                                disabled: !(this.props.currentPlayerIsLocal && value === this.props.currentPlayerPosition)
                             }
                         })
                     })
