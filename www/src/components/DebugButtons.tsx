@@ -25,11 +25,13 @@ export class DebugButtons extends Component<any, any> {
         return (
             <>
                 <button onClick={async () => {
-                    if (!(await this.getTheBot())) await requests.createAiPlayer("Bot Marvin")
-                    else console.log("Bot already exists")
-                }}>Create Bot
+                    await requests.createAiPlayer("Bot Marv")
+                }}>Create Bot Marv
                 </button>
-
+                <button onClick={async () => {
+                    await requests.createAiPlayer("Bot Pascl")
+                }}>Create Bot Pascl
+                </button>
                 <button onClick={async () => {
                     await this.createTestGame()
                 }}>Create Game

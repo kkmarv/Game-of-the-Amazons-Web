@@ -6,10 +6,17 @@ import video from '../../assets/videos/idle.mp4'
 interface Props {
 }
 
+
 interface State {
 }
 
+
 export class Tutorial extends Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        console.log(video)
+    }
+
     render() {
         return (
             <div className={"tutorial"}>
@@ -18,7 +25,7 @@ export class Tutorial extends Component<Props, State> {
                     <ReactPlayer
                         url={video}
                         playing={true}
-                        muted={false}
+                        muted={true}
                         volume={0}
                         controls={false}
                         loop={true}

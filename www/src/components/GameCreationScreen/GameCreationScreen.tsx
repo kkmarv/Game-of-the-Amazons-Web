@@ -4,8 +4,9 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {BasicGame, createGame, getOwnPlayer, Player} from "../../requests";
 import LoadingScreen from "../LoadingScreen";
 import {defaultSettings, Settings} from "./gameCreationScreenTypes";
-import "../../styles/components/_game-creation-screen.scss"
 import {withTranslation, WithTranslation} from "react-i18next";
+
+import "../../styles/components/_game-creation-screen.scss"
 
 
 interface Props extends RouteComponentProps, WithTranslation {
