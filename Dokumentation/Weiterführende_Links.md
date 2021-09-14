@@ -10,7 +10,7 @@
 ## Projektabhängigkeiten
 
 Für die Installationsanweisungen wird der Paketmanager npm angenommen.  
-Für weitere Informationen, siehe die jeweiligen Links.
+Für weitere Informationen, siehe jeweiligen Link.
 
 | Paket | Installation |
 | ------ | ------ |
