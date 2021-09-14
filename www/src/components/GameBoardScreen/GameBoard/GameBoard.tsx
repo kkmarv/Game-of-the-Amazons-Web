@@ -63,7 +63,7 @@ export class GameBoard extends Component<Props, State> {
                         return row.map((value) => {
                             return {
                                 tileType: value,
-                                disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== TileEnum.PLAYER),
+                                disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== this.props.currentPlayerPosition)
                             }
                         })
                     })
