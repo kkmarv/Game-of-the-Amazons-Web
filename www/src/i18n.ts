@@ -42,7 +42,6 @@ i18n
                             number: "Number of Amazons",
                             size: "Board Size",
                             checkerboard: "Checkerboard",
-                            chessboard: "Chessboard",
                         }
                     },
                     game: {
@@ -117,7 +116,6 @@ i18n
                             number: "Amazonenanzahl",
                             size: "Brettgröße",
                             checkerboard: "Damebrett",
-                            chessboard: "Schachbrett",
                         }
                     },
                     game: {

@@ -5,8 +5,8 @@ import {withTranslation, WithTranslation} from "react-i18next";
 interface Props extends WithTranslation {
     boardSize: number
     amazonCount: number
-    onAmazonChange: (event: ChangeEvent<HTMLInputElement>) => void
     onBoardSizeChange: (newBoardSize: number) => void
+    onAmazonCountChange: (newValue: number) => void
 }
 
 
@@ -40,7 +40,7 @@ class AdvancedSettings extends Component<Props, State> {
                                         value={this.props.amazonCount}
                                         onKeyDown={(event) => event.preventDefault()}
                                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                            this.props.onAmazonChange(event)
+                                            this.props.onAmazonCountChange(event.currentTarget.valueAsNumber)
                                         }}
                                     />
                                 </label>
@@ -48,15 +48,15 @@ class AdvancedSettings extends Component<Props, State> {
                             <div className={"board-size"}>
                                 <label id={"front"}>{`${this.props.t("settings.advanced.size")} `}</label>
                                 <select>
-                                    <option id={"row-selection"} value={"checkerboard"}
-                                            onChange={(event) => {
+                                    <option id={"row-selection"} value={10}
+                                            onClick={() => {
                                                 this.props.onBoardSizeChange(10)
                                             }}>{`${this.props.t("settings.advanced.checkerboard")} (10)`}
                                     </option>
-                                    <option id={"column-selection"} value={"chessboard (8)"}
-                                            onSelect={(event) => {
-                                                this.props.onBoardSizeChange(8)
-                                            }}>{`${this.props.t("settings.advanced.chessboard")} (8)`}
+                                    <option id={"column-selection"} value={12}
+                                            onClick={() => {
+                                                this.props.onBoardSizeChange(12)
+                                            }}>{`${this.props.t("settings.advanced.checkerboard")} (12)`}
                                     </option>
                                 </select>
                             </div>

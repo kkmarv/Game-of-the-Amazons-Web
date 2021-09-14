@@ -1,5 +1,5 @@
 import {Player} from "../../requests";
-import {checkerBoard4Amazons, chessBoard4Amazons} from "./GameSettings/boardTemplates";
+import {checkerBoard4Amazons} from "./GameSettings/boardTemplates";
 
 
 export interface Settings {
@@ -15,6 +15,6 @@ export const defaultSettings: Settings = {
     opponent: {name: "<select>", controllable: false, id: -1}, // this is a placeholder player
     maxTurnTime: 30000,
     amazonCount: 4,
-    boardSize: 8,
-    tiles: chessBoard4Amazons
+    boardSize: 10,
+    tiles: checkerBoard4Amazons
 }

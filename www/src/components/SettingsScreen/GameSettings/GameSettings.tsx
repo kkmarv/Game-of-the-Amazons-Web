@@ -1,4 +1,4 @@
-import {ChangeEvent, Component} from "react";
+import {Component} from "react";
 import {Player} from "../../../requests";
 import PlayerList from "./PlayerList";
 import AIOrNotSelection from "./AIOrNotSelection";
@@ -66,27 +66,21 @@ class GameSettings extends Component<Props, State> {
                     onBoardSizeChange={(newBoardSize: number) => {
                         this.props.updateSettings("boardSize", newBoardSize)
                     }}
-                    onAmazonChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        const inputElement: HTMLInputElement = event.currentTarget
-                        if (inputElement.id === "amazon-selection") {
-                            let newValue = inputElement.valueAsNumber
-                            const oldValue = this.props.settings.amazonCount
-
-                            if (newValue > oldValue) newValue = (newValue - 1) * 2
-                            else if (newValue < oldValue) newValue = (newValue + 1) / 2
-
-                            this.props.updateSettings("amazonCount", newValue)
-                        } else {
-                            if (inputElement.id === "row-selection") {
-                                this.props.updateSettings("boardSize", 10)
-                            } else if (inputElement.id === "column-selection") {
-                                this.props.updateSettings("boardSize", 8)
-                            }
-                        }
-                    }}
+                    onAmazonCountChange={this.onAmazonCountChange}
                 />
             </div>
         )
+    }
+
+
+    private onAmazonCountChange = (newValue: number) => {
+        const oldValue = this.props.settings.amazonCount
+
+        // logic for base 2 increment/decrement:
+        if (newValue > oldValue) newValue = (newValue - 1) * 2
+        else if (newValue < oldValue) newValue = (newValue + 1) / 2
+
+        this.props.updateSettings("amazonCount", newValue)
     }
 }
 

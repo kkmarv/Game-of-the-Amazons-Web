@@ -5,6 +5,12 @@ import {BasicGame, createGame, getOwnPlayer, Player} from "../../requests";
 import LoadingScreen from "../LoadingScreen";
 import {defaultSettings, Settings} from "./settingsScreenTypes";
 import {withTranslation, WithTranslation} from "react-i18next";
+import {
+    checkerBoard4Amazons,
+    checkerBoard8Amazons,
+    twelverCheckerBoard4Amazons,
+    twelverCheckerBoard8Amazons,
+} from "./GameSettings/boardTemplates";
 
 import "../../styles/components/_game-creation-screen.scss"
 
@@ -69,10 +75,24 @@ class SettingsScreen extends Component<Props, State> {
 
 
     private updateSettings = (settingToChange: keyof Settings, newValue: any): void => {
-        console.log("updated: " + settingToChange)
         const newSettings: Settings = this.state.settings
         newSettings[settingToChange] = newValue
+        if (settingToChange === "amazonCount" || settingToChange === "boardSize") {
+            newSettings["tiles"] = SettingsScreen.updateTiles(newSettings)
+        }
         this.setState({settings: newSettings})
+    }
+
+    private static updateTiles(settings: Settings): number[][] {
+        console.log("RAWR")
+        if (settings.boardSize === 10) {
+            if (settings.amazonCount === 4) return checkerBoard4Amazons
+            else if (settings.amazonCount === 8) return checkerBoard8Amazons
+        } else if (settings.boardSize === 12) {
+            if (settings.amazonCount === 4) return twelverCheckerBoard4Amazons
+            else return twelverCheckerBoard8Amazons
+        }
+        return [] // this should never happen
     }
 
     private createGame = async (settings: Settings): Promise<void> => {
