@@ -21,7 +21,7 @@ interface State {
 
 /* Represents the local board, controllable players are able to move their pieces on.
    Ensures that a controllable player can only do legal moves. */
-export class GameBoard extends Component<Props, State> {
+export class GameBoard extends Component<Props, State> { // dummy
     private phase: PhaseEnum = PhaseEnum.SELECT
 
     constructor(props: Props) {
