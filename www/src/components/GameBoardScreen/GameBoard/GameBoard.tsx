@@ -74,7 +74,7 @@ export class GameBoard extends Component<Props, State> {
 
     render() {
         return (
-            <div className={"board"}>
+            <div className={"board  size-" + this.props.initialBoard.rowCount}>
                 {this.state.tiles.map((row, rowIndex) => {
                     const inverseRowIndex = this.props.initialBoard.rowCount - rowIndex - 1 // Spielbretter fangen mit (0,0) unten links an
                     return (

@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withTranslation, WithTranslation} from "react-i18next";
+import "../../styles/components/_error-screen.scss"
 
 
 interface Props extends RouteComponentProps, WithTranslation {
@@ -14,7 +15,7 @@ interface State {
 class ErrorScreen extends Component<Props, State> {
     render() {
         return (
-            <>
+            <div className={"error-screen"}>
                 <h1>{this.props.t("error.title")}</h1>
                 <h2>{this.props.t("error.subtitle")}</h2>
                 <h3>{this.props.t("error.demon")}</h3>
@@ -41,7 +42,7 @@ class ErrorScreen extends Component<Props, State> {
                         </> : null
                 }
                 <p>{this.props.t("error.reload")}</p>
-            </>
+            </div>
         )
     }
 }

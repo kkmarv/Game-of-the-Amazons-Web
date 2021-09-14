@@ -19,7 +19,7 @@ class AuthenticationScreen extends Component<Props, State> {
             <div className={"auth-button"}>
                 <AuthButton
                     authServiceURL={"https://webengineering.ins.hs-anhalt.de:40989"}
-                    serviceBaseURLs={["https://webengineering.ins.hs-anhalt.de:40918"]}
+                    serviceBaseURLs={["https://webengineering.ins.hs-anhalt.de:40917"]}
                     onAuthorize={() => {
                         this.props.onAuthorize()
                         this.props.history.push("/lobby")
