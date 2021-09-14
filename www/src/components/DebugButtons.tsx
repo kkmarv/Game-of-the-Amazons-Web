@@ -41,8 +41,8 @@ export class DebugButtons extends Component<any, any> {
                 </button>
 
                 <button onClick={async () => {
-                    console.log(await requests.getGame(0))
-                }}>get game 0
+                    console.log(await requests.getGame(1))
+                }}>get game 1
                 </button>
 
                 <button onClick={async () => {
