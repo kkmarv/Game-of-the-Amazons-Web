@@ -131,7 +131,7 @@ i18n
                         title: "Credits",
                         part1: "Wir, das sind die beiden Studenten Pascal Wegener und Marvin Kästing, haben diese Webseite während des zweiten Semesters im Modul Web- und Medienprogrammierung von Herrn Prof. Andreas Both entwickelt.",
                         part2: "Während der gesamten Entwicklung stand uns Toni Barth tapfer zur Seite.",
-                        part3: "Ziel dieser Seite ist es, der von Studenten der Universität Paderborn im Wintersemester 20/21 entwickelten KI zum Amazonenspiel, ein User Interface zu bieten.",
+                        part3: "Ziel dieser Seite ist es, der von Studenten der Universität Paderborn im Wintersemester 20/21 entwickelten KI zum Amazonenspiel ein User Interface zu bieten.",
                     },
                     error: {
                         title: "SUPER!",
