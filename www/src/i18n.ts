@@ -97,7 +97,7 @@ i18n
                         card: {
                             title: "Deine Spiele",
                             progress: "Noch am Laufen...",
-                            end: "hat das Spiel für sich entschieden!",
+                            end: "hat das Spiel gewonnen!",
                         }
                     },
                     settings: {
