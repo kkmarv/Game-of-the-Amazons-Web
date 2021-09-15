@@ -18,7 +18,7 @@ Für weitere Informationen, siehe jeweiligen Link.
 | [react-player](https://www.npmjs.com/package/react-player) | `npm install react-player` |
 | [class-transformer](https://www.npmjs.com/package/class-transformer) | `npm install class-transformer reflect-metadata`<br>_Des Weiteren muss reflect-metadata in einer globalen Komponente (index.tsx) importiert werden:_<br>`import 'reflect-metadata';` |
 | [react-router-dom](https://www.npmjs.com/package/react-router-dom) | `npm install react-router-dom` |
-| [react-custom-scrollbars](https://www.npmjs.com/package/react-custom-scrollbars) | `npm install react-custom-scrollbars` |
+| [react-custom-scrollbars](https://www.npmjs.com/package/react-custom-scrollbars) | `npm install react-custom-scrollbars`<br>_Erfordert React Version 16, wir benutzen aber Version 17. Bei der Fehlermeldung einfach `--force` benutzen_ |
 | [@types/react-custom-scrollbars](https://www.npmjs.com/package/@types/react-custom-scrollbars) | `npm install @types/react-custom-scrollbars` |
 | [@hs-anhalt/auth-button](https://www.npmjs.com/package/@hs-anhalt/auth-button) | `npm install @hs-anhalt/auth-button` |
 
