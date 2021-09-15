@@ -3,7 +3,8 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withTranslation, WithTranslation} from "react-i18next";
 import "../../styles/components/_credits-screen.scss"
 
-interface Props extends WithTranslation {
+
+interface Props extends RouteComponentProps, WithTranslation {
     onLeave: () => void
 }
 
@@ -12,9 +13,9 @@ interface State {
 }
 
 
-class CreditScreen extends Component<RouteComponentProps & Props, State> {
+class CreditScreen extends Component<Props, State> {
     render() {
-        return ( // TODO Back button is reused here, could be moved to own component
+        return ( // TODO Back button is reused here, should be moved to own component
             <div className={"credits-screen"
             }>
                 <h1>{this.props.t("credits.title")}</h1>

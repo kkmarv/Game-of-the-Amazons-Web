@@ -111,7 +111,7 @@ class GameBoardScreen extends Component<Props, State> {
                             onTurnEnd={this.makeATurn}
                             initialBoard={this.state.game!.board}
                             currentPlayerIsLocal={this.isItLocalPlayersTurn()}
-                            currentPlayerPosition={this.state.game!.players.indexOf(this.state.currentPlayer!)}
+                            currentPlayerPosition={this.getIndexOfCurrentPlayer()}
                         />
                     </div>
                 </>
@@ -169,6 +169,10 @@ class GameBoardScreen extends Component<Props, State> {
 
     private getCurrentPlayer(): Player {
         return this.getPlayerById(this.state.game!.playerId)
+    }
+
+    private getIndexOfCurrentPlayer(): number {
+        return this.state.game!.players.indexOf(this.getCurrentPlayer())
     }
 
     private getPlayerById(id: number): Player {
