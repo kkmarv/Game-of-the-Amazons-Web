@@ -22,8 +22,8 @@ class TurnInfo extends Component<Props, State> {
                 <h1 className={"winner"}>{`${this.props.currentPlayer.name} ${this.props.t("game.info.won")}`}</h1>
             )
         } else if (this.props.remainingTurnTime < 500) {
-            return ( // TODO der text ist nicht sichtbar, wahrscheinlich css probleme
-                <h2>{this.props.t("game.info.ran")}</h2>
+            return (
+                <h1 className={"time-ran"}>{this.props.t("game.info.ran")}</h1>
             )
         } else {
             return (
