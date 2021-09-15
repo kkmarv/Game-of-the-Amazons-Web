@@ -88,7 +88,35 @@
   }
 
   .board.size-12 {
-    // TODO
+    margin-top: 16vw;
+    width: 95vw;
+    height: 95vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 7.91666667vw !important;
+      height: 7.91666667vw !important;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 7vh 7vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 7vh 7vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 6.5vw 6.5vw !important;
+    }
+
+    .tile[value="1"] {
+      background-size: 6.5vw 6.5vw !important;
+    }
+
+    .winner {
+      margin-top: 2vw !important;
+    }
   }
 
 }
@@ -147,7 +175,31 @@
   }
 
   .board.size-12 {
-    // TODO
+    margin-top: 15vw;
+    width: 90vw;
+    height: 90vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 7.5vw;
+      height: 7.5vw;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 7vh 7vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 7vh 7vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 6vw 6vw;
+    }
+
+    .tile[value="1"] {
+      background-size: 6vw 6vw;
+    }
   }
 
 

@@ -13,7 +13,7 @@
 
     select {
       font-size: 4vw !important;
-      width: 28vw !important;
+      width: 25vw !important;
     }
 
     h3 {
@@ -77,6 +77,10 @@
         input {
           margin: 1vw;
         }
+
+        select {
+          width: 35vw !important
+        }
       }
     }
 
@@ -99,7 +103,7 @@
 
     select {
       font-size: 3vw !important;
-      width: 20vw !important;
+      width: 18vw !important;
     }
 
     h3 {
@@ -157,6 +161,10 @@
         h4 {
           padding: 0 2vw;
         }
+
+        select {
+          width: 26vw !important
+        }
       }
     }
 
@@ -165,7 +173,7 @@
 
       button {
         font-size: 4vw !important;
-        width: 23vw !important;
+        width: 28vw !important;
         height: 8vw !important;
       }
     }
@@ -184,7 +192,7 @@
     }
     select {
       font-size: 1px;
-      width: 8vw !important;
+      width: 6.5vw !important;
     }
     .radio {
       input {
@@ -220,6 +228,7 @@
     .bottom-buttons {
       button {
         font-size: 1.5vw !important;
+        width: 11vw !important;
       }
     }
     .opponent {

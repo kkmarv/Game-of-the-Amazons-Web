@@ -1,496 +1,496 @@
 @media screen and (max-width: 412px) {
-    h1 {
-        font-size: calc(16px + 9.5vw);
-        margin: 0;
+  h1 {
+    font-size: calc(16px + 9.5vw);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: calc(16px + 2.5vw);
+    margin: 0;
+  }
+
+  h3 {
+    font-size: calc(16px + 1vw);
+    margin: 0;
+  }
+
+  .lobby {
+
+    #scroll {
+      width: 95vw !important;
+      height: 62vw !important;
     }
 
-    h2 {
-        font-size: calc(16px + 2.5vw);
-        margin: 0;
+    .tutorial {
+      text-align: center;
+      margin-top: 2vw;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      height: 50vw !important;
+
+
+      div {
+        display: flex;
+        align-items: center;
+        background: #e7264f;
+        height: 50vw !important;
+        width: auto !important;
+        border-radius: 8px;
+      }
+
+      button {
+        padding: 0;
+        height: 100%;
+        width: 5vw;
+        background: url("../../assets/images/next.svg") no-repeat center;
+      }
+
+      button#previous {
+        transform: rotate(180deg);
+        border-radius: 8px 0px 0px 8px;
+
+      }
+
+      button#next {
+        border-radius: 0px 8px 8px 0px;
+
+      }
+
+      video {
+        height: 50vw !important;
+        width: auto;
+        background: #12264f;
+      }
     }
 
-    h3 {
-        font-size: calc(16px + 1vw);
-        margin: 0;
+    .card-list {
+      .game-card {
+        font-size: calc(16px + .8vw);
+      }
     }
 
-    .lobby {
+    .new-game-button {
+      text-align: center;
 
-        #scroll {
-            width: 95vw !important;
-            height: 62vw !important;
-        }
-
-        .tutorial {
-            text-align: center;
-            margin-top: 2vw;
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            height: 50vw !important;
-
-
-            div {
-                display: flex;
-                align-items: center;
-                background: #e7264f;
-                height: 50vw !important;
-                width: auto !important;
-                border-radius: 8px;
-            }
-
-            button {
-                padding: 0;
-                height: 100%;
-                width: 5vw;
-                background: url("../../assets/images/next.svg") no-repeat center;
-            }
-
-            button#previous {
-                transform: rotate(180deg);
-                border-radius: 8px 0px 0px 8px;
-
-            }
-
-            button#next {
-                border-radius: 0px 8px 8px 0px;
-
-            }
-
-            video {
-                height: 50vw !important;
-                width: auto;
-                background: #12264f;
-            }
-        }
-
-        .card-list {
-            .game-card {
-                font-size: calc(16px + .8vw);
-            }
-        }
-
-        .new-game-button {
-            text-align: center;
-
-            button {
-                margin-top: 2vw !important;
-                width: 35vw !important;
-                height: 10vw !important;
-                font-size: 5.5vw;
-                background: #26e739 !important;
-                border-radius: 5px;
-            }
-        }
-
-        .logo {
-            margin-top: 6vw;
-            text-align: center;
-
-            img {
-                height: 10vw;
-            }
-        }
+      button {
+        margin-top: 2vw !important;
+        width: 35vw !important;
+        height: 10vw !important;
+        font-size: 5.5vw;
+        background: #26e739 !important;
+        border-radius: 5px;
+      }
     }
+
+    .logo {
+      margin-top: 6vw;
+      text-align: center;
+
+      img {
+        height: 10vw;
+      }
+    }
+  }
 }
 
 
 @media screen and (min-width: 413px) and (max-width: 1025px) {
-    h1 {
-        font-size: calc(16px + 6vw);
-        margin: 0;
+  h1 {
+    font-size: calc(16px + 6vw);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: calc(16px + 2vw);
+    margin: 0;
+  }
+
+  h3 {
+    font-size: calc(16px + 1vw);
+  }
+  .lobby {
+
+    #scroll {
+      width: 95vw !important;
+      height: 41vw !important;
     }
 
-    h2 {
-        font-size: calc(16px + 2vw);
-        margin: 0;
+    .new-game-button {
+      text-align: center;
+
+      button {
+        margin-top: 1vw;
+        width: 25vw;
+        height: 7vw;
+        font-size: 3.2vw;
+        background: #26e739 !important;
+        border-radius: 5px;
+      }
     }
 
-    h3 {
-        font-size: calc(16px + 1vw);
+    .title {
+      margin-top: 3vw;
+      flex-flow: column;
+      text-align: left;
     }
-    .lobby {
 
-        #scroll {
-            width: 95vw !important;
-            height: 41vw !important;
-        }
+    .logo {
+      margin-top: 6vw;
+      text-align: center;
 
-        .new-game-button {
-            text-align: center;
-
-            button {
-                margin-top: 1vw;
-                width: 25vw;
-                height: 7vw;
-                font-size: 3.2vw;
-                background: #26e739 !important;
-                border-radius: 5px;
-            }
-        }
-
-        .title {
-            margin-top: 0vw;
-            flex-flow: column;
-            text-align: left;
-        }
-
-        .logo {
-            margin-top: 6vw;
-            text-align: center;
-
-            img {
-                height: 7vw;
-            }
-        }
-
-        .preferences {
-            float: right;
-        }
-
-        .tutorial {
-            text-align: center;
-            margin-top: 5vw;
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            height: 50vw !important;
-
-
-            div {
-                display: flex;
-                align-items: center;
-                background: #e7264f;
-                height: 50vw !important;
-                width: auto !important;
-                border-radius: 8px;
-            }
-
-            button {
-                padding: 0;
-                height: 100%;
-                width: 5vw;
-                background: url("../../assets/images/next.svg") no-repeat center;
-            }
-
-            button#previous {
-                transform: rotate(180deg);
-                border-radius: 0px 8px 8px 0px;
-            }
-
-            button#next {
-                border-radius: 8px 0px 0px 8px;
-            }
-
-            video {
-                height: 50vw !important;
-                width: auto;
-                background: #12264f;
-            }
-        }
-
-        .card-list {
-            .game-card {
-                font-size: calc(16px + 1vw) !important;
-            }
-        }
+      img {
+        height: 7vw;
+      }
     }
+
+    .preferences {
+      float: right;
+    }
+
+    .tutorial {
+      text-align: center;
+      margin-top: 5vw;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      height: 50vw !important;
+
+
+      div {
+        display: flex;
+        align-items: center;
+        background: #e7264f;
+        height: 50vw !important;
+        width: auto !important;
+        border-radius: 8px;
+      }
+
+      button {
+        padding: 0;
+        height: 100%;
+        width: 5vw;
+        background: url("../../assets/images/next.svg") no-repeat center;
+      }
+
+      button#previous {
+        transform: rotate(180deg);
+        border-radius: 0px 8px 8px 0px;
+      }
+
+      button#next {
+        border-radius: 8px 0px 0px 8px;
+      }
+
+      video {
+        height: 50vw !important;
+        width: auto;
+        background: #12264f;
+      }
+    }
+
+    .card-list {
+      .game-card {
+        font-size: calc(16px + 1vw) !important;
+      }
+    }
+  }
 
 }
 
 @media screen and (min-width: 1026px) {
 
-    h1 {
-        font-size: calc(16px + 4vw);
-        margin: 0;
+  h1 {
+    font-size: calc(16px + 4vw);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: calc(16px + 1vw);
+    margin: 0;
+  }
+
+  h3 {
+    font-size: calc(16px + .5vw);
+  }
+
+  .lobby {
+    display: flex;
+    flex-flow: row;
+  }
+
+  .title {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    .playername {
+      padding: .5vw 10vw;
+      font-size: calc(16px + 1.5vw);
     }
+
+    .row {
+      margin: 0;
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: flex-start;
+      align-content: center;
+
+      .column {
+        flex-flow: column;
+        padding: 0 1vw;
+        bottom: 0;
+        margin: 0 0vw;
+
+        .row {
+          flex-flow: row;
+        }
+      }
+    }
+  }
+
+  .preferences {
+    margin: 2px 2px 0 0;
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin: 2px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .tutorial {
+    text-align: center;
+    margin: 1vw 1vw 0 1vw !important;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    height: 35vw !important;
+
+    div {
+      display: flex;
+      align-items: center;
+      background: #e7264f;
+      height: 35vw !important;
+      width: auto !important;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 0;
+      height: 100% !important;
+      width: 3vw;
+      background: url("../../assets/images/next.svg") no-repeat center;
+    }
+
+    button#previous {
+      transform: rotate(180deg);
+      border-radius: 8px 0px 8px 0px;
+
+      &:hover {
+        filter: invert(1) !important;
+      }
+    }
+
+    button#next {
+      border-radius: 8px 0px 0px 8px;
+
+      &:hover {
+        filter: invert(1) !important;
+      }
+    }
+
+
+    video {
+      height: 40vw;
+      background: #12264f;
+    }
+  }
+
+  #scroll {
+    width: 25vw !important;
+    height: 36.5vw !important;
+  }
+
+  .new-game-button {
+    text-align: center;
+
+    button {
+      margin-top: 1vw;
+      width: 9vw;
+      height: 2.5vw;
+      font-size: 1.4vw;
+      background: #26e739 !important;
+      border-radius: 5px;
+    }
+  }
+
+  .logo {
+    margin-top: 2vw;
+    text-align: center;
+
+    img {
+      height: 2.5vw;
+    }
+  }
+  .games {
 
     h2 {
-        font-size: calc(16px + 1vw);
-        margin: 0;
-    }
-
-    h3 {
-        font-size: calc(16px + .5vw);
-    }
-
-    .lobby {
-        display: flex;
-        flex-flow: row;
+      margin-left: 3vw;
     }
 
     .title {
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        align-items: flex-start;
-
-        .playername {
-            padding: .5vw 10vw;
-            font-size: calc(16px + 1.5vw);
-        }
-
-        .row {
-            margin: 0;
-            display: flex;
-            flex-flow: row;
-            justify-content: center;
-            align-items: flex-start;
-            align-content: center;
-
-            .column {
-                flex-flow: column;
-                padding: 0 1vw;
-                bottom: 0;
-                margin: 0 0vw;
-
-                .row {
-                    flex-flow: row;
-                }
-            }
-        }
+      margin: 2vw auto 1vw auto !important;
+      text-align: center;
     }
 
-    .preferences {
-        margin: 2px 2px 0 0;
-        float: right;
-        display: flex;
-        justify-content: flex-end;
+    .card-list {
+      margin: 0 1vw;
+      border-radius: 5px;
+      background: darkgrey;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      padding: .5vw 0vw !important;
+      overflow: auto;
 
-        button {
-            margin: 2px;
-            width: 40px;
-            height: 40px;
-        }
+      .game-card {
+        width: 60% !important;
+        margin: .5vw 1vw !important;
+        padding: 1vw 4vw !important;
+        font-size: calc(16px + .4vw);
+      }
     }
-
-    .tutorial {
-        text-align: center;
-        margin: 1vw 1vw 0 1vw !important;
-        display: flex;
-        flex-flow: column;
-        align-items: flex-start;
-        height: 35vw !important;
-
-        div {
-            display: flex;
-            align-items: center;
-            background: #e7264f;
-            height: 35vw !important;
-            width: auto !important;
-            border-radius: 8px;
-        }
-
-        button {
-            padding: 0;
-            height: 100% !important;
-            width: 3vw;
-            background: url("../../assets/images/next.svg") no-repeat center;
-        }
-
-        button#previous {
-            transform: rotate(180deg);
-            border-radius: 8px 0px 8px 0px;
-
-            &:hover {
-                filter: invert(1) !important;
-            }
-        }
-
-        button#next {
-            border-radius: 8px 0px 0px 8px;
-
-            &:hover {
-                filter: invert(1) !important;
-            }
-        }
-
-
-        video {
-            height: 40vw;
-            background: #12264f;
-        }
-    }
-
-    #scroll {
-        width: 25vw !important;
-        height: 36.5vw !important;
-    }
-
-    .new-game-button {
-        text-align: center;
-
-        button {
-            margin-top: 1vw;
-            width: 9vw;
-            height: 2.5vw;
-            font-size: 1.4vw;
-            background: #26e739 !important;
-            border-radius: 5px;
-        }
-    }
-
-    .logo {
-        margin-top: 2vw;
-        text-align: center;
-
-        img {
-            height: 2.5vw;
-        }
-    }
-    .games {
-
-        h2 {
-            margin-left: 3vw;
-        }
-
-        .title {
-            margin: 2vw auto 1vw auto !important;
-            text-align: center;
-        }
-
-        .card-list {
-            margin: 0 1vw;
-            border-radius: 5px;
-            background: darkgrey;
-            display: flex;
-            flex-flow: column;
-            justify-content: center;
-            padding: .5vw 0vw !important;
-            overflow: auto;
-
-            .game-card {
-                width: 60% !important;
-                margin: .5vw 1vw !important;
-                padding: 1vw 4vw !important;
-                font-size: calc(16px + .4vw);
-            }
-        }
-    }
+  }
 }
 
 /* for all screens */
 
 .lobby {
 
-    .playername {
-        &:before {
-            content: "» "
-        }
-
-        &:after {
-            content: "  «"
-        }
+  .playername {
+    &:before {
+      content: "» "
     }
+
+    &:after {
+      content: "  «"
+    }
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  .preferences {
+    margin: 1px;
+    display: flex;
+    justify-content: flex-end;
 
     button {
-        cursor: pointer;
+      margin: 2px;
+      width: 50px;
+      height: 50px;
+      background: none;
     }
 
-    .preferences {
-        margin: 1px;
-        display: flex;
-        justify-content: flex-end;
-
-        button {
-            margin: 2px;
-            width: 50px;
-            height: 50px;
-            background: none;
-        }
-
-        #theme[value="0"] {
-            background: url("../../assets/images/dark.png") no-repeat center;
-            background-size: 35px;
-        }
-
-        #theme[value="1"] {
-            background: url("../../assets/images/light.png") no-repeat center;
-            background-size: 50px;
-        }
-
-        #theme[value="3"] {
-            background: url("../../assets/images/light.png") no-repeat center;
-            background-size: 50px;
-            background: black;
-        }
+    #theme[value="0"] {
+      background: url("../../assets/images/dark.png") no-repeat center;
+      background-size: 35px;
     }
 
-    .tutorial {
-        .button#previous {
-            &:active {
-                filter: invert(1) !important;
-            }
-        }
-
-        .button#next {
-            &:active {
-                filter: invert(1) !important;
-            }
-        }
+    #theme[value="1"] {
+      background: url("../../assets/images/light.png") no-repeat center;
+      background-size: 50px;
     }
 
-    .right {
-        button {
-            background: none;
+    #theme[value="3"] {
+      background: url("../../assets/images/light.png") no-repeat center;
+      background-size: 50px;
+      background: black;
+    }
+  }
+
+  .tutorial {
+    .button#previous {
+      &:active {
+        filter: invert(1) !important;
+      }
+    }
+
+    .button#next {
+      &:active {
+        filter: invert(1) !important;
+      }
+    }
+  }
+
+  .right {
+    button {
+      background: none;
+    }
+  }
+
+  .title {
+    text-align: center;
+
+    .row {
+      margin: 0;
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+
+      .column {
+        flex-flow: column;
+        padding: 0 1vw;
+        bottom: 0;
+        margin: 0 0vw;
+
+        .row {
+          flex-flow: row;
         }
+      }
+    }
+  }
+
+  .games {
+
+    h2 {
+      margin-left: 3vw;
     }
 
     .title {
-        text-align: center;
-
-        .row {
-            margin: 0;
-            display: flex;
-            flex-flow: row;
-            justify-content: center;
-            align-items: center;
-            align-content: center;
-
-            .column {
-                flex-flow: column;
-                padding: 0 1vw;
-                bottom: 0;
-                margin: 0 0vw;
-
-                .row {
-                    flex-flow: row;
-                }
-            }
-        }
+      margin: 3vw auto 2vw auto;
+      text-align: center;
     }
 
-    .games {
+    .card-list {
+      margin: 0 2vw;
+      border-radius: 5px;
+      background: darkgrey;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      padding: 1vw 0vw;
+      overflow: auto;
 
-        h2 {
-            margin-left: 3vw;
-        }
-
-        .title {
-            margin: 3vw auto 2vw auto;
-            text-align: center;
-        }
-
-        .card-list {
-            margin: 0 2vw;
-            border-radius: 5px;
-            background: darkgrey;
-            display: flex;
-            flex-flow: column;
-            justify-content: center;
-            padding: 1vw 0vw;
-            overflow: auto;
-
-            .game-card {
-                width: 83%;
-                margin: 1vw 3vw;
-                padding: 1vw 5vw;
-                display: flex;
-                flex-flow: column;
-                background: white;
-                border-radius: 5px 30px;
-                cursor: pointer;
-            }
-        }
+      .game-card {
+        width: 83%;
+        margin: 1vw 3vw;
+        padding: 1vw 5vw;
+        display: flex;
+        flex-flow: column;
+        background: white;
+        border-radius: 5px 30px;
+        cursor: pointer;
+      }
     }
+  }
 }
