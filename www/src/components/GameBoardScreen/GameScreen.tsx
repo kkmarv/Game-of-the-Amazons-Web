@@ -29,7 +29,7 @@ interface State {
 }
 
 
-class GameBoardScreen extends Component<Props, State> {
+class GameScreen extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
     private localPlayer!: Player;
 
@@ -67,7 +67,7 @@ class GameBoardScreen extends Component<Props, State> {
         const winningPlayerId = this.state.game!.winningPlayer
 
         if (!winningPlayerId) { // if game is still running // TODO maybe add timer synchronization
-            if (prevState.game && prevState.game.playerId !== this.state.game!.playerId) { // if player switches
+            if (prevState.game && prevState.game.currentPlayerId !== this.state.game!.currentPlayerId) { // if player switches
                 this.switchPlayer()
                 await this.updateGame()
             }
@@ -168,7 +168,7 @@ class GameBoardScreen extends Component<Props, State> {
     }
 
     private getCurrentPlayer(): Player {
-        return this.getPlayerById(this.state.game!.playerId)
+        return this.getPlayerById(this.state.game!.currentPlayerId)
     }
 
     private getIndexOfCurrentPlayer(): number {
@@ -195,4 +195,4 @@ class GameBoardScreen extends Component<Props, State> {
 }
 
 
-export default withRouter(GameBoardScreen)
+export default withRouter(GameScreen)

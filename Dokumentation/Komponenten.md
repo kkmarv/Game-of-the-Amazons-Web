@@ -8,7 +8,7 @@ Die React Komponenten der Webseite.
 
 1. [AuthenticationScreen](#authenticationscreen)
 2. [CreditScreen](#creditscreen)
-3. [GameBoardScreen](#gameboardscreen)
+3. [GameScreen](#gameboardscreen)
 4. [SettingsScreen](#gamecreationscreen)
 5. [LobbyScreen](#lobbyscreen)
 
@@ -22,11 +22,11 @@ Die React Komponenten der Webseite.
     │   └── AuthenticationScreen.tsx
     ├── CreditScreen
     │   ├── CreditScreen.tsx
-    ├── GameBoardScreen
+    ├── GameScreen
     │   ├── GameBoard
     │   │   ├── GameBoard.tsx
     │   │   └── GameBoardButton.tsx
-    │   ├── GameBoardScreen.tsx
+    │   ├── GameScreen.tsx
     │   ├── PlayerSidebar.tsx
     │   ├── Timer.tsx
     │   └── TurnInfo.tsx
@@ -68,7 +68,7 @@ Hier werden Informationen zu den Entwicklern, dem Modul und den Dozenten aufgef�
 
 ---
 
-## GameBoardScreen
+## GameScreen
 
 Ist der umgebende Container für das GUI der Spiel-Seite.  
 Hier werden Spiele zwischen 2 Spielern ausgetragen.
@@ -76,7 +76,7 @@ Hier werden Spiele zwischen 2 Spielern ausgetragen.
 1. [GameBoard](url)
     1. [GameBoard.tsx](url)
     2. [GameBoardButton.tsx](url)
-2. [GameBoardScreen.tsx](url)
+2. [GameScreen.tsx](url)
 3. [PlayerSidebar.tsx](url)
 4. [Timer.tsx](url)
 5. [TurnInfo.tsx](url)
@@ -119,7 +119,7 @@ Verwaltet jeweils ein `HTMLButtonElement`.
 
 ---
 
-### GameBoardScreen.tsx
+### GameScreen.tsx
 
 ---
 

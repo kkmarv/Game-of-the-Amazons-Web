@@ -199,7 +199,7 @@ export class BasicGame {
 
 
 export class DetailedGame extends BasicGame {
-    @Expose({name: 'turnPlayer'}) playerId!: number
+    @Expose({name: 'turnPlayer'}) currentPlayerId!: number
     @Expose() maxTurnTime!: number
     @Expose() remainingTurnTime?: number
     @Expose() @Type(() => Board) board!: Board
