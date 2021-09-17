@@ -8,6 +8,7 @@ import GameBoardScreen from "./GameBoardScreen/GameScreen";
 import LobbyScreen from "./LobbyScreen/LobbyScreen";
 import AuthenticationScreen from "./AuthenticationScreen/AuthenticationScreen";
 import ErrorScreen from "./ErrorScreen/ErrorScreen";
+import {DebugButtons} from "./DebugButtons";
 
 
 interface Props {
@@ -35,6 +36,7 @@ export default class App extends Component<Props, State> {
                         {
                             this.state.isAuthorized ? (
                                 <>
+                                    {/*<DebugButtons/>*/}
                                     <Route exact path="/"><Redirect to="/lobby"/></Route>
                                     <Route exact path="/lobby" component={LobbyScreen}/>
                                     <Route exact path="/create" component={GameCreationScreen}/>

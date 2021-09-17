@@ -60,9 +60,10 @@ class SettingsScreen extends Component<Props, State> {
                             </button>
                         </div>
                         <div className={"start-button"}>
-                            <button className={"btn"} onClick={async () => {
-                                await this.createGame(this.state.settings)
-                            }}>{this.props.t("buttons.start")}
+                            <button className={"btn"} disabled={this.state.settings.opponent.id === -1}
+                                    onClick={async () => {
+                                        await this.createGame(this.state.settings)
+                                    }}>{this.props.t("buttons.start")}
                             </button>
                         </div>
                     </div>

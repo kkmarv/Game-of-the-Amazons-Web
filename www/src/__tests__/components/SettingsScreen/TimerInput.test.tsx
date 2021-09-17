@@ -5,7 +5,6 @@ import {Simulate} from "react-dom/test-utils";
 
 import TimerInput from "../../../components/SettingsScreen/GameSettings/TimerInput";
 import {defaultSettings} from "../../../components/SettingsScreen/settingsScreenTypes";
-import React from "react";
 
 
 jest.mock("../../../requests") // mocking the API here
@@ -89,19 +88,6 @@ describe("Blackbox Tests", () => {
 
 
     describe("Functionality Tests", () => {
-        it("template", () => {
-            const onChangeMock = jest.fn();
-
-            act(() => {
-                ReactDOM.render(
-                    <TimerInput
-                        onChange={onChangeMock}
-                        turnTime={defaultSettings.maxTurnTime}
-                    />, container
-                )
-            })
-        })
-
         it("calls onChange when changed", () => {
             const onChangeMock = jest.fn();
 

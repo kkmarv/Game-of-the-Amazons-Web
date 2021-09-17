@@ -42,7 +42,7 @@ class PlayerList extends Component<Props, State> {
                 relevantPlayers: await this.getRelevantPlayers()
             }, () => {
                 if (this.state.relevantPlayers.length !== 0) {
-                    this.props.onPlayerSelect(this.state.relevantPlayers[0]) // update on each selected player
+                    this.props.onPlayerSelect(this.state.relevantPlayers[0]) // select first available player
                     this.setState({isLoaded: true})
                 }
 
@@ -74,7 +74,8 @@ class PlayerList extends Component<Props, State> {
         const relevantPlayers: Player[] = []
         const allPlayers: Player[] = await getAllPlayers()
         for (let player of allPlayers) {
-            if (!player.controllable === this.props.hasSelectedBot) {  // make sure the player can't select themselves:
+            if (!player.controllable === this.props.hasSelectedBot) {
+                // make sure the player can't select themselves:
                 if (player.id !== this.props.localPlayer.id) relevantPlayers.push(player)
             }
         }

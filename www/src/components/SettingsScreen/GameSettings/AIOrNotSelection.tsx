@@ -30,6 +30,7 @@ class AIOrNotSelection extends Component<Props, State> {
                     <div className={"human"}>
                         <label htmlFor="aiFalse">{this.props.t("settings.settings.human")}</label>
                         <input
+                            disabled={true} // it is not yet supported so we disabled it
                             id={"aiFalse"} type={"radio"} name={"ai"}
                             checked={!this.props.hasSelectedBot}
                             onChange={() => {
