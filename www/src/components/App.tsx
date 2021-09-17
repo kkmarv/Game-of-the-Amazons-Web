@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import CreditScreen from "./CreditScreen/CreditScreen";
 import GameCreationScreen from "./SettingsScreen/SettingsScreen";
-import GameBoardScreen from "./GameBoardScreen/GameScreen";
+import GameBoardScreen from "./GameScreen/GameScreen";
 import LobbyScreen from "./LobbyScreen/LobbyScreen";
 import AuthenticationScreen from "./AuthenticationScreen/AuthenticationScreen";
 import ErrorScreen from "./ErrorScreen/ErrorScreen";

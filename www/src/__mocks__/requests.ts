@@ -4,7 +4,7 @@ independent from HTTP requests.
 */
 
 import * as requests from "../requests";
-import {TileEnum} from "../components/GameBoardScreen/GameBoard/gameBoardTypes";
+import {TileEnum} from "../components/GameScreen/GameBoard/gameBoardTypes";
 
 
 export type BasicGame = requests.BasicGame
