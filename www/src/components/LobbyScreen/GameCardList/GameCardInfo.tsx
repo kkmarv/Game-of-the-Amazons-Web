@@ -7,10 +7,12 @@ interface Props {
     forGameId: number
 }
 
+
 interface State {
 }
 
-/* Displays detailed game infos. */
+
+/* Displays detailed game infos. */ // TODO unused
 export class GameCardInfo extends Component<Props, State> {
     private game!: DetailedGame
 
