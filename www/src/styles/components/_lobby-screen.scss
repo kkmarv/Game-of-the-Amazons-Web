@@ -108,7 +108,7 @@
     }
 
     .logo {
-      margin-top: 6vw;
+      margin: 6vw 0 2vw 0;
       text-align: center;
 
       img {
@@ -160,7 +160,7 @@
     }
 
     .logo {
-      margin-top: 6vw;
+      margin: 6vw 0 2vw 0;
       text-align: center;
 
       img {
@@ -320,7 +320,7 @@
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    height: 35vw !important;
+    height: 78vh !important; //chonky adjust for logo
 
     div {
       display: flex;
@@ -405,40 +405,48 @@
     }
   }
 
-  .logo {
-    margin-top: 2vw;
-    text-align: center;
+  .right {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
 
-    img {
-      height: 2.5vw;
-    }
-  }
-  .games {
-
-    h2 {
-      margin-left: 3vw;
-    }
-
-    .title {
-      margin: 2vw auto 1vw auto !important;
+    .logo {
+      /*margin-top: 2vw;*/
       text-align: center;
+
+      img {
+        height: 2.5vw;
+      }
     }
 
-    .card-list {
-      margin: 0 1vw;
-      border-radius: 5px;
-      background: darkgrey;
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
-      padding: .5vw 0vw !important;
-      overflow: auto;
+    .games {
 
-      .game-card {
-        width: 17vw !important;
-        margin: .5vw 1vw !important;
-        padding: 1vw 3vw !important;
-        font-size: calc(16px + .4vw);
+      h2 {
+        margin-left: 3vw;
+      }
+
+      .title {
+        margin: 2vw auto 1vw auto !important;
+        text-align: center;
+      }
+
+      .card-list {
+        margin: 0 1vw;
+        border-radius: 5px;
+        background: darkgrey;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        padding: .5vw 0vw !important;
+        overflow: auto;
+
+        .game-card {
+          width: 17vw !important;
+          margin: .5vw 1vw !important;
+          padding: 1vw 3vw !important;
+          font-size: calc(16px + .4vw);
+        }
       }
     }
   }
@@ -506,6 +514,7 @@
   }
 
   .right {
+
     button {
       background: none;
     }

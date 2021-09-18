@@ -1,6 +1,6 @@
-* {
+/** {
   overflow: hidden;
-}
+}*/
 
 /* TODO Umstellung auf Flexbox, mobile und ipad :)  */
 
@@ -28,6 +28,7 @@ button {
 }
 
 .btn {
+  cursor: pointer;
   transition: all .1s ease-in-out;
 
   &:hover {
