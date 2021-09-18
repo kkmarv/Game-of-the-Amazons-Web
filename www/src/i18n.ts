@@ -26,6 +26,28 @@ i18n
                             end: "has won!",
                         }
                     },
+                    tutorial: {
+                        title0: "Lobbyscreen",
+                        tip01: "This is your lobby screen, you can create and see your games on the right.",
+                        tip02: "You can change the language at the top or view the credits on the bottom.",
+                        tip03: "Click on the right arrow to read the next page.",
+                        tip04: "",
+                        title1: "Amazon Game",
+                        tip11: "In the Amazon Game, the Amazons on the board can move like Queens in chess.",
+                        tip12: "After moving, you pick a tile to shoot an arrow on, following the same rules.",
+                        tip13: "Tiles occupied with Amazons or Arrows cannot be entered or skipped over.",
+                        tip14: "The first Player that cannot make another turn or lets the time run out loses.",
+                        title2: "Game Creation",
+                        tip21: "In the Game Creation Screen, you can select who you want to play against.",
+                        tip22: "Also you can select the time each player has to make their move.",
+                        tip23: "Check the advanced settings for more.",
+                        tip24: "",
+                        title3: "Game Screen",
+                        tip31: "In the Game Screen, wait for your turn and select the Amazon you want to move.",
+                        tip32: "You then see your possible moves and can click on the tile you want to move to.",
+                        tip33: "Shoot your arrow with the next click, possible fields are highlighted.",
+                        tip34: "Before finalizing a move or shot, click on the Amazon to cancel the current action."
+                    },
                     settings: {
                         title: "Create a Game",
                         settings: {
@@ -97,8 +119,30 @@ i18n
                         card: {
                             title: "Deine Spiele",
                             progress: "Noch am Laufen...",
-                            end: "hat das Spiel für sich entschieden!",
+                            end: "hat das Spiel gewonnen!",
                         }
+                    },
+                    tutorial: {
+                        title0: "Lobbybildschirm",
+                        tip01: "Das ist der Lobbysbildschirm, hier kannst du rechts deine Spiele erstellen und sehen.",
+                        tip02: "Oben kannst du die Sprache ändern oder unten die Credits ansehen.",
+                        tip03: "Klicke auf den Pfeil rechts, um die nächste Seite zu lesen.",
+                        tip04: "",
+                        title1: "Amazonenspiel",
+                        tip11: "Im Amazonenspiel können die Amazonen sich auf dem Brett bewegen wie die Königin im Schach.",
+                        tip12: "Nach dem Bewegen wird ein Pfeil auf ein leeres Feld geschossen, nach denselben Regeln.",
+                        tip13: "Felder die von Amazonen oder Pfeilen belegt sind, können nicht betreten oder übersprungen werden.",
+                        tip14: "Der erste Spieler, der keinen Zug mehr durchführen kann oder die Zeit ablaufen lässt, verliert.",
+                        title2: "Spielerstellung",
+                        tip21: "Bei der Spielerstellung kannst du auswählen, gegen wen du spielen willst.",
+                        tip22: "Außerdem kannst du einstellen, wie lange die Zeit für einen Zug ist.",
+                        tip23: "Schau in die Erweiterten Einstellungen für mehr.",
+                        tip24: "",
+                        title3: "Im Spiel",
+                        tip31: "Warte im Spiel bis du dran bist und wähle die Amazone aus, die du bewegen willst.",
+                        tip32: "Du siehst dann die möglichen Züge, klicke auf eins der Felder, um sie dorthin zu bewegen.",
+                        tip33: "Schieß deinen Pfeil mit dem nächsten Klick, die möglichen Felder sind wieder markiert.",
+                        tip34: "Klicke auf die Amazone bevor ein Zug abgeschlossen ist, um die letzte Aktion abzubrechen."
                     },
                     settings: {
                         title: "Spielerstellung",
