@@ -2,7 +2,7 @@ import {deserializeArray, Expose, plainToClass, Type} from 'class-transformer';
 
 
 // Port range: 40910-40919
-const webserviceUrl: string = "https://webengineering.ins.hs-anhalt.de:40910/"
+const webserviceUrl: string = "https://webengineering.ins.hs-anhalt.de:40911/"
 
 /* Player requests */
 
