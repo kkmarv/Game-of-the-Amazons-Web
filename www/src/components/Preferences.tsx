@@ -41,11 +41,11 @@ export class Preferences extends Component<Props, State> {
                         }}>
                     <img src={i18n.language === "de" ? deIcon : enIcon} alt={"Language Icon"}/>
                 </button>
-                <button id={"theme"} value={this.props.currentTheme}
-                        onClick={this.props.switchTheme}
-                >
-                    <img src={""} alt={"Theme Icon"}/>
-                </button>
+                {/*<button id={"theme"} value={this.props.currentTheme}*/}
+                {/*        onClick={this.props.switchTheme}*/}
+                {/*>*/}
+                {/*    <img src={""} alt={"Theme Icon"}/>*/}
+                {/*</button>*/}
             </div>
         )
     }
