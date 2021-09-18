@@ -21,10 +21,10 @@ interface Props extends RouteComponentProps<URLParameter> {
 
 
 interface State {
-    game?: DetailedGame // gets defined later with game request
     gameIsLoaded: boolean
-    currentPlayer?: Player // gets defined later with game request
     gameIsFinished: boolean
+    game?: DetailedGame // gets defined later with game request
+    currentPlayer?: Player // gets defined later with game request
     remainingTurnTime?: number // gets defined later with game request
 }
 
@@ -49,6 +49,7 @@ class GameScreen extends Component<Props, State> {
         this.timer = setInterval(this.timerFunction, 1000)
         this.localPlayer = await requests.getOwnPlayer() as Player
 
+
         this.setState({
             game: await requests.getGame(parseInt(this.props.match.params.id)) as DetailedGame,
         }, () => { // executes right after first setState()
@@ -61,6 +62,7 @@ class GameScreen extends Component<Props, State> {
                 })
             }
         })
+        console.log(this.state.game)
     }
 
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
@@ -168,7 +170,7 @@ class GameScreen extends Component<Props, State> {
     }
 
     private getCurrentPlayer(): Player {
-        return this.getPlayerById(this.state.game!.currentPlayerId)
+        return this.state.game!.players[this.state.game!.currentPlayerId]
     }
 
     private getIndexOfCurrentPlayer(): number {
