@@ -195,6 +195,7 @@
     .tile[value="1"] {
       background-size: 6vw 6vw;
     }
+
   }
 
 
@@ -298,6 +299,7 @@ button {
   left: 0;
   top: 0;
   bottom: 0;
+  z-index: -1;
 
   .player-label {
     width: 13vw;
@@ -312,6 +314,7 @@ button {
   right: 0;
   top: 0;
   bottom: 0;
+  z-index: -1;
 
   .player-label {
     width: 13vw;
