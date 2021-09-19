@@ -122,7 +122,7 @@ class GameScreen extends Component<Props, State> {
                         ) : null
                         }
                         {this.state.game!.winningPlayer && this.state.currentPlayer?.id !== this.state.game!.winningPlayer ? (
-                            <ParticlesBg type="cobweb" num={200} bg={true}/>
+                            <ParticlesBg type="cobweb" num={200} bg={true} color="#00008b"/>
                         ) : null
                         }
                     </div>

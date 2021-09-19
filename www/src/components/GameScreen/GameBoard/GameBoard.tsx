@@ -47,13 +47,13 @@ export class GameBoard extends Component<Props, State> { // dummy
     /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat (könnte bereits behoben sein)
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
         // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
-        if (prevProps.currentPlayerIsLocal && (prevProps.currentPlayerIsLocal !== this.props.currentPlayerIsLocal)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
+        /*if (prevProps.currentPlayerIsLocal && (prevProps.currentPlayerIsLocal !== this.props.currentPlayerIsLocal)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
             if (this.phase === PhaseEnum.SHOOT) { // und sich der alte Spieler in der Schuss-Phase befand
                 await this.cancelShot(this.state.lastClickCoords!)
                 await this.cancelMove()
             } else if (this.phase === PhaseEnum.MOVE) await this.cancelMove()  // oder sich in der Bewegen-Phase befand
             this.setState({lastClickCoords: undefined, clickBeforeLastClickCoords: undefined})
-        }
+        }*/
 
         if (this.phase === PhaseEnum.WAIT) { // Aktualisiere die state-Tiles nur falls jemand anderes dran ist.
             if (prevProps.initialBoard !== this.props.initialBoard) {
