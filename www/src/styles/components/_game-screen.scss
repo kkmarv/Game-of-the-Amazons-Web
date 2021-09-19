@@ -54,7 +54,7 @@
   .winner {
     font-size: calc(16px + 5vw);
     margin-top: 2vw !important;
-    margin-bottom: 31.2vw !important;
+    margin-bottom: 10.75vw !important;
   }
 
   .board.size-10 {
@@ -142,7 +142,7 @@
   }
   .winner {
     margin-top: 2vw !important;
-    margin-bottom: 22.6vw !important;
+    margin-bottom: 5.2vw !important;
   }
 
 
@@ -335,7 +335,7 @@ button {
 
 .winner {
   text-align: center;
-  margin: 1.3vw;
+  margin: 1.3vw 1.3vw 0.3vw 1.3vw;
 }
 
 .current-turn-player {
