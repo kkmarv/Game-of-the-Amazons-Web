@@ -33,6 +33,7 @@ class GameScreen extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
     private localPlayer!: Player;
 
+
     constructor(props: RouteComponentProps & Props) {
         super(props);
         this.state = {
