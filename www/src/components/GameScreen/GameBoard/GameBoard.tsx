@@ -3,12 +3,19 @@ import {GameBoardButton} from "./GameBoardButton";
 import {PhaseEnum, Tile, TileEnum} from "./gameBoardTypes";
 import {Board, Coordinates, Turn} from "../../../requests";
 
+import pickSound from "../../../assets/sounds/pick.wav";
+import putSound from "../../../assets/sounds/put.wav";
+import arrowSound from "../../../assets/sounds/arrow.wav";
+import cancelSound from "../../../assets/sounds/cancel.wav";
+
 
 interface Props {
     onTurnEnd: (turn: Turn) => Promise<void>
     initialBoard: Board
     currentPlayerIsLocal: boolean
+    currentPlayerPosition: number
 }
+
 
 interface State {
     tiles: Tile[][]
@@ -16,21 +23,31 @@ interface State {
     clickBeforeLastClickCoords?: Coordinates
 }
 
+
 /* Represents the local board, controllable players are able to move their pieces on.
    Ensures that a controllable player can only do legal moves. */
-export class GameBoard extends Component<Props, State> {
-    private phase: PhaseEnum = PhaseEnum.SELECT
+export class GameBoard extends Component<Props, State> { // dummy
+    private phase: PhaseEnum = PhaseEnum.SELECT // TODO move into state
+    private pickSound: HTMLAudioElement = new Audio(pickSound)
+    private volume: number = .2
+    private putSound: HTMLAudioElement = new Audio(putSound)
+    private arrowSound: HTMLAudioElement = new Audio(arrowSound)
+    private cancelSound: HTMLAudioElement = new Audio(cancelSound)
 
     constructor(props: Props) {
         super(props);
         this.setPhase(props.currentPlayerIsLocal ? PhaseEnum.SELECT : PhaseEnum.WAIT)
+        this.pickSound.volume = this.volume
+        this.putSound.volume = this.volume
+        this.arrowSound.volume = this.volume * 2
+        this.cancelSound.volume = this.volume
 
         this.state = {
             tiles: this.props.initialBoard.tiles.map((row) => {
                 return row.map((value) => {
                     return {
                         tileType: value,
-                        disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== TileEnum.PLAYER)
+                        disabled: !this.props.currentPlayerIsLocal || value !== this.props.currentPlayerPosition
                     }
                 })
             })
@@ -41,7 +58,7 @@ export class GameBoard extends Component<Props, State> {
         this.phase = phase
     }
 
-    /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat
+    /* Wenn neue Props übergeben wurden. */ // TODO manchmal wird das Board nicht aktualisiert wenn ein lokaler Spieler einen Zug gemacht hat (könnte bereits behoben sein)
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
         // Ist eigentlich unnötig, da das Spiel sowieso beendet wird, wenn kein Zug gemacht wurde
         if (prevProps.currentPlayerIsLocal && (prevProps.currentPlayerIsLocal !== this.props.currentPlayerIsLocal)) { // Wenn der Zug durch Spielerwechsel unterbrochen wird,
@@ -53,14 +70,14 @@ export class GameBoard extends Component<Props, State> {
         }
 
         if (this.phase === PhaseEnum.WAIT) { // Aktualisiere die state-Tiles nur falls jemand anderes dran ist.
-            if (prevProps.initialBoard !== this.props.initialBoard) {
+            if (prevProps.initialBoard !== this.props.initialBoard) { // Wenn der Gegner einen Zug gemacht hat:
                 this.setPhase(this.props.currentPlayerIsLocal ? PhaseEnum.SELECT : PhaseEnum.WAIT)
                 this.setState({
                     tiles: this.props.initialBoard.tiles.map((row) => {
                         return row.map((value) => {
                             return {
                                 tileType: value,
-                                disabled: !this.props.currentPlayerIsLocal || (this.props.currentPlayerIsLocal && value !== TileEnum.PLAYER),
+                                disabled: !this.props.currentPlayerIsLocal || value !== this.props.currentPlayerPosition
                             }
                         })
                     })
@@ -71,7 +88,7 @@ export class GameBoard extends Component<Props, State> {
 
     render() {
         return (
-            <div className={"board"}>
+            <div className={"board  size-" + this.props.initialBoard.rowCount}>
                 {this.state.tiles.map((row, rowIndex) => {
                     const inverseRowIndex = this.props.initialBoard.rowCount - rowIndex - 1 // Spielbretter fangen mit (0,0) unten links an
                     return (
@@ -104,20 +121,26 @@ export class GameBoard extends Component<Props, State> {
         if (clickedTileProps.tileType === TileEnum.PLAYER) {
             if (this.phase === PhaseEnum.SELECT) {
                 await this.showPossibleMovesForTileAt(currentCoords)
+                await this.pickSound.play()
                 this.setPhase(PhaseEnum.MOVE)
-
-            } else if (this.phase === PhaseEnum.MOVE) await this.cancelMove()
-            else if (this.phase === PhaseEnum.SHOOT) await this.cancelShot(currentCoords)
+            } else if (this.phase === PhaseEnum.MOVE) {
+                await this.cancelMove()
+                await this.cancelSound.play()
+            } else if (this.phase === PhaseEnum.SHOOT) {
+                await this.cancelShot(currentCoords)
+                await this.cancelSound.play()
+            }
 
         } else if (clickedTileProps.tileType === TileEnum.EMPTY) {
             if (this.phase === PhaseEnum.MOVE) {
                 await this.moveAmazonFromTo(lastClickCoords, currentCoords)
                 await this.showPossibleMovesForTileAt(currentCoords)
+                await this.putSound.play()
                 this.setPhase(PhaseEnum.SHOOT)
-
             } else if (this.phase === PhaseEnum.SHOOT) {
                 await this.shootArrowAt(currentCoords)
                 await this.hidePossibleMoves()
+                await this.arrowSound.play()
                 this.setPhase(PhaseEnum.WAIT)
                 await this.endTurnWith(clickBeforeLastClickCoords, lastClickCoords, currentCoords)
             }

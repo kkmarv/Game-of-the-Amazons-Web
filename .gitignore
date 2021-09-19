@@ -8,3 +8,7 @@
 /httpRequests/
 
 /.idea/
+
+# Snapshots from tests
+/__snapshots__/
+.snap

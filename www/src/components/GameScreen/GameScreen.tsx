@@ -1,38 +1,45 @@
-import "../../styles/components/_game-screen.sass"
+import "../../styles/components/_game-screen.scss";
 
 import {Component} from "react";
-import {LoadingScreen} from "../LoadingScreen";
-import {PlayerSidebar} from "./PlayerSidebar";
-import {TurnInfo} from "./TurnInfo";
+import LoadingScreen from "../LoadingScreen";
+import PlayerSidebar from "./PlayerSidebar";
+import TurnInfo from "./TurnInfo";
 import {GameBoard} from "./GameBoard/GameBoard";
 import * as requests from "../../requests";
-import {BasicGame, DetailedGame, Player, Turn} from "../../requests";
+import {DetailedGame, Player, Turn} from "../../requests";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import ParticlesBg from 'particles-bg';
 
 
-interface Props {
-    playerIds: number[]
-    maxTurnTime: number
-    tiles: number[][]
+interface URLParameter {
+    id: string
 }
+
+
+interface Props extends RouteComponentProps<URLParameter> {
+
+}
+
 
 interface State {
-    game?: DetailedGame
     gameIsLoaded: boolean
-    currentPlayer?: Player
     gameIsFinished: boolean
-    remainingTurnTime: number
+    game?: DetailedGame // gets defined later with game request
+    currentPlayer?: Player // gets defined later with game request
+    remainingTurnTime?: number // gets defined later with game request
 }
 
-export class GameScreen extends Component<Props, State> {
+
+class GameScreen extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
     private localPlayer!: Player;
 
-    constructor(props: Props) {
+
+    constructor(props: RouteComponentProps & Props) {
         super(props);
         this.state = {
             gameIsLoaded: false,
-            gameIsFinished: false,
-            remainingTurnTime: props.maxTurnTime
+            gameIsFinished: false
         }
     }
 
@@ -44,29 +51,27 @@ export class GameScreen extends Component<Props, State> {
         this.timer = setInterval(this.timerFunction, 1000)
         this.localPlayer = await requests.getOwnPlayer() as Player
 
-        const createdGame: BasicGame = await requests.createGame(
-            this.props.playerIds,
-            this.props.maxTurnTime,
-            this.props.tiles.length,
-            this.props.tiles[0].length,
-            this.props.tiles
-        ) as BasicGame
 
         this.setState({
-            game: await requests.getGame(createdGame.id) as DetailedGame,
+            game: await requests.getGame(parseInt(this.props.match.params.id)) as DetailedGame,
         }, () => { // executes right after first setState()
-            this.setState({
-                gameIsLoaded: true,
-                currentPlayer: this.getCurrentPlayer()
-            })
+            if (this.state.game === undefined) this.props.history.push("/error/game")
+            else { // initialize state when game request was successful
+                this.setState({
+                    gameIsLoaded: true,
+                    currentPlayer: this.getCurrentPlayer(),
+                    remainingTurnTime: this.state.game?.remainingTurnTime
+                })
+            }
         })
+        console.log(this.state.game)
     }
 
     async componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>) {
         const winningPlayerId = this.state.game!.winningPlayer
 
         if (!winningPlayerId) { // if game is still running // TODO maybe add timer synchronization
-            if (prevState.game && prevState.game.playerId !== this.state.game!.playerId) { // if player switches
+            if (prevState.game && prevState.game.currentPlayerId !== this.state.game!.currentPlayerId) { // if player switches
                 this.switchPlayer()
                 await this.updateGame()
             }
@@ -75,7 +80,7 @@ export class GameScreen extends Component<Props, State> {
                 if (!this.state.gameIsFinished) {
                     clearInterval(this.timer)
                     this.switchPlayer()
-                    // this.setState({gameIsFinished: true}) // TODO die endcard machen
+                    this.setState({gameIsFinished: true})
                     console.log(this.getPlayerById(this.state.game!.winningPlayer!).name + " won")
                 }
             }
@@ -88,31 +93,39 @@ export class GameScreen extends Component<Props, State> {
                 <LoadingScreen/>
             )
         } else {
-            return !this.state.gameIsFinished ? (
+            return (
                 <>
-                    <PlayerSidebar
-                        player={this.state.game!.players[0]}
-                        playerColor={this.getPlayersColorById(this.state.game!.players[0].id)}
-                    />
-                    <PlayerSidebar
-                        player={this.state.game!.players[1]}
-                        playerColor={this.getPlayersColorById(this.state.game!.players[1].id)}
-                    />
-                    <TurnInfo
-                        isWinner={!!this.state.game!.winningPlayer}
-                        currentPlayer={this.state.currentPlayer!}
-                        remainingTurnTime={this.state.remainingTurnTime}
-                    />
-                    <GameBoard
-                        onTurnEnd={this.makeATurn}
-                        initialBoard={this.state.game!.board}
-                        currentPlayerIsLocal={this.isItLocalPlayersTurn()}
-                    />
-                </>
-            ) : ( // TODO die endcard machen
-                <>
-                    <h1>GREAT! ABSOLUTELY FKNG GREAT!</h1>
-                    <h2>(you broke the page)</h2>
+                    <div className={"gameboard-screen"}>
+                        <PlayerSidebar
+                            playerName={this.state.game!.players[0].name}
+                            playerColor={this.getPlayersColorById(this.state.game!.players[0].id)}
+                            playerPosition={0}
+                        />
+                        <PlayerSidebar
+                            playerName={this.state.game!.players[1].name}
+                            playerColor={this.getPlayersColorById(this.state.game!.players[1].id)}
+                            playerPosition={1}
+                        />
+                        <TurnInfo
+                            isWinner={!!this.state.game!.winningPlayer}
+                            currentPlayer={this.state.currentPlayer!}
+                            remainingTurnTime={this.state.remainingTurnTime!}
+                        />
+                        <GameBoard
+                            onTurnEnd={this.makeATurn}
+                            initialBoard={this.state.game!.board}
+                            currentPlayerIsLocal={this.isItLocalPlayersTurn()}
+                            currentPlayerPosition={this.getIndexOfCurrentPlayer()}
+                        />
+                        {this.state.game!.winningPlayer && this.state.currentPlayer?.id === this.state.game!.winningPlayer ? (
+                            <ParticlesBg type="fountain" num={10} bg={true}/>
+                        ) : null
+                        }
+                        {this.state.game!.winningPlayer && this.state.currentPlayer?.id !== this.state.game!.winningPlayer ? (
+                            <ParticlesBg type="cobweb" num={200} bg={true} color="#00008b"/>
+                        ) : null
+                        }
+                    </div>
                 </>
             )
         }
@@ -121,12 +134,13 @@ export class GameScreen extends Component<Props, State> {
 
     private makeATurn = async (turn: Turn): Promise<void> => {
         if (await requests.createTurn(this.state.game!.id, turn)) console.log("turn successfully submitted")
+        else this.props.history.push("error/turn")
         await this.updateGame()
     }
 
-    private timerFunction = async (): Promise<void> => { // TODO bot displayed am anfang beheben | Toni fragen
+    private timerFunction = async (): Promise<void> => {
         if (this.state.gameIsLoaded && !this.state.gameIsFinished) {
-            if (this.state.remainingTurnTime >= 1000) {
+            if (this.state.remainingTurnTime! >= 1000) {
                 if (!this.isItLocalPlayersTurn()) { // if we're waiting on opponents' turn
                     this.setState({game: await requests.getGame(this.state.game!.id)}) // update the game
                 }
@@ -134,7 +148,8 @@ export class GameScreen extends Component<Props, State> {
             } else { // if turn time is up
                 this.setState({game: await requests.getGame(this.state.game!.id)})
             }
-            this.setState({remainingTurnTime: this.state.remainingTurnTime - 1000})
+            if (this.state.game === undefined) this.props.history.push("/error/game")
+            this.setState({remainingTurnTime: this.state.remainingTurnTime! - 1000})
         }
     }
 
@@ -146,6 +161,7 @@ export class GameScreen extends Component<Props, State> {
         this.setState({
             game: await requests.getGame(this.state.game!.id)
         }, () => { // executes right after first setState()
+            if (this.state.game === undefined) this.props.history.push("/error/game")
             this.setState({
                 remainingTurnTime: this.state.game!.remainingTurnTime!
             })
@@ -160,7 +176,11 @@ export class GameScreen extends Component<Props, State> {
     }
 
     private getCurrentPlayer(): Player {
-        return this.getPlayerById(this.state.game!.playerId)
+        return this.state.game!.players[this.state.game!.currentPlayerId]
+    }
+
+    private getIndexOfCurrentPlayer(): number {
+        return this.state.game!.players.indexOf(this.getCurrentPlayer())
     }
 
     private getPlayerById(id: number): Player {
@@ -181,3 +201,6 @@ export class GameScreen extends Component<Props, State> {
         return id < this.getTheOtherPlayerId(id) ? "white" : "black"
     }
 }
+
+
+export default withRouter(GameScreen)

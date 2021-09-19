@@ -1,10 +1,22 @@
-import "../styles/components/_loading-screen.sass"
+import "../styles/components/_loading-screen.scss"
 
 import React, {Component} from "react";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-export class LoadingScreen extends Component<any, any> {
+interface Props extends WithTranslation {
+}
+
+
+interface State {
+}
+
+
+class LoadingScreen extends Component<Props, State> {
     render() {
-        return <div><h1>Loading...</h1></div>
+        return <div className={"loading"}><h1>{this.props.t("loading")}</h1></div>
     }
 }
+
+
+export default withTranslation()(LoadingScreen)

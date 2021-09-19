@@ -1,0 +1,418 @@
+@media screen and (max-width: 412px) {
+  .tile {
+    width: 5vh !important;
+    height: 5vh !important;
+  }
+
+  .tile[value="0"] {
+    background-size: 4vh 4vh !important;
+  }
+
+  .tile[value="1"] {
+    background-size: 4vh 4vh !important;
+  }
+
+  .tile.white[value="-2"] {
+    background-size: 5vh 5vh !important;
+  }
+
+  .tile.black[value="-2"] {
+    background-size: 5vh 5vh !important;
+  }
+
+  .player-sidebar {
+
+    background: none !important;
+
+    .player-label {
+      margin-top: 20vw;
+
+      h2 {
+        font-size: 5vw;
+      }
+    }
+
+    .current-turn-player {
+      margin-top: 5vw;
+    }
+  }
+
+  .player-sidebar.white .player-label {
+    width: auto !important;
+  }
+  .player-sidebar.black .player-label {
+    width: auto !important;
+  }
+
+  .current-turn-player {
+    margin-top: 2vw !important;
+    margin-bottom: 0vw !important;
+    font-size: calc(16px + 5vw);
+  }
+
+  .winner {
+    font-size: calc(16px + 5vw);
+    margin-top: 2vw !important;
+    margin-bottom: 10.75vw !important;
+  }
+
+  .board.size-10 {
+    position: absolute;
+    top: 28vw;
+    left: 2vw;
+    margin-top: 16vw;
+    width: 95vw;
+    height: 95vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 9.5vw !important;
+      height: 9.5vw !important;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 6.5vh 6.5vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 6.5vh 6.5vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 7vw 7vw !important;
+    }
+
+    .tile[value="1"] {
+      background-size: 7vw 7vw !important;
+    }
+
+
+  }
+
+  .board.size-12 {
+    position: absolute;
+    top: 28vw;
+    left: 2vw;
+    margin-top: 16vw;
+    width: 95vw;
+    height: 95vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 7.91666667vw !important;
+      height: 7.91666667vw !important;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 6vh 6vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 6vh 6vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 6.5vw 6.5vw !important;
+    }
+
+    .tile[value="1"] {
+      background-size: 6.5vw 6.5vw !important;
+    }
+
+    .winner {
+      margin-top: 2vw !important;
+    }
+  }
+
+}
+
+@media screen and (min-width: 413px) and (max-width: 1025px) {
+
+  .player-sidebar {
+    font-size: 10vw !important;
+    background: none !important;
+
+    .player-label {
+      width: 20vw !important;
+      margin-top: 5vw;
+
+      h2 {
+        width: 20vw;
+        font-size: 5vw;
+      }
+    }
+  }
+  .current-turn-player {
+    margin-top: 5vw !important;
+  }
+  .winner {
+    margin-top: 2vw !important;
+    margin-bottom: 5.2vw !important;
+  }
+
+
+  .board.size-10 {
+    position: absolute;
+    top: 18vw;
+    left: 5vw;
+    margin-top: 15vw;
+    width: 90vw;
+    height: 90vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 9vw;
+      height: 9vw;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 10vw 10vw !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 10vw 10vw !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 7vw 7vw !important;
+    }
+
+    .tile[value="1"] {
+      background-size: 7vw 7vw !important;
+    }
+  }
+
+  .board.size-12 {
+    position: absolute;
+    top: 18vw;
+    left: 5vw;
+    margin-top: 15vw;
+    width: 90vw;
+    height: 90vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 7.5vw;
+      height: 7.5vw;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 7vh 7vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 7vh 7vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 6vw 6vw;
+    }
+
+    .tile[value="1"] {
+      background-size: 6vw 6vw;
+    }
+
+  }
+
+
+}
+
+@media screen and (min-width: 1026px) {
+
+  .board.size-10 {
+    position: absolute;
+    top: 8vw;
+    left: 28.5vw;
+    width: 43vw;
+    height: 43vw;
+    font-size: 0; /* This solves the whitespace problem on the board. */
+
+    .tile {
+      width: 4.3vw;
+      height: 4.3vw;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 10vh 10vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 10vh 10vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 3vw 3vw !important;
+    }
+
+    .tile[value="1"] {
+      background-size: 3vw 3vw !important;
+    }
+  }
+
+  .board.size-12 {
+    position: absolute;
+    top: 8vw;
+    left: 28.5vw;
+    width: 43vw;
+    height: 43vw;
+
+    .tile {
+      width: 3.583vw;
+      height: 3.583vw;
+    }
+
+    .tile.black[value="-2"] {
+      background-size: 8vh 8vh !important;
+    }
+
+    .tile.white[value="-2"] {
+      background-size: 8vh 8vh !important;
+    }
+
+    .tile[value="0"] {
+      background-size: 2.5vw 2.5vw !important;
+    }
+
+    .tile[value="1"] {
+      background-size: 2.5vw 2.5vw !important;
+    }
+  }
+
+}
+
+
+* {
+  font-family: nms;
+}
+
+svg {
+  font-family: nms;
+}
+
+:root { /* Variables to use: */
+  --player0-main-color: #3c4f76;
+  --player0-accent-color: #e3e1f4;
+
+  --player1-main-color: #6e615e;
+  --player1-accent-color: #d8cac0;
+
+  --black-tile-color: #383f51;
+}
+
+button {
+  border: 0;
+}
+
+.btn {
+  transition: all .1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.025);
+  }
+}
+
+.player-info h2 {
+  color: white;
+}
+
+.player-sidebar.white {
+  background-color: var(--player0-accent-color);
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+
+  .player-label {
+    width: 13vw;
+    padding: 1em;
+    text-align: center;
+  }
+}
+
+.player-sidebar.black {
+  background-color: var(--player1-accent-color);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+
+  .player-label {
+    width: 13vw;
+    padding: 1em;
+    text-align: center;
+  }
+}
+
+.time-ran {
+  text-align: center;
+  margin: 2vw 1.3vw 22.6vw 1.3vw !important;
+}
+
+.winner {
+  text-align: center;
+  margin: 1.3vw 1.3vw 0.3vw 1.3vw;
+}
+
+.current-turn-player {
+  margin-top: .5vw;
+  text-align: center;
+}
+
+/*TODO  move to timer component*/
+[class|="timer 1000"], [class|="timer 2000"], [class|="timer 3000"], [class|="timer 4000"], [class|="timer 5000"] {
+  color: #e7264f;
+}
+
+.timer {
+  text-align: center;
+}
+
+
+.tile:enabled {
+  cursor: pointer;
+}
+
+.tile:disabled {
+  filter: contrast(90%);
+  color: #69696d;
+}
+
+.tile[value="0"] {
+  background: var(--player0-main-color) url("../../assets/images/player0.png") no-repeat center;
+  background-size: 3vw 3vw;
+}
+
+.tile[value="1"] {
+  background: var(--player1-accent-color) url("../../assets/images/player1.png") no-repeat center;
+  background-size: 3vw 3vw;
+}
+
+.tile.black[value="-1"] {
+  background-color: var(--black-tile-color);
+}
+
+.tile.white[value="-1"] {
+  background-color: var(--player0-accent-color);
+}
+
+.tile.black[value="-1"]:enabled {
+  filter: contrast(110%);
+  background-color: rgb(132, 151, 253);
+}
+
+.tile.white[value="-1"]:enabled {
+  filter: contrast(110%);
+  background-color: rgb(161, 182, 244);
+}
+
+.tile.black[value="-2"] {
+  background: var(--black-tile-color) url("../../assets/images/arrow.svg") no-repeat center;
+  background-size: 10vh 10vh;
+}
+
+.tile.white[value="-2"] {
+  background: var(--player0-accent-color) url("../../assets/images/arrow.svg") no-repeat center;
+  background-size: 10vh 10vh;
+}

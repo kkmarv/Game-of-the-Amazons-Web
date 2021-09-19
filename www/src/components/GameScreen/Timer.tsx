@@ -1,12 +1,17 @@
 import {Component} from "react";
 
 
-type Props = {
+interface Props {
     timeLeft: number // in ms
 }
 
-export class Timer extends Component<Props, any> {
-    render() { // TODO move red coloring logic from css here (@Both)
+
+interface State {
+}
+
+
+export class Timer extends Component<Props, State> {
+    render() { // TODO move red coloring logic from css here (@Both), may be deprecated by now
         return (
             <div className={"timer " + this.props.timeLeft}>
                 <h1>{this.formatAsReadableTime(this.props.timeLeft)}</h1>

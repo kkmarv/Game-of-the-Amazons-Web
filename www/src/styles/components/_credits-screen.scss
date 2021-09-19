@@ -1,0 +1,77 @@
+.credits-screen {
+  margin-top: 3vh;
+  text-align: center;
+
+  button {
+    background-color: #e7264f;
+    border-radius: 7px;
+    padding: .7vh;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    font-size: 3vh;
+    margin-top: 3vw;
+
+    &:hover {
+      transform: scale(1.025);
+    }
+  }
+
+  .container {
+    margin: 5vw auto 0 auto;
+    display: flex;
+    text-align: left;
+
+    flex-flow: column;
+
+
+    p {
+      margin: .4vw;
+    }
+  }
+
+  @media screen and (min-width: 1026px) {
+    h1 {
+      font-size: 7vw !important;
+    }
+    p {
+      font-size: 1.3vw;
+    }
+    .container {
+      width: 49vw;
+    }
+  }
+
+  @media screen and (min-width: 413px) and (max-width: 1025px) {
+    h1 {
+      font-size: 15vw !important;
+    }
+
+
+    p {
+      margin: 1vw !important;
+      font-size: 3vw;
+    }
+    .container {
+      width: 80vw;
+    }
+  }
+
+  @media screen and (max-width: 412px) {
+    h1 {
+      font-size: 18vw;
+    }
+    p {
+      margin: 1vw !important;
+      font-size: 5vw;
+    }
+    .container {
+      width: 90vw;
+
+    }
+  }
+
+  button {
+    margin-top: 8vw !important;
+  }
+
+}

@@ -1,127 +1,63 @@
 import '../styles/components/_app.scss';
 
 import React, {Component} from 'react';
-import AuthButton from "@hs-anhalt/auth-button"
-import * as requests from "../requests";
-import {BasicGame, Player} from "../requests";
-import {LoadingScreen} from "./LoadingScreen";
-import {GameScreen} from "./GameScreen/GameScreen";
-import {LobbyScreen} from "./LobbyScreen/LobbyScreen";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import CreditScreen from "./CreditScreen/CreditScreen";
+import GameCreationScreen from "./SettingsScreen/SettingsScreen";
+import GameBoardScreen from "./GameScreen/GameScreen";
+import LobbyScreen from "./LobbyScreen/LobbyScreen";
+import AuthenticationScreen from "./AuthenticationScreen/AuthenticationScreen";
+import ErrorScreen from "./ErrorScreen/ErrorScreen";
+import {DebugButtons} from "./DebugButtons";
 
 
-type State = {
-    isLoaded: boolean
-    isAuthenticated: boolean
+interface Props {
 }
 
-export default class App extends Component<any, State> {
-    debugTilesArray: number[][] = [
-        [-1, -1, -1, 1, -1, -1, 1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [1, -1, -1, -1, -1, -1, -1, -1, -1, 1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [0, -1, -1, -1, -1, -1, -1, -1, -1, 0],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, 0, -1, -1, 0, -1, -1, -1]
-    ]
+
+interface State {
+    isAuthorized: boolean
+}
 
 
-    private players: any = []
-
-    constructor(props: any) {
+export default class App extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
-            isLoaded: false,
-            isAuthenticated: false
+            isAuthorized: false
         }
     }
 
     render() {
-        if (this.state.isAuthenticated) {
-            return this.state.isLoaded ? (
-                // <DebugButtons/>
-                <LobbyScreen/>
-                // <GameScreen
-                //     playerIds={[0, 1]}
-                //     maxTurnTime={30000}
-                //     tiles={this.debugTilesArray}
-                // />
-            ) : (
-                <LoadingScreen/>
-            )
-        } else {
-            return (
-                <AuthButton
-                    authServiceURL={"https://webengineering.ins.hs-anhalt.de:40989"}
-                    serviceBaseURLs={["https://webengineering.ins.hs-anhalt.de:40917"]}
-                    onAuthorize={async () => {
-                        console.log("Authentication successful!")
-                        this.setState({isAuthenticated: true})
-                        await this.test()
-                        // await this.readyUpPlayers()
-                        // await this.readyUpGame()
-                        this.setState({isLoaded: true})
-                    }}
-                />
-            )
-        }
-    }
-
-
-    async test() {
-        let allGames: BasicGame[] = await requests.getAllGames()
-        // let allGames: InitialGame[] = await requests.getAllGames()
-
-        if (allGames.length === 0) await this.createTestGame()
-    }
-
-
-    async readyUpPlayers(): Promise<void> {
-        let allPlayers: Player[] = await requests.getAllPlayers()
-
-        console.log("response all players:")
-        console.log(allPlayers)
-
-        if (allPlayers.length !== 2) {
-            allPlayers = []
-            await requests.reset()
-            allPlayers.push(await requests.createAiPlayer("player1") as Player) // possible error : players!
-            allPlayers.push(await requests.createAiPlayer("player2") as Player)
-        }
-        this.players = allPlayers
-    }
-
-    // async readyUpGame(): Promise<void> {
-    //     const allGames = await requests.getAllGames() as RunningGame[]
-    //
-    //     console.log("response all games:")
-    //     console.log(allGames)
-    //
-    //     if (allGames.length === 0) this.game = await requests.getGame((await this.createTestGame() as InitialGame).id)
-    //
-    //     else if (allGames.length === 1) { // Wenn es bereits ein Spiel gibt,
-    //         if (allGames[0].winningPlayer) { // und es bereits fertig ist
-    //             await requests.deleteGame(allGames[0].id)
-    //             this.game = await requests.getGame((await this.createTestGame() as InitialGame).id)
-    //         } else this.game = await requests.getGame(allGames[0].id) // und es noch läuft
-    //
-    //     } else { // Fehlerzustand => reset und alles neu
-    //         await requests.reset()
-    //         await this.readyUpPlayers()
-    //         await this.readyUpGame()
-    //     }
-    // }
-
-    createTestGame() {
-        return requests.createGame(
-            [0, 1],
-            30000,
-            10,
-            10,
-            this.debugTilesArray
+        return (
+            <div className={"App"}>
+                <BrowserRouter>
+                    <Switch>
+                        {
+                            this.state.isAuthorized ? (
+                                <>
+                                    {/*<DebugButtons/>*/}
+                                    <Route exact path="/"><Redirect to="/lobby"/></Route>
+                                    <Route exact path="/lobby" component={LobbyScreen}/>
+                                    <Route exact path="/create" component={GameCreationScreen}/>
+                                    <Route exact path="/credits" component={CreditScreen}/>
+                                    <Route exact path="/game/:id" component={GameBoardScreen}/>
+                                    <Route exact path="/error" component={ErrorScreen}/>
+                                    <Route exact path="/error/player" component={ErrorScreen}/>
+                                    <Route exact path="/error/turn" component={ErrorScreen}/>
+                                    <Route exact path="/error/game" component={ErrorScreen}/>
+                                </>
+                            ) : (
+                                <AuthenticationScreen onAuthorize={() => {
+                                    this.setState({isAuthorized: true}, () => {
+                                        console.log("Authentication successful!")
+                                    })
+                                }}/>
+                            )
+                        }
+                    </Switch>
+                </BrowserRouter>
+            </div>
         )
     }
 }

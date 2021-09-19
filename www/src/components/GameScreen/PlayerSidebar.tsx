@@ -1,24 +1,25 @@
 import {Component} from "react";
-import {Player} from "../../requests";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props {
-    player: Player
+interface Props extends WithTranslation {
+    playerName: string
     playerColor: string
+    playerPosition: number
 }
 
-// TODO turn history
 
-export class PlayerSidebar extends Component<Props, any> {
-    private playerId: number = this.props.player.id
-    private playerName: string = this.props.player.name
-    private playerControllable: boolean = this.props.player.controllable
+interface State {
+}
 
+
+class PlayerSidebar extends Component<Props, State> { // TODO add a turn history
     render() {
         return (
             <div className={`player-sidebar ${this.props.playerColor}`}>
                 <div className={"player-label"}>
-                    <h2>{"PLAYER " + (this.playerId + 1) + ": " + this.playerName}</h2>
+                    <h2>{`${this.props.t("game.player")} ${this.props.playerPosition + 1}: `}</h2>
+                    <h2>{this.props.playerName}</h2>
                 </div>
                 <div className={"player-stats"}>
 
@@ -27,3 +28,6 @@ export class PlayerSidebar extends Component<Props, any> {
         )
     }
 }
+
+
+export default withTranslation()(PlayerSidebar)

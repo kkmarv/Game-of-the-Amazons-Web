@@ -1,110 +1,64 @@
 import {Component} from "react";
-import {BasicGame, Player} from "../../../requests";
-import {GameCard} from "./GameCard";
-import {GameCardButton} from "./GameCardButton";
+import {BasicGame, DetailedGame, getGame, Player} from "../../../requests";
+import GameCard from "./GameCard";
+import {GameCardInfo} from "./GameCardInfo";
+import {Scrollbars} from "react-custom-scrollbars";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 
-interface Props {
+interface Props extends RouteComponentProps, WithTranslation {
     gamesList: BasicGame[]
     localPlayer: Player
+    onCreateNewGame: () => void
 }
+
 
 interface State {
-    selection: string // "your", "open", "ongoing", "finished"
+    isViewingGameInfo: boolean
 }
 
-export class GameCardList extends Component<Props, State> {
-    private yourGames: BasicGame[]
-    // private openGames: BasicGame[] // TODO toni nach lobbynamen und -system fragen
-    private ongoingGames: BasicGame[]
-    private finishedGames: BasicGame[]
+
+class GameCardList extends Component<Props, State> {
+    private yourGames: BasicGame[] = this.getYourGames()
+    private clickedGameId!: number
 
     constructor(props: Props) {
         super(props);
-
-        this.yourGames = this.getYourGames()
-        // this.openGames = this.getOpenGames() // TODO toni nach lobbynamen und -system fragen
-        this.ongoingGames = this.getOngoingGames()
-        this.finishedGames = this.getFinishedGames()
-
         this.state = {
-            selection: "your"
+            isViewingGameInfo: true
         }
     }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
-        if (prevProps.gamesList.length !== this.props.gamesList.length) { // this will cause problems with many users
+        if (prevProps.gamesList.length !== this.props.gamesList.length) { // this will cause problems when many users
             this.yourGames = this.getYourGames()
-            // this.openGames = this.getOpenGames() // TODO toni nach lobbynamen und -system fragen
-            this.ongoingGames = this.getOngoingGames()
-            this.finishedGames = this.getFinishedGames()
         }
     }
 
     render() {
         return (
-            <div className={"game-card-list"}>
-                <div>
-                    {/*<GameCardButton*/}
-                    {/*    value={"open"}*/}
-                    {/*    disabled={this.state.selection === "open"}*/}
-                    {/*    onClick={this.handleClick}*/}
-                    {/*/>*/}
-                    <GameCardButton
-                        value={"your"}
-                        disabled={this.state.selection === "your"}
-                        onClick={this.handleClick}
-                    />
-                    <GameCardButton
-                        value={"ongoing"}
-                        disabled={this.state.selection === "ongoing"}
-                        onClick={this.handleClick}
-                    />
-                    <GameCardButton
-                        value={"finished"}
-                        disabled={this.state.selection === "finished"}
-                        onClick={this.handleClick}
-                    />
+            <div className={"games"}>
+                <div className={"title"}>
+                    <h2>{this.props.t("lobby.card.title")}</h2>
                 </div>
-                <div>
-                    {this.getGameCards()}
+                <div className={"card-list"}>
+                    <Scrollbars id={"scroll"} autoHide={true} autoHideTimeout={1500}>
+                        {this.getGameCards()}
+                    </Scrollbars>
                 </div>
+                <div className={"new-game-button"}>
+                    <button
+                        className={"btn"}
+                        onClick={this.props.onCreateNewGame}
+                    >{this.props.t("buttons.new")}
+                    </button>
+                </div>
+                {this.state.isViewingGameInfo ? (this.getGameCardInfo) : null}
             </div>
         )
     }
 
-
-    private handleClick = () => {
-        // TODO
-    }
-
-
-    private getGameCards(): JSX.Element[] {
-        //     if (this.state.selection === "open") { // TODO toni nach lobbynamen und -system fragen
-        //         return this.openGames.map((openGame) => {
-        //             return <GameCard players={openGame.players}/>
-        //         })
-        //     }
-        let counter: number = 0
-        if (this.state.selection === "your") {
-            return this.yourGames.map((yourGame) => {
-                const winningPlayer: Player | undefined = this.getPlayerById(yourGame.players, yourGame.winningPlayer)
-                return <GameCard key={"gameCard" + counter++} players={yourGame.players} winningPlayer={winningPlayer}/>
-            })
-        } else if (this.state.selection === "ongoing") {
-            return this.ongoingGames.map((ongoingGame) => {
-                return <GameCard key={"gameCard" + counter++} players={ongoingGame.players}/>
-            })
-        } else {
-            return this.finishedGames.map((finishedGame) => {
-                return <GameCard
-                    key={"gameCard" + counter++}
-                    players={finishedGame.players}
-                    winningPlayer={this.getPlayerById(finishedGame.players, finishedGame.winningPlayer)}
-                />
-            })
-        }
-    }
 
     private getYourGames(): BasicGame[] {
         let yourGames: BasicGame[] = []
@@ -117,28 +71,38 @@ export class GameCardList extends Component<Props, State> {
         return yourGames
     }
 
-    // private getOpenGames(): BasicGame[] { // TODO toni nach lobbynamen und -system fragen
-    //     let openGames: BasicGame[] = []
-    //     for (let game of this.props.gamesList) if (!game.winningPlayer) openGames.push(game)
-    //     return openGames
-    // }
-
-    private getOngoingGames(): BasicGame[] {
-        let ongoingGames: BasicGame[] = []
-        for (let game of this.props.gamesList) if (!game.winningPlayer) ongoingGames.push(game)
-        return ongoingGames
+    private getGameCards(): JSX.Element[] {
+        return this.yourGames.map((yourGame, index) => {
+            return (
+                <GameCard
+                    key={index}
+                    game={yourGame}
+                    onClick={async () => {
+                        const yourGameIsRunning: boolean = (await getGame(yourGame.id) as DetailedGame).winningPlayer === undefined
+                        if (yourGameIsRunning) { // view game if its still running
+                            this.props.history.push(`/game/${yourGame.id}`)
+                        }
+                    }}
+                />
+            )
+        }).reverse() // to view the games in chronological order
     }
 
-    private getFinishedGames(): BasicGame[] {
-        let finishedGames: BasicGame[] = []
-        for (let game of this.props.gamesList) if (game.winningPlayer) finishedGames.push(game)
-        return finishedGames
+    private getGameCardInfo(): JSX.Element {
+        return (
+            <GameCardInfo
+                forGameId={this.clickedGameId}
+                onLeave={() => {
+                    this.toggleIsViewingGameInfo()
+                }}
+            />
+        )
     }
 
-    /* Helper functions */
-
-    private getPlayerById(players: Player[], id?: number): Player | undefined {
-        if (id === undefined) return undefined
-        else return players[0].id === id ? players[0] : players[1]
+    private toggleIsViewingGameInfo(): void {
+        this.setState({isViewingGameInfo: !this.state.isViewingGameInfo})
     }
 }
+
+
+export default withRouter(withTranslation()(GameCardList))

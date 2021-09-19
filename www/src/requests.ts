@@ -2,7 +2,7 @@ import {deserializeArray, Expose, plainToClass, Type} from 'class-transformer';
 
 
 // Port range: 40910-40919
-const webserviceUrl: string = "https://webengineering.ins.hs-anhalt.de:40917/"
+const webserviceUrl: string = "https://webengineering.ins.hs-anhalt.de:40911/"
 
 /* Player requests */
 
@@ -169,21 +169,25 @@ export class Player { // TODO toni fragen welcher spieler das spiel beginnt
     @Expose() controllable!: boolean
 }
 
+
 export class Board {
     @Expose({name: 'rows'}) rowCount!: number
     @Expose({name: 'columns'}) columnCount!: number
     @Expose({name: 'squares'}) tiles!: number[][]
 }
 
+
 export class Coordinates {
     @Expose() row!: number
     @Expose() column!: number
 }
 
+
 export class Turn {
     @Expose() move!: { start: Coordinates, end: Coordinates }
     @Expose() @Type(() => Coordinates) shot!: Coordinates
 }
+
 
 export class BasicGame {
     @Expose() id!: number
@@ -193,8 +197,9 @@ export class BasicGame {
     @Expose() @Type(() => Board) board?: Board // not used in GET /games/
 }
 
+
 export class DetailedGame extends BasicGame {
-    @Expose({name: 'turnPlayer'}) playerId!: number
+    @Expose({name: 'turnPlayer'}) currentPlayerId!: number
     @Expose() maxTurnTime!: number
     @Expose() remainingTurnTime?: number
     @Expose() @Type(() => Board) board!: Board
