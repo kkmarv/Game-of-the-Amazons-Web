@@ -21,6 +21,7 @@ Für weitere Informationen, siehe jeweiligen Link.
 | [react-custom-scrollbars](https://www.npmjs.com/package/react-custom-scrollbars) | `npm install react-custom-scrollbars`<br>_Erfordert React Version 16, wir benutzen aber Version 17. Bei der Fehlermeldung einfach `--force` benutzen_ |
 | [@types/react-custom-scrollbars](https://www.npmjs.com/package/@types/react-custom-scrollbars) | `npm install @types/react-custom-scrollbars` |
 | [@hs-anhalt/auth-button](https://www.npmjs.com/package/@hs-anhalt/auth-button) | `npm install @hs-anhalt/auth-button` |
+| [particles-bg](https://www.npmjs.com/package/particles-bg) | `npm install particles-bg` |
 
 ## Verweise
 
