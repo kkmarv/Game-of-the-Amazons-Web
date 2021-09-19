@@ -3,7 +3,7 @@ import logo from "../../assets/images/Logo_HSA.png"
 
 
 interface Props {
-    onClick?: () => void
+    onClick: () => void
 }
 
 interface State {
