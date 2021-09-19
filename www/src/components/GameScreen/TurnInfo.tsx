@@ -21,6 +21,7 @@ class TurnInfo extends Component<Props, State> {
             return (
                 <h1 className={"winner"}>{`${this.props.currentPlayer.name} ${this.props.t("game.info.won")}`}</h1>
             )
+
         } else if (this.props.remainingTurnTime < 500) {
             return (
                 <h1 className={"time-ran"}>{this.props.t("game.info.ran")}</h1>

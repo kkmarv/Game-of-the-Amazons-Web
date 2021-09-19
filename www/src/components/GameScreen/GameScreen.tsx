@@ -8,6 +8,7 @@ import {GameBoard} from "./GameBoard/GameBoard";
 import * as requests from "../../requests";
 import {DetailedGame, Player, Turn} from "../../requests";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import ParticlesBg from 'particles-bg';
 
 
 interface URLParameter {
@@ -32,6 +33,7 @@ interface State {
 class GameScreen extends Component<Props, State> {
     private timer!: NodeJS.Timeout;
     private localPlayer!: Player;
+
 
     constructor(props: RouteComponentProps & Props) {
         super(props);
@@ -78,7 +80,7 @@ class GameScreen extends Component<Props, State> {
                 if (!this.state.gameIsFinished) {
                     clearInterval(this.timer)
                     this.switchPlayer()
-                    // this.setState({gameIsFinished: true}) // TODO die endcard machen
+                    this.setState({gameIsFinished: true})
                     console.log(this.getPlayerById(this.state.game!.winningPlayer!).name + " won")
                 }
             }
@@ -91,7 +93,7 @@ class GameScreen extends Component<Props, State> {
                 <LoadingScreen/>
             )
         } else {
-            return !this.state.gameIsFinished ? (
+            return (
                 <>
                     <div className={"gameboard-screen"}>
                         <PlayerSidebar
@@ -115,11 +117,15 @@ class GameScreen extends Component<Props, State> {
                             currentPlayerIsLocal={this.isItLocalPlayersTurn()}
                             currentPlayerPosition={this.getIndexOfCurrentPlayer()}
                         />
+                        {this.state.game!.winningPlayer && this.state.currentPlayer?.id === this.state.game!.winningPlayer ? (
+                            <ParticlesBg type="fountain" num={10} bg={true}/>
+                        ) : null
+                        }
+                        {this.state.game!.winningPlayer && this.state.currentPlayer?.id !== this.state.game!.winningPlayer ? (
+                            <ParticlesBg type="cobweb" num={200} bg={true} color="#00008b"/>
+                        ) : null
+                        }
                     </div>
-                </>
-            ) : ( // TODO die endcard bzw animation machen
-                <>
-                    <p>TODO die endcard bzw animation machen</p>
                 </>
             )
         }
