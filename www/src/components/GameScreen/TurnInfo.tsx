@@ -37,4 +37,5 @@ class TurnInfo extends Component<Props, State> {
     }
 }
 
+
 export default withTranslation()(TurnInfo)
