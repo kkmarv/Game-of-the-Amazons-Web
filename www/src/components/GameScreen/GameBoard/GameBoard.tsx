@@ -39,7 +39,7 @@ export class GameBoard extends Component<Props, State> { // dummy
         this.setPhase(props.currentPlayerIsLocal ? PhaseEnum.SELECT : PhaseEnum.WAIT)
         this.pickSound.volume = this.volume
         this.putSound.volume = this.volume
-        this.arrowSound.volume = this.volume * 2
+        this.arrowSound.volume = this.volume
         this.cancelSound.volume = this.volume
 
         this.state = {
