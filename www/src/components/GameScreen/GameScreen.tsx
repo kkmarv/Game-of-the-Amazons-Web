@@ -118,11 +118,15 @@ class GameScreen extends Component<Props, State> {
                             currentPlayerPosition={this.getIndexOfCurrentPlayer()}
                         />
                         {this.state.game!.winningPlayer && this.state.currentPlayer?.id === this.state.game!.winningPlayer ? (
-                            <ParticlesBg type="fountain" num={10} bg={true}/>
+                            <div className={"loose-animation"}>
+                                <ParticlesBg type="fountain" num={10} bg={true}/>
+                            </div>
                         ) : null
                         }
                         {this.state.game!.winningPlayer && this.state.currentPlayer?.id !== this.state.game!.winningPlayer ? (
-                            <ParticlesBg type="cobweb" num={200} bg={true} color="#00008b"/>
+                            <div className={"win-animation"}>
+                                <ParticlesBg type="cobweb" num={200} bg={true} color="#00008b"/>
+                            </div>
                         ) : null
                         }
                     </div>
